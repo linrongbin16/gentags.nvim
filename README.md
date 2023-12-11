@@ -41,8 +41,24 @@ Requirements:
 <summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
 
 ```lua
-require('lazy').setup({
-  { "linrongbin16/gentags.nvim", opts = {} }
+require("lazy").setup({
+  { "linrongbin16/gentags.nvim", opts = {} },
+})
+```
+
+</details>
+
+<details>
+<summary><b>With <a href="https://github.com/lewis6991/pckr.nvim">pckr.nvim</a></b></summary>
+
+```lua
+require("pckr").add({
+  {
+    "linrongbin16/gentags.nvim",
+    config = function()
+      require("gentags").setup()
+    end,
+  },
 })
 ```
 
