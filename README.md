@@ -36,6 +36,7 @@ require('lazy').setup({
 ## Credits
 
 - [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags): A Vim plugin that manages your tag files.
+- [vim-autotag](https://github.com/craigemery/vim-autotag): Automatically discover and "properly" update ctags files on save.
 
 ## Development
 
