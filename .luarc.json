@@ -1,0 +1,4 @@
+{
+  "diagnostics.globals": ["vim", "describe", "before_each", "it", "jit"],
+  "workspace.checkThirdParty": "Disable"
+}

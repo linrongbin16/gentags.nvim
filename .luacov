@@ -1,0 +1,8 @@
+modules = {
+    ["gentags"] = "lua/gentags.lua",
+    ["gentags.*"] = "lua",
+}
+
+exclude = {
+    "lua/actboy168_json.lua",
+}
