@@ -13,9 +13,7 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
-Aims to provide better tags generation/management with lua and new features in Neovim, stands on shoulders of below vim script plugins:
-
-- [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
+Aims to provide better tags generation/management with lua and new features in Neovim.
 
 ## Install
 
