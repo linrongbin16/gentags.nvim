@@ -6,6 +6,15 @@ local M = {}
 --- @alias gentags.Options table<any, any>
 --- @type gentags.Options
 local Defaults = {
+  -- generate tags command tools
+  binary = {
+    mapping = { c = "ctags", cpp = "ctags", lua = "ctags", markdown = "" },
+    fallback = "ctags -a",
+  },
+
+  -- user command
+  command = { name = "GenTags", desc = "Generate tags" },
+
   -- cache directory
   --
   -- For *NIX: `~/.cache/nvim/gentags.nvim/`.
@@ -42,15 +51,6 @@ local Defaults = {
     --- @type string[]
     exclude = {},
   },
-
-  -- generate tags command tools
-  binary = {
-    mapping = { c = "ctags", cpp = "ctags", lua = "ctags", markdown = "" },
-    fallback = "ctags -a",
-  },
-
-  -- user command
-  command = { name = "GenTags", desc = "Generate tags" },
 
   -- enable debug mode
   --
