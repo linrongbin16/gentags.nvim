@@ -13,6 +13,15 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
+## Table of Contents
+
+- [Features](#features)
+- [Install](#install)
+- [Usage](#usage)
+- [Credits](#credits)
+- [Development](#development)
+- [Contribute](#contribute)
+
 ## Features
 
 - Project/workspace based.
@@ -38,6 +47,8 @@ require('lazy').setup({
 ```
 
 </details>
+
+## Usage
 
 ## Credits
 
