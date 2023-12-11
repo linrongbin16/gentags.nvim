@@ -15,6 +15,7 @@ Tags generator/management for old school vimers in Neovim.
 
 ## Features
 
+- Project-based.
 - Incremental generate/update tags on file save.
 - Disk cache management/viewer.
 - Terminate child-process immediately on vim leave.

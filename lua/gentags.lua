@@ -6,6 +6,18 @@ local M = {}
 --- @alias gentags.Options table<any, any>
 --- @type gentags.Options
 local Defaults = {
+  binary = "ctags",
+
+  command = { name = "GenTags", desc = "Generate tags" },
+
+  cache = {
+    dir = vim.fn.stdpath("cache") .. "/gentags",
+
+    garbage_policy = {
+      maxfile = 100,
+      maxsize = "1GB",
+    },
+  },
 
   -- enable debug mode
   --
