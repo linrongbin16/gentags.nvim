@@ -18,7 +18,7 @@ Tags generator/management for old school vimers in Neovim.
 - Project/workspace based.
 - Incremental generate/update on file save.
 - Disk cache management/viewer.
-- Async child-process & terminate immediately on vim leave.
+- Async running child-process & terminate immediately on vim leave.
 
 ## Install
 
