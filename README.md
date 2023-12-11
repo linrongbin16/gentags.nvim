@@ -13,14 +13,19 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
-Aim to provide better tags generation/management with lua and new features in Neovim, stands on shoulders of below vim script plugins:
+Aims to provide better tags generation/management with lua and new features in Neovim, stands on shoulders of below vim script plugins:
 
 - [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags),
 
 ## Install
 
+Requirements:
+
+- neovim &ge; 0.7.0.
+- [universal-ctags](https://github.com/universal-ctags/ctags).
+
 <details>
-<summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a>.</b></summary>
+<summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
 
 ```lua
 require('lazy').setup({
