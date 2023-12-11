@@ -15,7 +15,7 @@ local Defaults = {
 
   -- disk cache garbage collection
   -- by default there's no garbage collection.
-  garbage_collection = {
+  gc = {
     -- when tags cache count (in cache directory) >= max value, for example: 100.
     --
     --- @type integer?
