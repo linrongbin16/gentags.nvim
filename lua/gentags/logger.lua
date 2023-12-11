@@ -49,8 +49,8 @@ local function setup(opts)
     Configs.level = LogLevels[Configs.level]
   end
   if Configs.file_log_name and string.len(Configs.file_log_name) > 0 then
-    -- For Windows: $env:USERPROFILE\AppData\Local\nvim-data\fzfx.log
-    -- For *NIX: ~/.local/share/nvim/fzfx.log
+    -- For Windows: $env:USERPROFILE\AppData\Local\nvim-data\gentags.log
+    -- For *NIX: ~/.local/share/nvim/gentags.log
     Configs._file_log_path = string.format(
       "%s%s%s",
       Configs.file_log_dir,
