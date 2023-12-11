@@ -40,7 +40,7 @@ local Defaults = {
     -- tags for below directories are excluded from garbage collection policy.
     --
     --- @type string[]
-    excluded = {},
+    exclude = {},
   },
 
   -- tags generate command tools
