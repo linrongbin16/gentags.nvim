@@ -13,7 +13,7 @@ local Defaults = {
   cache = {
     dir = vim.fn.stdpath("cache") .. "/gentags",
 
-    garbage_policy = {
+    garbage = {
       maxfile = 100,
       maxsize = "1GB",
     },
