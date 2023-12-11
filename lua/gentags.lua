@@ -27,6 +27,8 @@ local Defaults = {
 local Configs = {}
 
 --- @param opts gentags.Options?
-M.setup = function(opts) end
+M.setup = function(opts)
+  Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+end
 
 return M
