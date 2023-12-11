@@ -14,16 +14,21 @@ local Defaults = {
   cache_dir = vim.fn.stdpath("cache") .. "/gentags",
 
   -- disk cache garbage collection
+  -- by default there's no garbage collection.
   garbage_collection = {
-    -- when tags cache count (in cache directory) >= max value
+    -- when tags cache count (in cache directory) >= max value, for example: 100.
     --
-    --- @type integer
-    maxfile = 100,
+    --- @type integer?
+    maxfile = nil,
 
-    -- when tags cache size (in cache directory) >= max value
+    -- when tags cache size (in cache directory) >= max value, for example:
+    -- * 1GB
+    -- * 100MB
+    -- * 4096KB
+    -- suffix: "GB", "MG", "KB"
     --
-    --- @type string  suffix: "GB", "MG", "KB"
-    maxsize = "1GB",
+    --- @type string?
+    maxsize = nil,
 
     -- garbage collection policy:
     -- * LRU (least recently used): remove the least recently used cache.
