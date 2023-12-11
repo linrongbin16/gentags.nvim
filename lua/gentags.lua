@@ -13,15 +13,15 @@ local Defaults = {
   --- @type string
   cache_dir = vim.fn.stdpath("cache") .. "/gentags",
 
-  -- disk cache garbage collection
-  -- by default there's no garbage collection.
+  -- disk cache garbage collection.
+  -- by default there's no pre-configured garbage collection, e.g. no tags cache will be removed.
   gc = {
-    -- when tags cache count (in cache directory) >= max value, for example: 100.
+    -- when tags cache count (in cache directory) > max value, for example: 100.
     --
     --- @type integer?
     maxfile = nil,
 
-    -- when tags cache size (in cache directory) >= max value, for example:
+    -- when tags cache size (in cache directory) > max value, for example:
     -- * 1GB
     -- * 100MB
     -- * 4096KB
@@ -33,18 +33,18 @@ local Defaults = {
     -- garbage collection policy:
     -- * LRU (least recently used): remove the least recently used cache.
     --
-    --- @type "LRU"|""
+    --- @type "LRU"
     policy = "LRU",
 
-    -- excluded workspaces list
-    -- tags for below workspaces are excluded from garbage collection policy.
+    -- excluded directories list
+    -- tags for below directories are excluded from garbage collection policy.
     --
     --- @type string[]
     excluded = {},
   },
 
-  -- underline binary
-  binary = "ctags",
+  -- tags generate command tools
+  binary = { mapping = { lua = "ctags" }, fallback = "ctags -a" },
 
   -- user command
   command = { name = "GenTags", desc = "Generate tags" },
