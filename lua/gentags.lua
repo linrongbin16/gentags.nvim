@@ -8,10 +8,10 @@ local M = {}
 local Defaults = {
   -- cache directory
   --
-  -- For *NIX: `~/.cache/nvim/gentags/`.
+  -- For *NIX: `~/.cache/nvim/gentags.nvim/`.
   --
   --- @type string
-  cache_dir = vim.fn.stdpath("cache") .. "/gentags",
+  cache_dir = vim.fn.stdpath("cache") .. "/gentags.nvim",
 
   -- disk cache garbage collection.
   -- by default there's no pre-configured garbage collection, e.g. no tags cache will be removed.
@@ -31,7 +31,7 @@ local Defaults = {
     maxsize = nil,
 
     -- garbage collection policy:
-    -- * LRU (least recently used): remove the least recently used cache.
+    -- * LRU (least recently used): remove the least recently used.
     --
     --- @type "LRU"
     policy = "LRU",
