@@ -15,9 +15,9 @@ Tags generator/management for old school vimers in Neovim.
 
 ## Features
 
-- [ ] Generate/update tags file on file save.
-- [ ] Incremental update.
-- [ ] Disk cache management.
+- Generate/update tags file on file save.
+- Incremental update.
+- Disk cache management.
 
 ## Install
 
