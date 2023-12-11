@@ -11,7 +11,24 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
-## ✏️ Development
+## Install
+
+<details>
+<summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a>.</b></summary>
+
+```lua
+require('lazy').setup({
+  { "linrongbin16/gentags.nvim", opts = {} }
+})
+```
+
+</details>
+
+## Credits
+
+- [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
+
+## Development
 
 To develop the project and make PR, please setup with:
 
@@ -26,7 +43,7 @@ To run unit tests, please install below dependencies:
 
 Then test with `vusted ./test`.
 
-## 🎁 Contribute
+## Contribute
 
 Please open [issue](https://github.com/linrongbin16/gentags.nvim/issues)/[PR](https://github.com/linrongbin16/gentags.nvim/pulls) for anything about gentags.nvim.
 
