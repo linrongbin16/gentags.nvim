@@ -36,7 +36,7 @@ local Defaults = {
   console_log = true,
   file_log = false,
   file_log_name = "gentags.log",
-  file_log_dir = vim.fn.stdpath("data"),
+  file_log_dir = vim.fn.stdpath("data") --[[@as string]],
   _file_log_path = nil,
 }
 
