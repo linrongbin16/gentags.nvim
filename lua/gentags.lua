@@ -16,6 +16,7 @@ local Defaults = {
     garbage = {
       maxfile = 100,
       maxsize = "1GB",
+      policy = "RMU",
     },
   },
 
