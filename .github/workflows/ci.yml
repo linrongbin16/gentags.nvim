@@ -35,7 +35,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --config-path .stylua.toml ./lua
+          args: --config-path .stylua.toml ./lua ./test
       - name: Add json.lua
         if: ${{ github.ref != 'refs/heads/main' }}
         shell: bash
@@ -108,7 +108,7 @@ jobs:
         with:
           release-type: simple
           package-name: gentags.nvim
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: rickstaa/action-create-tag@v1
         if: ${{ steps.release.outputs.release_created }}
         with:
@@ -123,3 +123,6 @@ jobs:
           LUAROCKS_API_KEY: ${{ secrets.LUAROCKS_API_KEY }}
         with:
           version: ${{ steps.release.outputs.tag_name }}
+          labels: |
+            neovim
+            vim
