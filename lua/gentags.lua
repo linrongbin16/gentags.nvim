@@ -44,7 +44,10 @@ local Defaults = {
   },
 
   -- tags generate command tools
-  binary = { mapping = { lua = "ctags" }, fallback = "ctags -a" },
+  binary = {
+    mapping = { c = "ctags", cpp = "ctags", lua = "ctags", markdown = "" },
+    fallback = "ctags -a",
+  },
 
   -- user command
   command = { name = "GenTags", desc = "Generate tags" },
@@ -80,6 +83,14 @@ M.setup = function(opts)
     console_log = Configs.console_log,
     file_log = Configs.file_log,
   })
+
+  -- cache dir
+  logger.ensure(
+    vim.fn.filereadable(Configs.cache_dir) <= 0,
+    "%s (cache_dir) already exist but not a directory!",
+    vim.inspect(Configs.cache_dir)
+  )
+  vim.fn.mkdir(Configs.cache_dir, "p")
 end
 
 return M
