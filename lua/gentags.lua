@@ -6,19 +6,43 @@ local M = {}
 --- @alias gentags.Options table<any, any>
 --- @type gentags.Options
 local Defaults = {
+  -- cache directory
+  --
+  -- For *NIX: `~/.cache/nvim/gentags/`.
+  --
+  --- @type string
+  cache_dir = vim.fn.stdpath("cache") .. "/gentags",
+
+  -- disk cache garbage collection
+  garbage_collection = {
+    -- when tags cache count (in cache directory) >= max value
+    --
+    --- @type integer
+    maxfile = 100,
+
+    -- when tags cache size (in cache directory) >= max value
+    --
+    --- @type string  suffix: "GB", "MG", "KB"
+    maxsize = "1GB",
+
+    -- garbage collection policy:
+    -- * LRU (least recently used): remove the least recently used cache.
+    --
+    --- @type "LRU"|""
+    policy = "LRU",
+
+    -- excluded workspaces list
+    -- tags for below workspaces are excluded from garbage collection policy.
+    --
+    --- @type string[]
+    excluded = {},
+  },
+
+  -- underline binary
   binary = "ctags",
 
+  -- user command
   command = { name = "GenTags", desc = "Generate tags" },
-
-  cache = {
-    dir = vim.fn.stdpath("cache") .. "/gentags",
-
-    garbage = {
-      maxfile = 100,
-      maxsize = "1GB",
-      policy = "RMU",
-    },
-  },
 
   -- enable debug mode
   --
@@ -32,8 +56,8 @@ local Defaults = {
 
   -- write logs to file.
   --
-  -- For Windows: `$env:USERPROFILE\AppData\Local\nvim-data\gentags.log`.
   -- For *NIX: `~/.local/share/nvim/gentags.log`.
+  -- For Windows: `$env:USERPROFILE\AppData\Local\nvim-data\gentags.log`.
   --
   --- @type boolean
   file_log = false,
