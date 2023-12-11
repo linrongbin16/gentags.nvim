@@ -1,3 +1,6 @@
+local logger = require("gentags.logger")
+local LogLevels = require("gentags.logger").LogLevels
+
 local M = {}
 
 --- @alias gentags.Options table<any, any>
@@ -29,6 +32,12 @@ local Configs = {}
 --- @param opts gentags.Options?
 M.setup = function(opts)
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+
+  logger.setup({
+    level = Configs.debug and LogLevels.DEBUG or LogLevels.INFO,
+    console_log = Configs.console_log,
+    file_log = Configs.file_log,
+  })
 end
 
 return M

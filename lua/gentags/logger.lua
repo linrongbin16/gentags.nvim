@@ -42,7 +42,7 @@ local Defaults = {
 
 local Configs = {}
 
---- @param opts table<any, any>
+--- @param opts gentags.Options?
 local function setup(opts)
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
   if type(Configs.level) == "string" then
