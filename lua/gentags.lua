@@ -43,7 +43,7 @@ local Defaults = {
     exclude = {},
   },
 
-  -- tags generate command tools
+  -- generate tags command tools
   binary = {
     mapping = { c = "ctags", cpp = "ctags", lua = "ctags", markdown = "" },
     fallback = "ctags -a",
