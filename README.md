@@ -1,5 +1,5 @@
 # gentags.nvim
 
 <p align="center"><i>
-Tags generator/management for old school users in Neovim.
+Tags generator/management for old school vimers in Neovim.
 </i></p>
