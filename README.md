@@ -13,7 +13,11 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
-Aims to provide better tags generation/management with lua and new features in Neovim.
+## Features
+
+- [ ] Generate/update tags file on file save.
+- [ ] Incremental update.
+- [ ] Disk cache management.
 
 ## Install
 
