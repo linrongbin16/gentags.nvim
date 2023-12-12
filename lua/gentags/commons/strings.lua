@@ -1,4 +1,4 @@
--- String manipulate utilities.
+-- Strings utilities.
 
 local M = {}
 
