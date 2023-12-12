@@ -76,6 +76,8 @@ local Configs = {}
 
 --- @param opts gentags.Options?
 M.setup = function(opts)
+  vim.env._COMMONS_NVIM_MODULE_PREFIX = "gentags."
+
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
 
   logger.setup({
