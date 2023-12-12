@@ -1,3 +1,5 @@
+-- String manipulate utilities.
+
 local M = {}
 
 --- @param s any
@@ -151,19 +153,19 @@ M.rtrim = function(s, t)
 end
 
 --- @param s string
---- @param delimiter string
---- @param opts {plain:boolean?,trimempty:boolean?}|nil  by default opts={plain=true,trimempty=false}
+--- @param sep string
+--- @param opts {plain:boolean?,trimempty:boolean?}?  by default opts={plain=true,trimempty=false}
 --- @return string[]
-M.split = function(s, delimiter, opts)
+M.split = function(s, sep, opts)
   assert(type(s) == "string")
-  assert(type(delimiter) == "string")
+  assert(type(sep) == "string")
   opts = opts or {
     plain = true,
     trimempty = true,
   }
   opts.plain = type(opts.plain) == "boolean" and opts.plain or true
   opts.trimempty = type(opts.trimempty) == "boolean" and opts.trimempty or false
-  return vim.split(s, delimiter, opts)
+  return vim.split(s, sep, opts)
 end
 
 --- @param s string
@@ -184,53 +186,60 @@ M.endswith = function(s, t)
   return string.len(s) >= string.len(t) and s:sub(#s - #t + 1) == t
 end
 
---- @param s string
+--- @param c string
 --- @return boolean
-M.isspace = function(s)
-  assert(string.len(s) == 1)
-  return s:match("%s") ~= nil
+M.isspace = function(c)
+  assert(type(c) == "string")
+  assert(string.len(c) == 1)
+  return c:match("%s") ~= nil
 end
 
---- @param s string
+--- @param c string
 --- @return boolean
-M.isalnum = function(s)
-  assert(string.len(s) == 1)
-  return s:match("%w") ~= nil
+M.isalnum = function(c)
+  assert(type(c) == "string")
+  assert(string.len(c) == 1)
+  return c:match("%w") ~= nil
 end
 
---- @param s string
+--- @param c string
 --- @return boolean
-M.isdigit = function(s)
-  assert(string.len(s) == 1)
-  return s:match("%d") ~= nil
+M.isdigit = function(c)
+  assert(type(c) == "string")
+  assert(string.len(c) == 1)
+  return c:match("%d") ~= nil
 end
 
---- @param s string
+--- @param c string
 --- @return boolean
-M.ishex = function(s)
-  assert(string.len(s) == 1)
-  return s:match("%x") ~= nil
+M.isxdigit = function(c)
+  assert(type(c) == "string")
+  assert(string.len(c) == 1)
+  return c:match("%x") ~= nil
 end
 
---- @param s string
+--- @param c string
 --- @return boolean
-M.isalpha = function(s)
-  assert(string.len(s) == 1)
-  return s:match("%a") ~= nil
+M.isalpha = function(c)
+  assert(type(c) == "string")
+  assert(string.len(c) == 1)
+  return c:match("%a") ~= nil
 end
 
---- @param s string
+--- @param c string
 --- @return boolean
-M.islower = function(s)
-  assert(string.len(s) == 1)
-  return s:match("%l") ~= nil
+M.islower = function(c)
+  assert(type(c) == "string")
+  assert(string.len(c) == 1)
+  return c:match("%l") ~= nil
 end
 
---- @param s string
+--- @param c string
 --- @return boolean
-M.isupper = function(s)
-  assert(string.len(s) == 1)
-  return s:match("%u") ~= nil
+M.isupper = function(c)
+  assert(type(c) == "string")
+  assert(string.len(c) == 1)
+  return c:match("%u") ~= nil
 end
 
 return M
