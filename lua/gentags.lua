@@ -1,5 +1,3 @@
-vim.env._COMMONS_NVIM_MODULE_PREFIX = "gentags."
-
 local logger = require("gentags.logger")
 local LogLevels = require("gentags.logger").LogLevels
 

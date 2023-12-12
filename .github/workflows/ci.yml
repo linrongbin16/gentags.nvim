@@ -46,6 +46,9 @@ jobs:
           echo $HOME
           git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
           cp -rf ~/.commons.nvim/lua/commons ./lua/gentags/commons
+          cd ./lua/gentags/commons
+          find . -type f -name '*.lua' -exec sed -i 's/require("commons")/require("your.plugin.commons")/g' {} \;
+          cd $HOME
       - name: Auto Commit
         if: ${{ github.ref != 'refs/heads/main' }}
         uses: stefanzweifel/git-auto-commit-action@v4
