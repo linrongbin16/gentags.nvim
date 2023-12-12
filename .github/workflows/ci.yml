@@ -48,7 +48,7 @@ jobs:
           mkdir -p ./lua/gentags/commons
           cp -rf ~/.commons.nvim/lua/commons/*.lua ./lua/gentags/commons
           cd ./lua/gentags/commons
-          find . -type f -name '*.lua' -exec sed -i 's/require("commons/require("your.plugin.commons/g' {} \;
+          find . -type f -name '*.lua' -exec sed -i 's/require("commons/require("gentags.commons/g' {} \;
           cd $HOME
       - name: Auto Commit
         if: ${{ github.ref != 'refs/heads/main' }}
