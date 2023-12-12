@@ -69,7 +69,6 @@ local function setup(opts)
     assert(string.len(Configs.file_log_name) > 0)
     assert(type(Configs.file_log_dir) == "string")
     assert(string.len(Configs.file_log_dir) > 0)
-    assert(vim.fn.isdirectory(Configs.file_log_dir) > 0)
   end
 end
 
