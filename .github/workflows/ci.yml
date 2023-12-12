@@ -42,8 +42,10 @@ jobs:
         run: |
           echo "pwd"
           echo $PWD
-          git clone --depth=1 https://github.com/actboy168/json.lua.git ~/.json.lua
-          cp ~/.json.lua/json.lua ./lua/gentags/actboy168_json.lua
+          echo "home"
+          echo $HOME
+          git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
+          cp -rf ~/.commons.nvim/lua/commons ./lua/gentags/commons
       - name: Auto Commit
         if: ${{ github.ref != 'refs/heads/main' }}
         uses: stefanzweifel/git-auto-commit-action@v4
