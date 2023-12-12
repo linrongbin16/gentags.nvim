@@ -73,7 +73,7 @@ end
 --- @param hl string?       the highlighting group name
 --- @return string
 M.render = function(text, name, hl)
-  local strings = require("commons.strings")
+  local strings = require("your.plugin.commons.strings")
 
   local fgfmt = nil
   local fgcode = strings.not_empty(hl) and M.retrieve("fg", hl --[[@as string]])
