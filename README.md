@@ -26,8 +26,9 @@ Tags generator/management for old school vimers in Neovim.
 ## Features
 
 - Project/workspace based.
+- Multiple language support.
 - Incremental generate/update on file save.
-- Disk cache management/viewer/garbage collection.
+- Disk cache management, viewer, and garbage collection.
 - Async run & terminate immediately on vim leave.
 - Real-time status for statusline.
 
