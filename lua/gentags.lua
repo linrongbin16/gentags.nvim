@@ -18,10 +18,11 @@ local Defaults = {
     fallback_options = "-R",
   },
 
-  -- user command
-  command = { name = "GenTags", desc = "Generate tags" },
+  workspace = {
+    root = { ".git", ".svn", ".gitignore" },
+  },
 
-  -- cache
+  -- cache management
   cache = {
     -- cache directory
     -- For *NIX: `~/.cache/nvim/gentags.nvim/`.
@@ -43,6 +44,9 @@ local Defaults = {
     -- tags cache that will be exclude from garbage collection.
     gc_exclude = {},
   },
+
+  -- user command
+  command = { name = "GenTags", desc = "Generate tags" },
 
   -- debug options
   debug = {
