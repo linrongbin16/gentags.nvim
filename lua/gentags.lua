@@ -6,69 +6,57 @@ local M = {}
 --- @alias gentags.Options table<any, any>
 --- @type gentags.Options
 local Defaults = {
-  -- generate tags command tools
-  binary = {
-    mapping = { c = "ctags", cpp = "ctags", lua = "ctags", markdown = "" },
-    fallback = "ctags -a",
+  -- generate tools
+  toolchain = {
+    binary = "ctags",
+    options = {
+      c = "ctags",
+      cpp = "ctags",
+      lua = "ctags",
+      markdown = "",
+    },
+    fallback_options = "-R",
   },
 
   -- user command
   command = { name = "GenTags", desc = "Generate tags" },
 
-  -- cache directory
-  --
-  -- For *NIX: `~/.cache/nvim/gentags.nvim/`.
-  --
-  --- @type string
-  cache_dir = vim.fn.stdpath("cache") .. "/gentags.nvim",
-
-  -- disk cache garbage collection.
-  -- by default there's no pre-configured garbage collection, e.g. no tags cache will be removed.
-  gc = {
-    -- when tags cache count (in cache directory) > max value, for example: 100.
-    --
-    --- @type integer?
-    maxfile = nil,
-
-    -- when tags cache size (in cache directory) > max value, for example:
-    -- * 1GB
-    -- * 100MB
-    -- * 4096KB
-    -- suffix: "GB", "MG", "KB"
-    --
-    --- @type string?
-    maxsize = nil,
+  -- cache
+  cache = {
+    -- cache directory
+    -- For *NIX: `~/.cache/nvim/gentags.nvim/`.
+    dir = vim.fn.stdpath("cache") .. "/gentags.nvim",
 
     -- garbage collection policy:
     -- * LRU (least recently used): remove the least recently used.
     --
     --- @type "LRU"
-    policy = "LRU",
+    gc_policy = "LRU",
 
-    -- excluded directories list
-    -- tags for below directories are excluded from garbage collection policy.
+    -- garbage collection trigger by:
+    --  * count: by tags cache count, for example: 100.
+    --  * size: by tags cache size, for example: 1GB, 300MB, 4096KB, with suffix "GB", "MG", "KB".
     --
-    --- @type string[]
-    exclude = {},
+    --- @type {name:"count"|"size",value:string|integer}|nil
+    gc_trigger = nil,
+
+    -- tags cache that will be exclude from garbage collection.
+    gc_exclude = {},
   },
 
-  -- enable debug mode
-  --
-  --- @type boolean
-  debug = false,
+  -- debug options
+  debug = {
+    -- enable debug mode
+    enable = false,
 
-  -- print logs to console (command line).
-  --
-  --- @type boolean
-  console_log = true,
+    -- print logs to messages.
+    console_log = true,
 
-  -- write logs to file.
-  --
-  -- For *NIX: `~/.local/share/nvim/gentags.log`.
-  -- For Windows: `$env:USERPROFILE\AppData\Local\nvim-data\gentags.log`.
-  --
-  --- @type boolean
-  file_log = false,
+    -- write logs to file.
+    -- For *NIX: `~/.local/share/nvim/gentags.log`.
+    -- For Windows: `$env:USERPROFILE\AppData\Local\nvim-data\gentags.log`.
+    file_log = false,
+  },
 }
 
 --- @type gentags.Options
@@ -80,9 +68,9 @@ M.setup = function(opts)
 
   logging.setup({
     name = "gentags",
-    level = Configs.debug and LogLevels.DEBUG or LogLevels.INFO,
-    console_log = Configs.console_log,
-    file_log = Configs.file_log,
+    level = Configs.debug.enable and LogLevels.DEBUG or LogLevels.INFO,
+    console_log = Configs.debug.console_log,
+    file_log = Configs.debug.file_log,
     file_log_name = "gentags.log",
   })
 
