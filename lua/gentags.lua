@@ -19,7 +19,7 @@ local Defaults = {
   },
 
   workspace = {
-    root = { ".git", ".svn", ".gitignore" },
+    root = { ".git", ".svn" },
   },
 
   -- cache management
