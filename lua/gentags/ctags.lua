@@ -1,12 +1,10 @@
 local M = {}
 
 --- @param ctx gentags.Context
---- @param opts gentags.Options
-M.run = function(ctx, opts) end
+M.run = function(ctx) end
 
 M.terminate = function() end
 
---- @param opts gentags.Options
-M.gc = function(opts) end
+M.gc = function() end
 
 return M

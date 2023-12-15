@@ -4,6 +4,7 @@ local configs = require("gentags.configs")
 
 local M = {}
 
+--- @return string?
 local function workspace_root()
   local cwd = vim.fn.getcwd()
   while true do
@@ -20,6 +21,7 @@ local function workspace_root()
       break
     end
   end
+  return nil
 end
 
 --- @alias gentags.Context {filename:string,workspace:string,lang:string}
@@ -36,9 +38,10 @@ local function collect()
 end
 
 M.dispatch = function()
+  local cfg = configs.get()
   local ctx = collect()
 
-  if string.lower(opts.toolchain.binary) == "ctags" then
+  if string.lower(cfg.toolchain.binary) == "ctags" then
     require("gentags.ctags").run(ctx)
   end
 end
