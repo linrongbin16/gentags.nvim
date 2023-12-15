@@ -4,6 +4,7 @@
 
 <p align="center">
 <a href="https://github.com/neovim/neovim/releases/v0.7.0"><img alt="Neovim" src="https://img.shields.io/badge/Neovim-v0.7+-57A143?logo=neovim&logoColor=57A143" /></a>
+<a href="https://github.com/linrongbin16/commons.nvim"><img alt="commons.nvim" src="https://custom-icon-badges.demolab.com/badge/Powered_by-commons.nvim-teal?logo=heart&logoColor=fff&labelColor=magenta" /></a>
 <a href="https://luarocks.org/modules/linrongbin16/gentags.nvim"><img alt="luarocks" src="https://custom-icon-badges.demolab.com/luarocks/v/linrongbin16/gentags.nvim?label=Luarocks&labelColor=063B70&logo=feed-tag&logoColor=fff&color=008B8B" /></a>
 <a href="https://github.com/linrongbin16/gentags.nvim/actions/workflows/ci.yml"><img alt="ci.yml" src="https://img.shields.io/github/actions/workflow/status/linrongbin16/gentags.nvim/ci.yml?label=GitHub%20CI&labelColor=181717&logo=github&logoColor=fff" /></a>
 <a href="https://app.codecov.io/github/linrongbin16/gentags.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/gentags.nvim?logo=codecov&logoColor=F01F7A&label=Codecov" /></a>
@@ -42,7 +43,11 @@ Requirements:
 
 ```lua
 require("lazy").setup({
-  { "linrongbin16/gentags.nvim", opts = {} },
+  {
+    "linrongbin16/gentags.nvim",
+    dependencies = { "linrongbin16/commons.nvim", tags = "2.*" },
+    opts = {},
+  },
 })
 ```
 
@@ -53,8 +58,10 @@ require("lazy").setup({
 
 ```lua
 require("pckr").add({
+  { "linrongbin16/commons.nvim", tag = "2.*" },
   {
     "linrongbin16/gentags.nvim",
+    requires = "linrongbin16/commons.nvim",
     config = function()
       require("gentags").setup()
     end,
