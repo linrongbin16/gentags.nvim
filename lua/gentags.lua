@@ -1,5 +1,5 @@
-local logger = require("gentags.logger")
-local LogLevels = require("gentags.logger").LogLevels
+local logging = require("commons.logging")
+local LogLevels = require("commons.logging").LogLevels
 
 local M = {}
 
@@ -78,14 +78,16 @@ local Configs = {}
 M.setup = function(opts)
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
 
-  logger.setup({
+  logging.setup({
+    name = "gentags",
     level = Configs.debug and LogLevels.DEBUG or LogLevels.INFO,
     console_log = Configs.console_log,
     file_log = Configs.file_log,
+    file_log_name = "gentags.log",
   })
 
   -- cache dir
-  logger.ensure(
+  logging.get("gentags"):ensure(
     vim.fn.filereadable(Configs.cache_dir) <= 0,
     "%s (cache_dir) already exist but not a directory!",
     vim.inspect(Configs.cache_dir)
