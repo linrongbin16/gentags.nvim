@@ -1,6 +1,26 @@
 local paths = require("commons.paths")
+local uv = require("commons.uv")
+local configs = require("gentags.configs")
 
 local M = {}
+
+local function workspace_root()
+  local cwd = vim.fn.getcwd()
+  while true do
+    for _, pattern in ipairs(configs.get().workspace.root) do
+      local target = paths.join(cwd, pattern)
+      target = paths.normalize(target, { double_backslash = true })
+      local result, _ = uv.fs_stat(target)
+      if result then
+        return cwd
+      end
+    end
+    local parent = paths.parent(cwd)
+    if paths.blank(parent) or parent == cwd then
+      break
+    end
+  end
+end
 
 --- @alias gentags.Context {filename:string,workspace:string,lang:string}
 --- @return gentags.Context
@@ -15,12 +35,11 @@ local function collect()
   }
 end
 
---- @param opts gentags.Options
-M.dispatch = function(opts)
+M.dispatch = function()
   local ctx = collect()
 
   if string.lower(opts.toolchain.binary) == "ctags" then
-    require("gentags.ctags").run(ctx, opts)
+    require("gentags.ctags").run(ctx)
   end
 end
 
