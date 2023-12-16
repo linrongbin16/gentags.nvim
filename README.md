@@ -11,7 +11,7 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
-> [!Warn]
+> [!WARN]
 >
 > Don't use this plugin now, it's not finished yet!
 
