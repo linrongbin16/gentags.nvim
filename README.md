@@ -10,6 +10,10 @@
 <a href="https://app.codecov.io/github/linrongbin16/gentags.nvim"><img alt="codecov" src="https://img.shields.io/codecov/c/github/linrongbin16/gentags.nvim?logo=codecov&logoColor=F01F7A&label=Codecov" /></a>
 </p>
 
+> [!WARNING]
+>
+> Don't use this plugin now, it's not finished yet!
+
 <p align="center"><i>
 Tags generator/management for old school vimers in Neovim.
 </i></p>
