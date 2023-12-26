@@ -26,6 +26,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install commons.nvim
+        if: ${{ github.ref != 'refs/heads/main' }}
+        shell: bash
+        run: |
+          git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
+          rm -rf ./lua/gentags/commons
+          mkdir -p ./lua/gentags/commons
+          cp -rf ~/.commons.nvim/lua/commons/*.lua ./lua/gentags/commons
+          cp ~/.commons.nvim/version.txt ./lua/gentags/commons/version.txt
+          cd ./lua/gentags/commons
+          find . -type f -name '*.lua' -exec sed -i 's/require("commons/require("gentags.commons/g' {} \;
       - name: Luacheck
         uses: lunarmodules/luacheck@v1
         with:
