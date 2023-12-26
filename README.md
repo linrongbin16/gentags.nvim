@@ -50,7 +50,6 @@ Requirements:
 require("lazy").setup({
   {
     "linrongbin16/gentags.nvim",
-    dependencies = { "linrongbin16/commons.nvim", tags = "2.*" },
     opts = {},
   },
 })
@@ -63,10 +62,8 @@ require("lazy").setup({
 
 ```lua
 require("pckr").add({
-  { "linrongbin16/commons.nvim", tag = "2.*" },
   {
     "linrongbin16/gentags.nvim",
-    requires = "linrongbin16/commons.nvim",
     config = function()
       require("gentags").setup()
     end,
