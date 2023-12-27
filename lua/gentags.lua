@@ -24,6 +24,15 @@ M.setup = function(opts)
     vim.inspect(cfg.cache_dir)
   )
   vim.fn.mkdir(cfg.cache_dir, "p")
+
+  vim.api.nvim_create_autocmd({ "BufNew", "BufReadPre", "BufNewFile" }, {
+    callback = function()
+      vim.schedule(function()
+        local dispatcher = require("gentags.dispatcher")
+        dispatcher.dispatch()
+      end)
+    end,
+  })
 end
 
 return M

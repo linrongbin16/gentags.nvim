@@ -1,6 +1,8 @@
 local paths = require("gentags.commons.paths")
 local strings = require("gentags.commons.strings")
 local uv = require("gentags.commons.uv")
+local logging = require("gentags.commons.logging")
+
 local configs = require("gentags.configs")
 
 local M = {}
@@ -8,14 +10,28 @@ local M = {}
 --- @param cwd string?
 --- @return string?
 local function get_workspace(cwd)
+  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+
   cwd = cwd or vim.fn.getcwd()
   while true do
     for _, pattern in ipairs(configs.get().workspace) do
       local target = paths.join(cwd, pattern)
+      logger:debug(
+        "|get_workspace| 1-cwd:%s, target:%s",
+        vim.inspect(cwd),
+        vim.inspect(target)
+      )
       target =
         paths.normalize(target, { double_backslash = true, expand = true })
-      local result, _ = uv.fs_stat(target)
-      if result then
+      local stat_result, stat_err = uv.fs_stat(target)
+      logger:debug(
+        "|get_workspace| 2-cwd:%s, target:%s, stat result:%s, stat err:%s",
+        vim.inspect(cwd),
+        vim.inspect(target),
+        vim.inspect(stat_result),
+        vim.inspect(stat_err)
+      )
+      if stat_result then
         return cwd
       end
     end
