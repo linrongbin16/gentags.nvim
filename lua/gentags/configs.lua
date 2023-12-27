@@ -8,14 +8,14 @@ local Defaults = {
 
   -- generate options for binary, e.g. ctags
   opts = {
-    c = { "-R", '--append=no', },
+    c = { "-R", "--append=no" },
     cpp = { "-R", "--append=no" },
     lua = { "-R", "--append=no" },
     markdown = { "-R", "--append=no" },
   },
 
   -- generate options for binary, e.g. ctags
-  fallback_opts = { "-R", '--append=no' },
+  fallback_opts = { "-R", "--append=no" },
 
   -- excluded filetypes
   exclude_filetypes = {},
