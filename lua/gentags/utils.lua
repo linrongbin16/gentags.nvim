@@ -10,7 +10,7 @@ local M = {}
 --- @param cwd string?
 --- @return string?
 M.get_workspace = function(cwd)
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  -- local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
   cwd = cwd or vim.fn.getcwd()
   while true do
@@ -37,11 +37,11 @@ M.get_workspace = function(cwd)
       end
     end
     local parent = paths.parent(cwd)
-    logger:debug(
-      "|get_workspace| 3-cwd:%s, parent:%s",
-      vim.inspect(cwd),
-      vim.inspect(parent)
-    )
+    -- logger:debug(
+    --   "|get_workspace| 3-cwd:%s, parent:%s",
+    --   vim.inspect(cwd),
+    --   vim.inspect(parent)
+    -- )
     if strings.blank(parent) then
       break
     end
