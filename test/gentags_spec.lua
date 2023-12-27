@@ -14,7 +14,12 @@ describe("gentags", function()
   local gentags = require("gentags")
   describe("[setup]", function()
     it("test", function()
-      gentags.setup()
+      gentags.setup({
+        debug = {
+          enable = true,
+          file_log = true,
+        },
+      })
     end)
   end)
 end)

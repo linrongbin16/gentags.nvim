@@ -71,10 +71,10 @@ end
 --- @param opts gentags.Options?
 --- @return gentags.Options
 M.setup = function(opts)
-  local workspace_root = vim.deepcopy(Defaults.workspace.root)
+  local workspace = vim.deepcopy(Defaults.workspace)
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
-  Configs.workspace.root =
-    vim.list_extend(vim.deepcopy(Configs.workspace.root), workspace_root)
+  Configs.workspace =
+    vim.list_extend(vim.deepcopy(Configs.workspace), workspace)
   return Configs
 end
 
