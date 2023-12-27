@@ -1,6 +1,7 @@
 local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
 
+local configs = require("gentags.configs")
 local utils = require("gentags.utils")
 
 local M = {}
@@ -24,9 +25,13 @@ M.run = function()
 
   local sysobj = nil
 
-  local function _on_stdout(line) end
+  local function _on_stdout(line)
+    logger:debug("|run._on_stdout| line:%s", vim.inspect(line))
+  end
 
-  local function _on_stderr(line) end
+  local function _on_stderr(line)
+    logger:debug("|run._on_stderr| line:%s", vim.inspect(line))
+  end
 
   local function _on_exit(completed)
     if sysobj ~= nil then
@@ -34,7 +39,11 @@ M.run = function()
     end
   end
 
-  sysobj = spawn.run({}, {
+  local cfg = configs.get()
+  local opts = cfg.opts[filetype] ~= nil and cfg.opts[filetype]
+    or cfg.fallback_opts
+
+  sysobj = spawn.run({ "ctags", unpack(opts) }, {
     on_stdout = _on_stdout,
     on_stderr = _on_stderr,
   }, _on_exit)

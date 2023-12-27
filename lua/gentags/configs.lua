@@ -8,14 +8,14 @@ local Defaults = {
 
   -- generate options for binary, e.g. ctags
   opts = {
-    c = "ctags",
-    cpp = "ctags",
-    lua = "ctags",
-    markdown = "",
+    c = { "-R" },
+    cpp = { "-R" },
+    lua = { "-R" },
+    markdown = { "-R" },
   },
 
   -- generate options for binary, e.g. ctags
-  fallback_opts = "-R",
+  fallback_opts = { "-R" },
 
   workspace = { ".git", ".svn" },
 
