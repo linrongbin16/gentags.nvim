@@ -67,7 +67,7 @@ end
 
 --- @param filepath string
 --- @return string
-M.get_tags_filename = function(filepath)
+M.get_output_tags_filename = function(filepath)
   assert(type(filepath) == "string")
   while
     strings.not_empty(filepath) and strings.endswith(filepath, "/")
@@ -78,14 +78,20 @@ M.get_tags_filename = function(filepath)
 
   filepath =
     paths.normalize(filepath, { double_backslash = true, expand = true })
-  filepath = string.gsub(filepath, "/", "%-%-")
-  return filepath
+  filepath = string.gsub(filepath, "/", "%-")
+  while strings.startswith(filepath, "-") do
+    filepath = string.sub(filepath, 2)
+  end
+  filepath = filepath .. "-tags"
+
+  local cache_dir = configs.get().cache_dir
+  return paths.join(cache_dir, filepath)
 end
 
 --- @param filepath string
 --- @return boolean
 M.tags_file_exists = function(filepath)
-  local tags_filename = M.get_tags_filename(filepath)
+  local tags_filename = M.get_output_tags_filename(filepath)
   return vim.fn.filereadable(tags_filename) > 0
 end
 

@@ -34,9 +34,9 @@ M.setup = function(opts)
 
   vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
     callback = function(event)
-      logging
-        .get("gentags")
-        :debug("|setup| enter buffer:%s", vim.inspect(event))
+      -- logging
+      --   .get("gentags")
+      --   :debug("|setup| enter buffer:%s", vim.inspect(event))
       vim.schedule(function()
         require("gentags.dispatcher").run()
       end)
@@ -44,7 +44,7 @@ M.setup = function(opts)
   })
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
     callback = function(event)
-      logging.get("gentags"):debug("|setup| leave vim:%s", vim.inspect(event))
+      -- logging.get("gentags"):debug("|setup| leave vim:%s", vim.inspect(event))
       require("gentags.dispatcher").terminate()
     end,
   })
