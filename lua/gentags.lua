@@ -19,11 +19,11 @@ M.setup = function(opts)
 
   -- cache dir
   logger:ensure(
-    vim.fn.filereadable(cfg.cache.dir) <= 0,
-    "%s (cache.dir) already exist but not a directory!",
-    vim.inspect(cfg.cache.dir)
+    vim.fn.filereadable(cfg.cache_dir) <= 0,
+    "%s (cache_dir) already exist but not a directory!",
+    vim.inspect(cfg.cache_dir)
   )
-  vim.fn.mkdir(cfg.cache.dir, "p")
+  vim.fn.mkdir(cfg.cache_dir, "p")
 end
 
 return M

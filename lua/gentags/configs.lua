@@ -4,42 +4,42 @@ local M = {}
 --- @type gentags.Options
 local Defaults = {
   -- generate tools
-  toolchain = {
-    binary = "ctags",
-    options = {
-      c = "ctags",
-      cpp = "ctags",
-      lua = "ctags",
-      markdown = "",
-    },
-    fallback_options = "-R",
+  bin = "ctags",
+
+  -- generate options for binary, e.g. ctags
+  opts = {
+    c = "ctags",
+    cpp = "ctags",
+    lua = "ctags",
+    markdown = "",
   },
 
-  workspace = {
-    root = { ".git", ".svn" },
-  },
+  -- generate options for binary, e.g. ctags
+  fallback_opts = "-R",
 
-  -- cache management
-  cache = {
-    -- cache directory
-    -- For *NIX: `~/.cache/nvim/gentags.nvim/`.
-    dir = vim.fn.stdpath("cache") .. "/gentags.nvim",
+  workspace = { ".git", ".svn" },
 
-    -- garbage collection policy:
-    -- * LRU (least recently used): remove the least recently used.
-    --
+  -- cache directory
+  -- For *NIX: `~/.cache/nvim/gentags.nvim/`.
+  -- For Windows: `$env:USERPROFILE\AppData\Local\nvim-data\gentags.nvim\`.
+  cache_dir = vim.fn.stdpath("cache") .. "/gentags.nvim",
+
+  -- garbage collection
+  gc = {
+    -- policy:
+    --   - LRU (least recently used): remove the least recently used.
     --- @type "LRU"
-    gc_policy = "LRU",
+    policy = "LRU",
 
-    -- garbage collection trigger by:
+    -- trigger by:
     --  * count: by tags cache count, for example: 100.
     --  * size: by tags cache size, for example: 1GB, 300MB, 4096KB, with suffix "GB", "MG", "KB".
     --
     --- @type {name:"count"|"size",value:string|integer}|nil
-    gc_trigger = nil,
+    trigger = nil,
 
-    -- tags cache that will be exclude from garbage collection.
-    gc_exclude = {},
+    -- tags cache that will be exclude from gc.
+    exclude = {},
   },
 
   -- user command

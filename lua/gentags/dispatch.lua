@@ -5,7 +5,7 @@ local configs = require("gentags.configs")
 local M = {}
 
 --- @return string?
-local function workspace_root()
+local function get_workspace()
   local cwd = vim.fn.getcwd()
   while true do
     for _, pattern in ipairs(configs.get().workspace.root) do
@@ -26,7 +26,7 @@ end
 
 --- @alias gentags.Context {filename:string,workspace:string,lang:string}
 --- @return gentags.Context
-local function collect()
+local function context()
   local bufnr = vim.api.nvim_get_current_buf()
   local filename = paths.normalize(
     vim.api.nvim_buf_get_name(bufnr),
@@ -39,9 +39,9 @@ end
 
 M.dispatch = function()
   local cfg = configs.get()
-  local ctx = collect()
+  local ctx = context()
 
-  if string.lower(cfg.toolchain.binary) == "ctags" then
+  if string.lower(cfg.bin) == "ctags" then
     require("gentags.ctags").run(ctx)
   end
 end
