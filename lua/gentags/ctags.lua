@@ -24,6 +24,7 @@ M.load = function()
   local output_tags_file =
     utils.get_output_tags_filename(workspace --[[@as string]])
   if vim.fn.filereadable(output_tags_file) > 0 then
+    logger:debug("|load| append tags:%s", vim.inspect(output_tags_file))
     vim.opt.tags:append(output_tags_file)
   end
 end
