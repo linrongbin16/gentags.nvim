@@ -37,9 +37,8 @@ M.setup = function(opts)
       -- logging
       --   .get("gentags")
       --   :debug("|setup| enter buffer:%s", vim.inspect(event))
-      vim.schedule(function()
-        require("gentags.dispatcher").run()
-      end)
+      require("gentags.dispatcher").run()
+      require("gentags.dispatcher").load()
     end,
   })
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {

@@ -6,28 +6,27 @@ local WORKER_MAP = {
   ctags = require("gentags.ctags"),
 }
 
-M.run = function()
-  local cfg = configs.get()
-
-  local target = string.lower(cfg.bin)
+local function get_worker()
+  local binary = configs.get().bin
+  local target = string.lower(binary)
   local worker = WORKER_MAP[target]
-  if worker then
-    worker.run()
-  else
-    assert(false, string.format("%s is not supported!", vim.inspect(cfg.bin)))
-  end
+  assert(
+    worker ~= nil,
+    string.format("%s is not supported!", vim.inspect(binary))
+  )
+  return worker
+end
+
+M.load = function()
+  get_worker().load()
+end
+
+M.run = function()
+  get_worker().run()
 end
 
 M.terminate = function()
-  local cfg = configs.get()
-
-  local target = string.lower(cfg.bin)
-  local worker = WORKER_MAP[target]
-  if worker then
-    worker.terminate()
-  else
-    assert(false, string.format("%s is not supported!", vim.inspect(cfg.bin)))
-  end
+  get_worker().terminate()
 end
 
 return M

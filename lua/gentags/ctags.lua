@@ -12,6 +12,22 @@ local M = {}
 --- @table<gentags.pid, vim.SystemObj>
 local JOBS_MAP = {}
 
+M.load = function()
+  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+
+  local workspace = utils.get_workspace()
+  logger:debug("|load| workspace:%s", vim.inspect(workspace))
+  if strings.empty(workspace) then
+    return
+  end
+
+  local output_tags_file =
+    utils.get_output_tags_filename(workspace --[[@as string]])
+  if vim.fn.filereadable(output_tags_file) > 0 then
+    vim.opt.tags:append(output_tags_file)
+  end
+end
+
 M.run = function()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
@@ -57,8 +73,10 @@ M.run = function()
     or vim.deepcopy(cfg.fallback_opts)
 
   -- output tags file
+  local output_tags_file =
+    utils.get_output_tags_filename(workspace --[[@as string]])
   table.insert(opts, "-f")
-  table.insert(opts, utils.get_output_tags_filename(workspace --[[@as string]]))
+  table.insert(opts, output_tags_file)
 
   local cmds = { "ctags", unpack(opts) }
   logger:debug("|run| cmds:%s", vim.inspect(cmds))
