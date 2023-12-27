@@ -1,5 +1,6 @@
 local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
+local tables = require("gentags.commons.tables")
 
 local configs = require("gentags.configs")
 local utils = require("gentags.utils")
@@ -34,6 +35,12 @@ M.run = function()
   end
 
   local function _on_exit(completed)
+    logger:debug(
+      "|run._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
+      vim.inspect(completed),
+      vim.inspect(sysobj),
+      vim.inspect(JOBS_MAP)
+    )
     if sysobj ~= nil then
       JOBS_MAP[sysobj.pid] = nil
     end
@@ -42,13 +49,28 @@ M.run = function()
   local cfg = configs.get()
   local opts = cfg.opts[filetype] ~= nil and cfg.opts[filetype]
     or cfg.fallback_opts
+  local cmds = { "ctags", unpack(opts) }
+  logger:debug("|run| cmds:%s", vim.inspect(cmds))
 
-  sysobj = spawn.run({ "ctags", unpack(opts) }, {
+  sysobj = spawn.run(cmds, {
     on_stdout = _on_stdout,
     on_stderr = _on_stderr,
   }, _on_exit)
   assert(sysobj ~= nil)
   JOBS_MAP[sysobj.pid] = sysobj
+end
+
+--- @alias gentags.StatusInfo {running:boolean,jobs:integer}
+M.status = function()
+  local running = tables.tbl_not_empty(JOBS_MAP)
+  local jobs = 0
+  for pid, job in pairs(JOBS_MAP) do
+    jobs = jobs + 1
+  end
+  return {
+    running = running,
+    jobs = jobs,
+  }
 end
 
 M.terminate = function()
