@@ -26,15 +26,19 @@ M.setup = function(opts)
   vim.fn.mkdir(cfg.cache_dir, "p")
 
   vim.api.nvim_create_autocmd({ "BufNew", "BufReadPre", "BufNewFile" }, {
-    callback = function()
+    callback = function(event)
+      logging
+        .get("gentags")
+        :debug("|setup| enter buffer:%s", vim.inspect(event))
       vim.schedule(function()
         require("gentags.dispatcher").run()
       end)
     end,
   })
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
-    callback = function()
-      require("gentags.dispatcher").run()
+    callback = function(event)
+      logging.get("gentags"):debug("|setup| leave vim:%s", vim.inspect(event))
+      require("gentags.dispatcher").terminate()
     end,
   })
 end
