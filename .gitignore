@@ -41,3 +41,6 @@ luac.out
 
 # macOS
 .DS_Store
+
+# tags
+tags

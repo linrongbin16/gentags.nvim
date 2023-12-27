@@ -138,6 +138,7 @@ get_buf_option	lua/gentags/commons/apis.lua	/^M.get_buf_option = function(bufnr,
 get_buf_option	lua/gentags/commons/buffers.lua	/^M.get_buf_option = function(bufnr, name)$/;"	f	unknown:M
 get_filename	lua/gentags/utils.lua	/^M.get_filename = function()$/;"	f	unknown:M
 get_filetype	lua/gentags/utils.lua	/^M.get_filetype = function()$/;"	f	unknown:M
+get_tags_filename	lua/gentags/utils.lua	/^M.get_tags_filename = function(filepath)$/;"	f	unknown:M
 get_win_option	lua/gentags/commons/apis.lua	/^M.get_win_option = function(winnr, name)$/;"	f	unknown:M
 get_win_option	lua/gentags/commons/windows.lua	/^M.get_win_option = function(winnr, name)$/;"	f	unknown:M
 get_word	lua/gentags/commons/_json.lua	/^local function get_word()$/;"	f
@@ -235,6 +236,7 @@ startswith	lua/gentags/commons/strings.lua	/^M.startswith = function(s, t, opts)
 status	lua/gentags/ctags.lua	/^M.status = function()$/;"	f	unknown:M
 string	lua/gentags/commons/_json.lua	/^function encode_map.string(v)$/;"	f	unknown:encode_map
 table	lua/gentags/commons/_json.lua	/^function encode_map.table(t)$/;"	f	unknown:encode_map
+tags_file_exists	lua/gentags/utils.lua	/^M.tags_file_exists = function(filepath)$/;"	f	unknown:M
 tbl_empty	lua/gentags/commons/tables.lua	/^M.tbl_empty = function(t)$/;"	f	unknown:M
 tbl_get	lua/gentags/commons/tables.lua	/^M.tbl_get = function(t, ...)$/;"	f	unknown:M
 tbl_not_empty	lua/gentags/commons/tables.lua	/^M.tbl_not_empty = function(t)$/;"	f	unknown:M
