@@ -53,8 +53,8 @@ M.run = function()
 
   local cfg = configs.get()
   local opts = (tables.tbl_get(cfg, "opts", filetype) ~= nil)
-      and tables.tbl_get(cfg, "opts", filetype)
-    or cfg.fallback_opts
+      and vim.deepcopy(tables.tbl_get(cfg, "opts", filetype) or {})
+    or vim.deepcopy(cfg.fallback_opts)
 
   -- output tags file
   table.insert(opts, "-f")
