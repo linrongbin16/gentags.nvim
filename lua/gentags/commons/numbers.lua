@@ -124,6 +124,41 @@ M.min = function(f, a, ...)
   return minimal_item, minimal_index
 end
 
+--- @param m integer?
+--- @param n integer?
+--- @return number
+M.random = function(m, n)
+  local rand_result, rand_err = require("gentags.commons.uv").random(4)
+  if rand_result == nil then
+    if m == nil and n == nil then
+      return math.random()
+    elseif m ~= nil and n == nil then
+      return math.random(m)
+    else
+      return math.random(m --[[@as integer]], n --[[@as integer]])
+    end
+  end
+  local bytes = {
+    string.byte(rand_result --[[@as string]], 1, -1),
+  }
+  local total = 0
+  for _, b in ipairs(bytes) do
+    total = M.mod(total * 256 + b, M.INT32_MAX)
+  end
+  if m == nil and n == nil then
+    return total / M.INT32_MAX
+  elseif m ~= nil and n == nil then
+    assert(type(m) == "number")
+    assert(m >= 1)
+    return M.mod(total, m) + 1
+  else
+    assert(type(m) == "number")
+    assert(type(n) == "number")
+    assert(n >= m)
+    return M.mod(total, n - m + 1) + m
+  end
+end
+
 --- @param l any[]|string
 --- @return any[]|string
 M.shuffle = function(l)
@@ -136,7 +171,7 @@ M.shuffle = function(l)
   end
 
   for i = n, 1, -1 do
-    local j = math.random(n)
+    local j = M.random(n)
     local tmp = new_l[j]
     new_l[j] = new_l[i]
     new_l[i] = tmp
