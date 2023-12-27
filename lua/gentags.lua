@@ -32,7 +32,7 @@ M.setup = function(opts)
   )
   vim.fn.mkdir(cfg.cache_dir, "p")
 
-  vim.api.nvim_create_autocmd({ "BufNew", "BufReadPre", "BufNewFile" }, {
+  vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
     callback = function(event)
       init_logging()
       logging
