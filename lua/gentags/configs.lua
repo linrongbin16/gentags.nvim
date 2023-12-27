@@ -3,7 +3,7 @@ local M = {}
 --- @alias gentags.Options table<any, any>
 --- @type gentags.Options
 local Defaults = {
-  -- generate tools
+  -- binary name
   bin = "ctags",
 
   -- generate options for binary, e.g. ctags
@@ -17,7 +17,13 @@ local Defaults = {
   -- generate options for binary, e.g. ctags
   fallback_opts = { "-R" },
 
+  -- excluded filetypes
+  exclude_filetypes = {},
+
   workspace = { ".git", ".svn" },
+
+  -- excluded workspace
+  exclude_workspace = {},
 
   -- cache directory
   -- For *NIX: `~/.cache/nvim/gentags.nvim/`.

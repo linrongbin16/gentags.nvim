@@ -47,7 +47,8 @@ M.run = function()
   end
 
   local cfg = configs.get()
-  local opts = cfg.opts[filetype] ~= nil and cfg.opts[filetype]
+  local opts = (tables.tbl_get(cfg, "opts", filetype) ~= nil)
+      and tables.tbl_get(cfg, "opts", "filetype")
     or cfg.fallback_opts
   local cmds = { "ctags", unpack(opts) }
   logger:debug("|run| cmds:%s", vim.inspect(cmds))
