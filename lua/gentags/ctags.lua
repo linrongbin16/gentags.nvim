@@ -55,8 +55,11 @@ M.run = function()
   local opts = (tables.tbl_get(cfg, "opts", filetype) ~= nil)
       and tables.tbl_get(cfg, "opts", filetype)
     or cfg.fallback_opts
+
+  -- output tags file
   table.insert(opts, "-f")
   table.insert(opts, utils.get_output_tags_filename(workspace --[[@as string]]))
+
   local cmds = { "ctags", unpack(opts) }
   logger:debug("|run| cmds:%s", vim.inspect(cmds))
 

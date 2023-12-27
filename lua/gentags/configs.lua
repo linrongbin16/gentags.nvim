@@ -8,10 +8,10 @@ local Defaults = {
 
   -- generate options for binary, e.g. ctags
   opts = {
-    c = { "-R" },
-    cpp = { "-R" },
-    lua = { "-R" },
-    markdown = { "-R" },
+    c = { "-R", "-a" },
+    cpp = { "-R", "-a" },
+    lua = { "-R", "-a" },
+    markdown = { "-R", "-a" },
   },
 
   -- generate options for binary, e.g. ctags
