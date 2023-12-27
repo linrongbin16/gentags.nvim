@@ -1,12 +1,14 @@
 local paths = require("gentags.commons.paths")
+local strings = require("gentags.commons.strings")
 local uv = require("gentags.commons.uv")
 local configs = require("gentags.configs")
 
 local M = {}
 
+--- @param cwd string?
 --- @return string?
-local function get_workspace()
-  local cwd = vim.fn.getcwd()
+local function get_workspace(cwd)
+  cwd = cwd or vim.fn.getcwd()
   while true do
     for _, pattern in ipairs(configs.get().workspace) do
       local target = paths.join(cwd, pattern)
@@ -18,7 +20,7 @@ local function get_workspace()
       end
     end
     local parent = paths.parent(cwd)
-    if paths.blank(parent) or parent == cwd then
+    if strings.blank(parent) then
       break
     end
   end
