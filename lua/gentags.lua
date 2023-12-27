@@ -28,8 +28,7 @@ M.setup = function(opts)
   vim.api.nvim_create_autocmd({ "BufNew", "BufReadPre", "BufNewFile" }, {
     callback = function()
       vim.schedule(function()
-        local dispatcher = require("gentags.dispatcher")
-        dispatcher.dispatch()
+        require("gentags.dispatcher").dispatch()
       end)
     end,
   })
