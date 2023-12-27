@@ -28,8 +28,13 @@ M.setup = function(opts)
   vim.api.nvim_create_autocmd({ "BufNew", "BufReadPre", "BufNewFile" }, {
     callback = function()
       vim.schedule(function()
-        require("gentags.dispatcher").dispatch()
+        require("gentags.dispatcher").run()
       end)
+    end,
+  })
+  vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+    callback = function()
+      require("gentags.dispatcher").run()
     end,
   })
 end

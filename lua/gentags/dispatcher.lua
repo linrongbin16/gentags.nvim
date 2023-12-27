@@ -63,12 +63,31 @@ local function get_context()
   }
 end
 
-M.dispatch = function()
-  local cfg = configs.get()
-  local ctx = get_context()
+local WORKER_MAP = {
+  ctags = require("gentags.ctags"),
+}
 
-  if string.lower(cfg.bin) == "ctags" then
-    require("gentags.ctags").run(ctx)
+M.run = function()
+  local cfg = configs.get()
+
+  local target = string.lower(cfg.bin)
+  local worker = WORKER_MAP[target]
+  if worker then
+    worker.run(get_context())
+  else
+    assert(false, string.format("%s is not supported!", vim.inspect(cfg.bin)))
+  end
+end
+
+M.terminate = function()
+  local cfg = configs.get()
+
+  local target = string.lower(cfg.bin)
+  local worker = WORKER_MAP[target]
+  if worker then
+    worker.terminate()
+  else
+    assert(false, string.format("%s is not supported!", vim.inspect(cfg.bin)))
   end
 end
 
