@@ -2,3 +2,7 @@ modules = {
     ["gentags"] = "lua/gentags.lua",
     ["gentags.*"] = "lua",
 }
+
+exclude = {
+    "lua/gentags/commons/*.lua",
+}
