@@ -9,19 +9,13 @@ M.setup = function(opts)
   local cfg = configs.setup(opts)
   -- print(vim.inspect(cfg))
 
-  local function init_logging()
-    if logging.get("gentags") == nil then
-      logging.setup({
-        name = "gentags",
-        level = cfg.debug.enable and LogLevels.DEBUG or LogLevels.INFO,
-        console_log = cfg.debug.console_log,
-        file_log = cfg.debug.file_log,
-        file_log_name = "gentags.log",
-      })
-    end
-  end
-
-  init_logging()
+  logging.setup({
+    name = "gentags",
+    level = cfg.debug.enable and LogLevels.DEBUG or LogLevels.INFO,
+    console_log = cfg.debug.console_log,
+    file_log = cfg.debug.file_log,
+    file_log_name = "gentags.log",
+  })
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
   -- cache dir
