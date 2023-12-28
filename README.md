@@ -21,6 +21,7 @@ While there's some gap when a language's LSP server or treesitter implementation
 ## Table of Contents
 
 - [Features](#features)
+- [Requirements](#requirements)
 - [Install](#install)
 - [Usage](#usage)
 - [Configuration](#configuration)
@@ -36,6 +37,8 @@ While there's some gap when a language's LSP server or treesitter implementation
 - [x] Incremental update on file save.
 - [ ] Disk cache management and garbage collection.
 - [ ] Real-time status for Neovim components such as statusline.
+
+## Requirements
 
 ## Install
 
