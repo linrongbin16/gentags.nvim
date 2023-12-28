@@ -9,17 +9,21 @@ local Defaults = {
   -- ctags options
   ctags = { "--tag-relative=never" },
 
+  -- workspace detection
   workspace = { ".git", ".svn" },
 
   -- excluded filetypes
   exclude_filetypes = { "neo-tree", "NvimTree" },
 
   -- excluded workspace
-  exclude_workspace = {},
+  exclude_workspaces = {},
+
+  -- excluded workspace
+  exclude_files = {},
 
   -- cache directory
-  -- For *NIX: `~/.cache/nvim/gentags.nvim/`.
-  -- For Windows: `$env:USERPROFILE\AppData\Local\nvim-data\gentags.nvim\`.
+  -- For *NIX: `~/.cache/nvim/gentags.nvim`.
+  -- For Windows: `$env:USERPROFILE\AppData\Local\Temp\nvim\gentags.nvim`.
   cache_dir = vim.fn.stdpath("cache") .. "/gentags.nvim",
 
   -- garbage collection
