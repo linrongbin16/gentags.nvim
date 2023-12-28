@@ -14,10 +14,6 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
-> [!WARNING]
->
-> Don't use this plugin now, it's not finished yet!
-
 ## Table of Contents
 
 - [Features](#features)
@@ -30,10 +26,10 @@ Tags generator/management for old school vimers in Neovim.
 
 ## Features
 
-- [ ] Workspace/single-file based.
+- [x] Workspace/single-file based.
 - [ ] Incremental generate/update on file save.
 - [ ] Disk cache management, viewer and garbage collection.
-- [ ] Async run & terminate immediately on vim leave.
+- [x] Async run & terminate immediately on vim leave.
 - [ ] Real-time status for statusline.
 
 ## Install
