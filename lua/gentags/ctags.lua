@@ -4,7 +4,6 @@ local tables = require("gentags.commons.tables")
 local strings = require("gentags.commons.strings")
 
 local configs = require("gentags.configs")
-local utils = require("gentags.utils")
 
 local M = {}
 
@@ -180,13 +179,21 @@ end
 
 --- @param ctx gentags.Context
 M.update = function(ctx)
-  if ctx.mode == "singlefile" or not utils.tags_exists(ctx.workspace) then
+  if
+    ctx.mode == "singlefile"
+    or (
+      strings.not_empty(ctx.tags_file)
+      and vim.fn.filereadable(ctx.tags_file) <= 0
+    )
+  then
     -- if working in singlefile mode, or in workspace mode but the output tags file not exist
     -- go back to generate tags for whole workspace
 
     local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
-    logger:debug("|update| go back to init")
-    M.init(ctx)
+    logger:debug("|update| go back to init, ctx:%s", vim.inspect(ctx))
+    vim.schedule(function()
+      M.init(ctx)
+    end)
   else
     assert(ctx.mode == "workspace")
 
@@ -194,14 +201,15 @@ M.update = function(ctx)
       return
     end
 
-    assert(utils.tags_exists(ctx.workspace))
-
     -- if working in workspace and the output tags already exist, it will do two steps:
     --   1. generate tags only for current saved files, and append it to the tags file
     --   2. then re-generate the whole workspace tags again and replace the existing tags, this is for more accurate data
 
     local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
-    logger:debug("|update| go to append for current file first")
+    logger:debug(
+      "|update| go to append for current file first, ctx:%s",
+      vim.inspect(ctx)
+    )
 
     if strings.empty(ctx.filename) then
       return
@@ -209,6 +217,8 @@ M.update = function(ctx)
     if strings.empty(ctx.tags_file) then
       return
     end
+    assert(vim.fn.filereadable(ctx.tags_file) > 0)
+
     if TAGS_LOCKING_MAP[ctx.tags_file] then
       return
     end
@@ -255,7 +265,13 @@ M.update = function(ctx)
       TAGS_LOCKING_MAP[ctx.tags_file] = nil
 
       -- trigger re-generate tags in write mode for whole workspace again
-      M.init(ctx)
+      vim.schedule(function()
+        logger:debug(
+          "|update| trigger re-init the whole tags file again, ctx:%s",
+          vim.inspect(ctx)
+        )
+        M.init(ctx)
+      end)
     end
 
     local cfg = configs.get()
