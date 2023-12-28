@@ -26,7 +26,8 @@ local function init_logging()
   end
 end
 
-M.load = function()
+--- @param ctx gentags.Context
+M.load = function(ctx)
   init_logging()
   local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
 

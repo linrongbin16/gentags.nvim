@@ -1,6 +1,7 @@
 local logging = require("gentags.commons.logging")
 local strings = require("gentags.commons.strings")
 local paths = require("gentags.commons.paths")
+local tables = require("gentags.commons.tables")
 
 local configs = require("gentags.configs")
 local utils = require("gentags.utils")
@@ -24,7 +25,8 @@ local TOOLS_MAP = {
 
 --- @return gentags.Tool
 local function get_toolchain()
-  local tool = configs.get().tool
+  local cfg = configs.get()
+  local tool = cfg.tool
   local toolchain = TOOLS_MAP[string.lower(tool)] --[[@as gentags.Tool]]
   assert(
     toolchain ~= nil,
@@ -34,8 +36,8 @@ local function get_toolchain()
 end
 
 local function get_context()
+  local cfg = configs.get()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
-  local tool = configs.get().tool
 
   local workspace = utils.get_workspace()
   logger:debug("|load| workspace:%s", vim.inspect(workspace))
@@ -46,8 +48,11 @@ local function get_context()
   local tags = nil
   if strings.not_empty(workspace) then
     tags = utils.get_tags_name(workspace --[[@as string]])
-  elseif strings.not_empty(filename) then
-    tags = utils.get_tags_name()
+  elseif
+    strings.not_empty(filename)
+    and not tables.list_contains(cfg.exclude_filetypes or {}, filetype)
+  then
+    tags = utils.get_tags_name(filename)
   end
 
   return {
