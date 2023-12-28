@@ -37,7 +37,7 @@ Tags generator/management for old school vimers in Neovim.
 Requirements:
 
 - Neovim &ge; 0.7.0.
-- (Default) [universal-ctags](https://github.com/universal-ctags/ctags).
+- (Default backend) [universal-ctags](https://github.com/universal-ctags/ctags).
 
 <details>
 <summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
