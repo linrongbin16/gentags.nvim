@@ -29,7 +29,7 @@ Tags generator/management for old school vimers in Neovim.
 
 ## Features
 
-- [ ] Project/workspace based.
+- [ ] Workspace/single-file based.
 - [ ] Multiple language support.
 - [ ] Incremental generate/update on file save.
 - [ ] Disk cache management, viewer, and garbage collection.
