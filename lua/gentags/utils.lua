@@ -78,9 +78,7 @@ M.get_output_tags_filename = function(filepath)
 
   filepath =
     paths.normalize(filepath, { double_backslash = true, expand = true })
-  filepath = string.gsub(filepath, "/", "%-")
-  filepath = string.gsub(filepath, " ", "%-")
-  filepath = string.gsub(filepath, ":", "%-")
+  filepath = string.gsub(filepath, "/", "%-"):gsub(" ", "%-"):gsub(":", "%-")
   while strings.startswith(filepath, "-") do
     filepath = string.sub(filepath, 2)
   end

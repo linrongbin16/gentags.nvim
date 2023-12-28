@@ -34,62 +34,64 @@ M.init = function() end
 M.update = function() end
 
 M.run = function()
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  vim.schedule_wrap(function()
+    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
-  local workspace = utils.get_workspace()
-  local filename = utils.get_filename()
-  local filetype = utils.get_filetype()
-  logger:debug(
-    "|run| workspace:%s, filename:%s, filetype:%s",
-    vim.inspect(workspace),
-    vim.inspect(filename),
-    vim.inspect(filetype)
-  )
+    local workspace = utils.get_workspace()
+    local filename = utils.get_filename()
+    local filetype = utils.get_filetype()
+    logger:debug(
+      "|run| workspace:%s, filename:%s, filetype:%s",
+      vim.inspect(workspace),
+      vim.inspect(filename),
+      vim.inspect(filetype)
+    )
 
-  if strings.empty(workspace) then
-    return
-  end
-
-  local sysobj = nil
-
-  local function _on_stdout(line)
-    logger:debug("|run._on_stdout| line:%s", vim.inspect(line))
-  end
-
-  local function _on_stderr(line)
-    logger:debug("|run._on_stderr| line:%s", vim.inspect(line))
-  end
-
-  local function _on_exit(completed)
-    -- logger:debug(
-    --   "|run._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
-    --   vim.inspect(completed),
-    --   vim.inspect(sysobj),
-    --   vim.inspect(JOBS_MAP)
-    -- )
-    if sysobj ~= nil then
-      JOBS_MAP[sysobj.pid] = nil
+    if strings.empty(workspace) then
+      return
     end
-  end
 
-  local cfg = configs.get()
-  local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or { "-R" })
+    local sysobj = nil
 
-  -- output tags file
-  local output_tags_file =
-    utils.get_output_tags_filename(workspace --[[@as string]])
-  table.insert(opts, "-f")
-  table.insert(opts, output_tags_file)
+    local function _on_stdout(line)
+      logger:debug("|run._on_stdout| line:%s", vim.inspect(line))
+    end
 
-  local cmds = { "ctags", unpack(opts) }
-  logger:debug("|run| cmds:%s", vim.inspect(cmds))
+    local function _on_stderr(line)
+      logger:debug("|run._on_stderr| line:%s", vim.inspect(line))
+    end
 
-  sysobj = spawn.run(cmds, {
-    on_stdout = _on_stdout,
-    on_stderr = _on_stderr,
-  }, _on_exit)
-  assert(sysobj ~= nil)
-  JOBS_MAP[sysobj.pid] = sysobj
+    local function _on_exit(completed)
+      -- logger:debug(
+      --   "|run._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
+      --   vim.inspect(completed),
+      --   vim.inspect(sysobj),
+      --   vim.inspect(JOBS_MAP)
+      -- )
+      if sysobj ~= nil then
+        JOBS_MAP[sysobj.pid] = nil
+      end
+    end
+
+    local cfg = configs.get()
+    local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or { "-R" })
+
+    -- output tags file
+    local output_tags_file =
+      utils.get_output_tags_filename(workspace --[[@as string]])
+    table.insert(opts, "-f")
+    table.insert(opts, output_tags_file)
+
+    local cmds = { "ctags", unpack(opts) }
+    logger:debug("|run| cmds:%s", vim.inspect(cmds))
+
+    sysobj = spawn.run(cmds, {
+      on_stdout = _on_stdout,
+      on_stderr = _on_stderr,
+    }, _on_exit)
+    assert(sysobj ~= nil)
+    JOBS_MAP[sysobj.pid] = sysobj
+  end)
 end
 
 --- @alias gentags.StatusInfo {running:boolean,jobs:integer}
