@@ -10,7 +10,7 @@ local M = {}
 
 -- A tool module has these APIs: load/init/update/terminate
 --
---- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"file"}
+--- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"singlefile"}
 --- @alias gentags.LoadMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.InitMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.UpdateMethod fun(ctx:gentags.Context):nil
@@ -36,7 +36,7 @@ local function get_tool()
 end
 
 --- @return gentags.Context
-local function get_context()
+M.get_context = function()
   local cfg = configs.get()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
@@ -62,7 +62,7 @@ local function get_context()
     tags_pattern = utils.get_tags_pattern(tags_handle --[[@as string]])
   end
 
-  local mode = strings.not_empty(workspace) and "workspace" or "file"
+  local mode = strings.not_empty(workspace) and "workspace" or "singlefile"
 
   return {
     workspace = workspace,
@@ -77,28 +77,28 @@ end
 
 M.load = function()
   vim.schedule(function()
-    get_tool().load(get_context())
+    get_tool().load(M.get_context())
   end)
 end
 
 M.init = function()
   vim.schedule(function()
-    get_tool().init(get_context())
+    get_tool().init(M.get_context())
   end)
 end
 
 M.update = function()
   vim.schedule(function()
-    get_tool().update(get_context())
+    get_tool().update(M.get_context())
   end)
 end
 
 M.terminate = function()
-  get_tool().terminate(get_context())
+  get_tool().terminate(M.get_context())
 end
 
 M.status = function()
-  get_tool().status(get_context())
+  get_tool().status(M.get_context())
 end
 
 local gc_running = false
