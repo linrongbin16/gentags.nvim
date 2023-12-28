@@ -30,7 +30,7 @@ Tags generator/management for old school vimers in Neovim.
 - [ ] Incremental update on file save.
 - [ ] Disk cache management and garbage collection.
 - [x] Async run & terminate immediately on vim leave.
-- [ ] Real-time status for statusline.
+- [ ] Real-time status for Neovim components such as statusline.
 
 ## Install
 
