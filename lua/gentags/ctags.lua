@@ -36,30 +36,21 @@ M.load = function()
     return
   end
 
-  local output_tags_file =
-    utils.get_output_tags_filename(workspace --[[@as string]])
+  local output_tags_file = utils.get_tags_name(workspace --[[@as string]])
   if vim.fn.filereadable(output_tags_file) > 0 then
     logger:debug("|load| append tags:%s", vim.inspect(output_tags_file))
     vim.opt.tags:append(output_tags_file)
   end
 end
 
-M.init = function()
+--- @param ctx gentags.Context
+M.init = function(ctx)
   vim.schedule_wrap(function()
     init_logging()
     local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
+    logger:debug("|run| ctx:%s", vim.inspect(ctx))
 
-    local workspace = utils.get_workspace()
-    local filename = utils.get_filename()
-    local filetype = utils.get_filetype()
-    logger:debug(
-      "|run| workspace:%s, filename:%s, filetype:%s",
-      vim.inspect(workspace),
-      vim.inspect(filename),
-      vim.inspect(filetype)
-    )
-
-    if strings.empty(workspace) then
+    if strings.empty(ctx.workspace) then
       return
     end
 
@@ -89,8 +80,7 @@ M.init = function()
     local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or { "-R" })
 
     -- output tags file
-    local output_tags_file =
-      utils.get_output_tags_filename(workspace --[[@as string]])
+    local output_tags_file = ctx.tags or utils.get_tags_name(ctx.filename)
     table.insert(opts, "-f")
     table.insert(opts, output_tags_file)
 
@@ -108,7 +98,7 @@ end
 
 M.update = function() end
 
---- @alias gentags.StatusInfo {running:boolean,jobs:integer}
+--- @return gentags.StatusInfo
 M.status = function()
   local running = tables.tbl_not_empty(JOBS_MAP)
   local jobs = 0
@@ -128,22 +118,6 @@ M.terminate = function()
     end
   end
   JOBS_MAP = {}
-end
-
-local gc_running = false
-
-M.gc = function()
-  if gc_running then
-    return
-  end
-
-  gc_running = true
-
-  -- run gc here
-
-  vim.schedule(function()
-    gc_running = false
-  end)
 end
 
 return M

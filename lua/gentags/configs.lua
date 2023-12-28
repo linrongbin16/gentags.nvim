@@ -9,10 +9,10 @@ local Defaults = {
   -- ctags options
   ctags = { "-R" },
 
-  -- excluded filetypes
-  exclude_filetypes = {},
-
   workspace = { ".git", ".svn" },
+
+  -- excluded filetypes
+  exclude_filetypes = { "neo-tree", "NvimTree" },
 
   -- excluded workspace
   exclude_workspace = {},

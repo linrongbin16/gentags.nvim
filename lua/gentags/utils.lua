@@ -65,10 +65,12 @@ M.get_filetype = function()
   return vim.bo.filetype
 end
 
---- @param filepath string
---- @return string
-M.get_output_tags_filename = function(filepath)
-  assert(type(filepath) == "string")
+--- @param filepath string?
+--- @return string?
+M.get_tags_name = function(filepath)
+  if strings.empty(filepath) then
+    return nil
+  end
   while
     strings.not_empty(filepath) and strings.endswith(filepath, "/")
     or strings.endswith(filepath, "\\")
@@ -99,8 +101,8 @@ end
 
 --- @param filepath string
 --- @return boolean
-M.tags_file_exists = function(filepath)
-  local tags_filename = M.get_output_tags_filename(filepath)
+M.tags_exists = function(filepath)
+  local tags_filename = M.get_tags_name(filepath)
   return vim.fn.filereadable(tags_filename) > 0
 end
 
