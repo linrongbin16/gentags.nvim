@@ -32,15 +32,34 @@ M.setup = function(opts)
   )
   vim.fn.mkdir(cfg.cache_dir, "p")
 
-  vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile" }, {
+  -- load tags when open/create file
+  vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile", "FileReadPre" }, {
+    callback = function(event)
+      -- logging
+      --   .get("gentags")
+      --   :debug("|setup| enter buffer:%s", vim.inspect(event))
+      require("gentags.dispatcher").load()
+    end,
+  })
+
+  -- generate tags when open/create/write file
+  vim.api.nvim_create_autocmd({
+    "BufReadPre",
+    "BufNewFile",
+    "BufWritePost",
+    "FileReadPre",
+    "FileWritePost",
+    "FileAppendPost",
+  }, {
     callback = function(event)
       -- logging
       --   .get("gentags")
       --   :debug("|setup| enter buffer:%s", vim.inspect(event))
       require("gentags.dispatcher").run()
-      require("gentags.dispatcher").load()
     end,
   })
+
+  -- terminate before leaving vim
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
     callback = function(event)
       -- logging.get("gentags"):debug("|setup| leave vim:%s", vim.inspect(event))
