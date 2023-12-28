@@ -4,18 +4,10 @@ local M = {}
 --- @type gentags.Options
 local Defaults = {
   -- binary name
-  bin = "ctags",
+  tool = "ctags",
 
-  -- generate options for binary, e.g. ctags
-  opts = {
-    c = { "-R" },
-    cpp = { "-R" },
-    lua = { "-R" },
-    markdown = { "-R" },
-  },
-
-  -- generate options for binary, e.g. ctags
-  fallback_opts = { "-R" },
+  -- ctags options
+  ctags = { "-R" },
 
   -- excluded filetypes
   exclude_filetypes = {},

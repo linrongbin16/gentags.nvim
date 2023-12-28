@@ -2,31 +2,37 @@ local configs = require("gentags.configs")
 
 local M = {}
 
-local WORKER_MAP = {
+-- A tool module has these APIs: load/run/terminate
+--
+--- @alias gentags.Tool {load:fun():nil,run:fun():nil,terminate:fun():nil}
+--- @type table<string, gentags.Tool>
+local TOOLS_MAP = {
   ctags = require("gentags.ctags"),
 }
 
-local function get_worker()
-  local binary = configs.get().bin
-  local target = string.lower(binary)
-  local worker = WORKER_MAP[target]
+--- @return gentags.Tool
+local function get_toolchain()
+  local tool = configs.get().tool
+  local toolchain = TOOLS_MAP[string.lower(tool)] --[[@as gentags.Tool]]
   assert(
-    worker ~= nil,
-    string.format("%s is not supported!", vim.inspect(binary))
+    toolchain ~= nil,
+    string.format("%s is not supported!", vim.inspect(tool))
   )
-  return worker
+  return toolchain
 end
 
 M.load = function()
-  get_worker().load()
+  get_toolchain().load()
 end
 
 M.run = function()
-  get_worker().run()
+  ---@diagnostic disable-next-line: undefined-field
+  get_toolchain().run()
 end
 
 M.terminate = function()
-  get_worker().terminate()
+  ---@diagnostic disable-next-line: undefined-field
+  get_toolchain().terminate()
 end
 
 return M

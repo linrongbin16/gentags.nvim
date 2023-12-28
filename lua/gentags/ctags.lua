@@ -29,6 +29,10 @@ M.load = function()
   end
 end
 
+M.init = function() end
+
+M.update = function() end
+
 M.run = function()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
