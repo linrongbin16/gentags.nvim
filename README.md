@@ -112,8 +112,8 @@ For complete options and defaults, please see [configs.lua](https://github.com/l
 
 ## Alternatives
 
-- [gentags.lua](https://github.com/JMarkin/gentags.lua)
-- [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
+- [gentags.lua](https://github.com/JMarkin/gentags.lua): Auto generates tags by filetype.
+- [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags): A Vim plugin that manages your tag files.
 
 ## Development
 
