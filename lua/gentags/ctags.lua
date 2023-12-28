@@ -156,8 +156,7 @@ M.init = function(ctx)
   table.insert(opts, "-f")
   table.insert(opts, tmpfile)
 
-  if ctx.mode == "file" then
-    assert(ctx.mode == "file")
+  if ctx.mode == "singlefile" then
     assert(strings.not_empty(ctx.filename))
     table.insert(opts, ctx.filename)
   end

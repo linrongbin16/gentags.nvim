@@ -10,7 +10,7 @@ local M = {}
 
 -- A tool module has these APIs: load/init/update/terminate
 --
---- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"file"}
+--- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"singlefile"}
 --- @alias gentags.LoadMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.InitMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.UpdateMethod fun(ctx:gentags.Context):nil
@@ -62,7 +62,7 @@ local function get_context()
     tags_pattern = utils.get_tags_pattern(tags_handle --[[@as string]])
   end
 
-  local mode = strings.not_empty(workspace) and "workspace" or "file"
+  local mode = strings.not_empty(workspace) and "workspace" or "singlefile"
 
   return {
     workspace = workspace,
