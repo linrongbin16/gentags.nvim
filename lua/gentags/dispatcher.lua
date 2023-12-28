@@ -41,7 +41,7 @@ local function get_context()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
   local workspace = utils.get_workspace()
-  logger:debug("|load| workspace:%s", vim.inspect(workspace))
+  logger:debug("|get_context| workspace:%s", vim.inspect(workspace))
 
   local filename = utils.get_filename()
   local filetype = utils.get_filetype()
@@ -76,19 +76,19 @@ local function get_context()
 end
 
 M.load = function()
-  vim.schedule_wrap(function()
+  vim.schedule(function()
     get_tool().load(get_context())
   end)
 end
 
 M.init = function()
-  vim.schedule_wrap(function()
+  vim.schedule(function()
     get_tool().init(get_context())
   end)
 end
 
 M.update = function()
-  vim.schedule_wrap(function()
+  vim.schedule(function()
     get_tool().update(get_context())
   end)
 end
@@ -104,7 +104,7 @@ end
 local gc_running = false
 
 M.gc = function()
-  vim.schedule_wrap(function()
+  vim.schedule(function()
     if gc_running then
       return
     end

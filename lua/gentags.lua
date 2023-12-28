@@ -32,16 +32,6 @@ M.setup = function(opts)
   )
   vim.fn.mkdir(cfg.cache_dir, "p")
 
-  -- load tags when open/create file
-  vim.api.nvim_create_autocmd({ "BufReadPre", "BufNewFile", "FileReadPre" }, {
-    callback = function(event)
-      -- logging
-      --   .get("gentags")
-      --   :debug("|setup| enter buffer:%s", vim.inspect(event))
-      require("gentags.dispatcher").load()
-    end,
-  })
-
   -- init tags (first generate) when open/create file
   vim.api.nvim_create_autocmd({
     "BufReadPre",
@@ -49,9 +39,10 @@ M.setup = function(opts)
     "FileReadPre",
   }, {
     callback = function(event)
-      -- logging
-      --   .get("gentags")
-      --   :debug("|setup| enter buffer:%s", vim.inspect(event))
+      logging
+        .get("gentags")
+        :debug("|setup| enter buffer:%s", vim.inspect(event))
+      require("gentags.dispatcher").load()
       require("gentags.dispatcher").init()
     end,
   })
@@ -63,9 +54,9 @@ M.setup = function(opts)
     "FileAppendPost",
   }, {
     callback = function(event)
-      -- logging
-      --   .get("gentags")
-      --   :debug("|setup| enter buffer:%s", vim.inspect(event))
+      logging
+        .get("gentags")
+        :debug("|setup| write buffer:%s", vim.inspect(event))
       require("gentags.dispatcher").update()
     end,
   })
@@ -73,7 +64,7 @@ M.setup = function(opts)
   -- terminate before leaving vim
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
     callback = function(event)
-      -- logging.get("gentags"):debug("|setup| leave vim:%s", vim.inspect(event))
+      logging.get("gentags"):debug("|setup| leave vim:%s", vim.inspect(event))
       require("gentags.dispatcher").terminate()
     end,
   })

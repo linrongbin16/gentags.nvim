@@ -16,24 +16,9 @@ local TAGS_LOCKING_MAP = {}
 --- @table<string, boolean>
 local TAGS_LOADED_MAP = {}
 
-local function init_logging()
-  if logging.get("gentags.ctags") == nil then
-    local LogLevels = require("gentags.commons.logging").LogLevels
-    local cfg = configs.get()
-    logging.setup({
-      name = "gentags.ctags",
-      level = cfg.debug.enable and LogLevels.DEBUG or LogLevels.INFO,
-      console_log = cfg.debug.console_log,
-      file_log = cfg.debug.file_log,
-      file_log_name = "gentags.log",
-    })
-  end
-end
-
 --- @param ctx gentags.Context
 M.load = function(ctx)
-  init_logging()
-  local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
+  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|load| ctx:%s", vim.inspect(ctx))
 
   if
@@ -58,8 +43,7 @@ end
 
 --- @param ctx gentags.Context
 M.init = function(ctx)
-  init_logging()
-  local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
+  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|run| ctx:%s", vim.inspect(ctx))
 
   -- no tags name
@@ -129,6 +113,10 @@ M.init = function(ctx)
 
     _close_file(fp1)
     _close_file(fp2)
+    logger:debug(
+      "|init._on_exit| tags generate completed to:%s",
+      vim.inspect(ctx.tags_file)
+    )
 
     if system_obj == nil then
       logger:err(
@@ -145,7 +133,7 @@ M.init = function(ctx)
       end
       JOBS_MAP[system_obj.pid] = nil
     end
-    if TAGS_LOCKING_MAP[ctx.tags_file] ~= nil then
+    if TAGS_LOCKING_MAP[ctx.tags_file] == nil then
       logger:err("|init._on_exit| tags %s must be locked!", vim.inspect(ctx))
     end
     TAGS_LOCKING_MAP[ctx.tags_file] = nil
