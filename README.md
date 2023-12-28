@@ -14,12 +14,17 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
+To be honest, it seems that tags have become useless in Neovim today. LSP and treesitter quickly replaced tags and make (Neo)vim a more modern editor.
+
+However there's still gap when a language's LSP server or treesitter implementations are insufficient, which happened to me actually, thus brings tags back to my mind.
+
 ## Table of Contents
 
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Recommendations](#recommendations)
 - [Alternatives](#alternatives)
 - [Development](#development)
 - [Contribute](#contribute)
@@ -98,6 +103,13 @@ require('gentags').setup(opts)
 The `otps` is an optional lua table that overwrites default options.
 
 For complete options and defaults, please see [configs.lua](https://github.com/linrongbin16/gentags.nvim/tree/main/lua/gentags/configs.lua).
+
+## Recommendations
+
+Even today tags seems to be useless in Neovim, it still can work with multiple other plugins to smooth your editing flow:
+
+- With [vista.vim](https://github.com/liuchengxu/vista.vim): View and search symbols in the sidebar.
+- Use tags as [vista.vim](https://github.com/liuchengxu/vista.vim).
 
 ## Alternatives
 
