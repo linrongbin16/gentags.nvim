@@ -37,10 +37,7 @@ Tags generator/management for old school vimers in Neovim.
 Requirements:
 
 - Neovim &ge; 0.7.0.
-
-For now the supported backends are:
-
-- (Default) [universal-ctags](https://github.com/universal-ctags/ctags).
+- [universal-ctags](https://github.com/universal-ctags/ctags) (default backend).
 
 PRs are welcome to add other backends.
 
