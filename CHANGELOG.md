@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/linrongbin16/gentags.nvim/compare/v1.0.0...v1.1.0) (2023-12-28)
+
+
+### Features
+
+* **mvp:** MVP ([#3](https://github.com/linrongbin16/gentags.nvim/issues/3)) ([510976f](https://github.com/linrongbin16/gentags.nvim/commit/510976fd2c7220f424887e1cc8da0064852c44dd))
+
 ## 1.0.0 (2023-12-11)
 
 
