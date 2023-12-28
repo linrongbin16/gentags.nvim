@@ -2,10 +2,8 @@ local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
 local tables = require("gentags.commons.tables")
 local strings = require("gentags.commons.strings")
-local paths = require("gentags.commons.paths")
 
 local configs = require("gentags.configs")
-local utils = require("gentags.utils")
 
 local M = {}
 
@@ -76,13 +74,6 @@ M.init = function(ctx)
   end
 
   local function _on_exit(completed)
-    -- logger:debug(
-    --   "|run._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
-    --   vim.inspect(completed),
-    --   vim.inspect(sysobj),
-    --   vim.inspect(JOBS_MAP)
-    -- )
-
     -- swap tmp file and tags file
     local fp1 = io.open(ctx.tags, "w")
     local fp2 = io.open(tmpfile, "r")
