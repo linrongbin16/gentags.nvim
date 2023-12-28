@@ -31,7 +31,7 @@ However there's still gap when a language's LSP server or treesitter implementat
 
 ## Features
 
-- [x] Support both workspace/single file.
+- [x] Support both workspace/single file mode.
 - [x] Running in background & terminate immediately on nvim leave.
 - [ ] Incremental update on file save.
 - [ ] Disk cache management and garbage collection.
