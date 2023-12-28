@@ -33,7 +33,7 @@ While there's some gap when a language's LSP server or treesitter implementation
 
 - [x] Support both workspace/single file.
 - [x] Running in background & terminate immediately on nvim leave.
-- [ ] Incremental update on file save.
+- [x] Incremental update on file save.
 - [ ] Disk cache management and garbage collection.
 - [ ] Real-time status for Neovim components such as statusline.
 
