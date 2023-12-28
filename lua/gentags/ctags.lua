@@ -126,15 +126,18 @@ M.init = function(ctx)
     end
     if system_obj ~= nil then
       if JOBS_MAP[system_obj.pid] == nil then
-        logger:err(
-          "|init._on_exit| job id %s must exist!",
+        logger:debug(
+          "|init._on_exit| debug-error! job id %s must exist!",
           vim.inspect(system_obj)
         )
       end
       JOBS_MAP[system_obj.pid] = nil
     end
     if TAGS_LOCKING_MAP[ctx.tags_file] == nil then
-      logger:err("|init._on_exit| tags %s must be locked!", vim.inspect(ctx))
+      logger:debug(
+        "|init._on_exit| debug-error! tags %s must be locked!",
+        vim.inspect(ctx)
+      )
     end
     TAGS_LOCKING_MAP[ctx.tags_file] = nil
   end
