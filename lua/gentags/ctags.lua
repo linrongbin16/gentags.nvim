@@ -73,9 +73,7 @@ M.run = function()
   end
 
   local cfg = configs.get()
-  local opts = (tables.tbl_get(cfg, "opts", filetype) ~= nil)
-      and vim.deepcopy(tables.tbl_get(cfg, "opts", filetype) or {})
-    or vim.deepcopy(cfg.fallback_opts)
+  local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or { "-R" })
 
   -- output tags file
   local output_tags_file =
