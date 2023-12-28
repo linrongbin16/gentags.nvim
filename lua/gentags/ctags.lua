@@ -44,11 +44,7 @@ M.load = function()
   end
 end
 
-M.init = function() end
-
-M.update = function() end
-
-M.run = function()
+M.init = function()
   vim.schedule_wrap(function()
     init_logging()
     local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
@@ -109,6 +105,8 @@ M.run = function()
     JOBS_MAP[sysobj.pid] = sysobj
   end)
 end
+
+M.update = function() end
 
 --- @alias gentags.StatusInfo {running:boolean,jobs:integer}
 M.status = function()

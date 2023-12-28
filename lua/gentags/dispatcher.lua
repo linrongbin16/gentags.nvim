@@ -2,9 +2,9 @@ local configs = require("gentags.configs")
 
 local M = {}
 
--- A tool module has these APIs: load/run/terminate
+-- A tool module has these APIs: load/init/update/terminate
 --
---- @alias gentags.Tool {load:fun():nil,run:fun():nil,terminate:fun():nil}
+--- @alias gentags.Tool {load:fun():nil,init:fun():nil,update:fun():nil,terminate:fun():nil}
 --- @type table<string, gentags.Tool>
 local TOOLS_MAP = {
   ctags = require("gentags.ctags"),
@@ -25,9 +25,14 @@ M.load = function()
   get_toolchain().load()
 end
 
-M.run = function()
+M.init = function()
   ---@diagnostic disable-next-line: undefined-field
-  get_toolchain().run()
+  get_toolchain().init()
+end
+
+M.update = function()
+  ---@diagnostic disable-next-line: undefined-field
+  get_toolchain().update()
 end
 
 M.terminate = function()

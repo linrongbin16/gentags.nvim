@@ -42,12 +42,23 @@ M.setup = function(opts)
     end,
   })
 
-  -- generate tags when open/create/write file
+  -- init tags (first generate) when open/create file
   vim.api.nvim_create_autocmd({
     "BufReadPre",
     "BufNewFile",
-    "BufWritePost",
     "FileReadPre",
+  }, {
+    callback = function(event)
+      -- logging
+      --   .get("gentags")
+      --   :debug("|setup| enter buffer:%s", vim.inspect(event))
+      require("gentags.dispatcher").init()
+    end,
+  })
+
+  -- update tags when write/modify file
+  vim.api.nvim_create_autocmd({
+    "BufWritePost",
     "FileWritePost",
     "FileAppendPost",
   }, {
@@ -55,7 +66,7 @@ M.setup = function(opts)
       -- logging
       --   .get("gentags")
       --   :debug("|setup| enter buffer:%s", vim.inspect(event))
-      require("gentags.dispatcher").run()
+      require("gentags.dispatcher").update()
     end,
   })
 
