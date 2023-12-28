@@ -78,12 +78,17 @@ require("pckr").add({
 
 ## Usage
 
-Gentags will automatically generate tags in backend when you open a new file or save writtens, and terminate all background jobs when you leave nvim.
+Gentags will automatically run below jobs in backend when you work in the nvim editor:
+
+- Load a tags for the whole worksapce or the single file on first open a file.
+- Generate tags for the whole worksapce or the single file on first open a file.
+- Update tags after you save writtens on a file.
+- Terminate all background child processes when you leave nvim.
 
 By default all tags are generated in `stdpath('cache') . '/gentags.nvim'` directory.
 
-- For UNIX/Linux, it's: `~/.cache/nvim/gentags.nvim`.
-- For Windows, it's: `$env:USERPROFILE\.cache\nvim\gentags.nvim`.
+- For UNIX/Linux: `~/.cache/nvim/gentags.nvim`.
+- For Windows: `$env:USERPROFILE\AppData\Local\Temp\nvim\gentags.nvim`.
 
 ## Configuration
 
