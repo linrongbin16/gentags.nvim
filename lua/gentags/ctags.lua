@@ -150,19 +150,20 @@ M.init = function(ctx)
     assert(strings.not_empty(ctx.workspace))
     cwd = ctx.workspace
     table.insert(opts, "-R")
-  else
-    assert(ctx.mode == "file")
-    assert(strings.not_empty(ctx.filename))
-    table.insert(opts, "-L")
-    table.insert(opts, ctx.filename)
   end
 
   -- output tags file
   table.insert(opts, "-f")
   table.insert(opts, tmpfile)
 
+  if ctx.mode == "file" then
+    assert(ctx.mode == "file")
+    assert(strings.not_empty(ctx.filename))
+    table.insert(opts, ctx.filename)
+  end
+
   local cmds = { "ctags", unpack(opts) }
-  logger:debug("|init| cmds:%s", vim.inspect(cmds))
+  logger:debug("|init| ctx:%s, cmds:%s", vim.inspect(ctx), vim.inspect(cmds))
 
   system_obj = spawn.run(cmds, {
     cwd = cwd,

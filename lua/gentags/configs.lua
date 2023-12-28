@@ -7,7 +7,7 @@ local Defaults = {
   tool = "ctags",
 
   -- ctags options
-  ctags = { "--tag-relative=never" },
+  ctags = { "--tag-relative=never", "--exclude=*.log" },
 
   -- workspace detection
   workspace = { ".git", ".svn" },
