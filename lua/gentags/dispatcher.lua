@@ -10,21 +10,21 @@ local M = {}
 
 -- A tool module has these APIs: load/init/update/terminate
 --
---- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags:string?}
+--- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags:string?,mode:"workspace"|"file"}
 --- @alias gentags.LoadMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.InitMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.UpdateMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.TerminateMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.StatusInfo {running:boolean,jobs:integer}
 --- @alias gentags.StatusMethod fun(ctx:gentags.Context):gentags.StatusInfo
---- @alias gentags.Tool {load:gentags.LoadMethod,init:gentags.InitMethod,update:gentags.UpdateMethod,terminate:gentags.TerminateMethod}
+--- @alias gentags.Tool {load:gentags.LoadMethod,init:gentags.InitMethod,update:gentags.UpdateMethod,terminate:gentags.TerminateMethod,status:gentags.StatusMethod}
 --- @type table<string, gentags.Tool>
 local TOOLS_MAP = {
   ctags = require("gentags.ctags"),
 }
 
 --- @return gentags.Tool
-local function get_toolchain()
+local function get_tool()
   local cfg = configs.get()
   local tool = cfg.tool
   local toolchain = TOOLS_MAP[string.lower(tool)] --[[@as gentags.Tool]]
@@ -35,6 +35,7 @@ local function get_toolchain()
   return toolchain
 end
 
+--- @return gentags.Context
 local function get_context()
   local cfg = configs.get()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
@@ -55,43 +56,58 @@ local function get_context()
     tags = utils.get_tags_name(filename)
   end
 
+  local mode = strings.not_empty(workspace) and "workspace" or "file"
+
   return {
     workspace = workspace,
     filename = filename,
     filetype = filetype,
     tags = tags,
+    mode = mode,
   }
 end
 
 M.load = function()
-  get_toolchain().load(get_context())
+  vim.schedule_wrap(function()
+    get_tool().load(get_context())
+  end)
 end
 
 M.init = function()
-  get_toolchain().init(get_context())
+  vim.schedule_wrap(function()
+    get_tool().init(get_context())
+  end)
 end
 
 M.update = function()
-  get_toolchain().update(get_context())
+  vim.schedule_wrap(function()
+    get_tool().update(get_context())
+  end)
 end
 
 M.terminate = function()
-  get_toolchain().terminate(get_context())
+  get_tool().terminate(get_context())
+end
+
+M.status = function()
+  get_tool().status(get_context())
 end
 
 local gc_running = false
 
 M.gc = function()
-  if gc_running then
-    return
-  end
+  vim.schedule_wrap(function()
+    if gc_running then
+      return
+    end
 
-  gc_running = true
+    gc_running = true
 
-  -- run gc here
+    -- run gc here
 
-  vim.schedule(function()
-    gc_running = false
+    vim.schedule(function()
+      gc_running = false
+    end)
   end)
 end
 
