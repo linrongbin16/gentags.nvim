@@ -44,7 +44,7 @@ end
 --- @param ctx gentags.Context
 M.init = function(ctx)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
-  logger:debug("|run| ctx:%s", vim.inspect(ctx))
+  logger:debug("|init| ctx:%s", vim.inspect(ctx))
 
   -- no tags name
   if strings.empty(ctx.tags_file) then
@@ -63,11 +63,11 @@ M.init = function(ctx)
   local system_obj = nil
 
   local function _on_stdout(line)
-    logger:debug("|run._on_stdout| line:%s", vim.inspect(line))
+    logger:debug("|init._on_stdout| line:%s", vim.inspect(line))
   end
 
   local function _on_stderr(line)
-    logger:debug("|run._on_stderr| line:%s", vim.inspect(line))
+    logger:debug("|init._on_stderr| line:%s", vim.inspect(line))
   end
 
   local function _close_file(fp)
@@ -78,7 +78,7 @@ M.init = function(ctx)
 
   local function _on_exit(completed)
     -- logger:debug(
-    --   "|run._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
+    --   "|init._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
     --   vim.inspect(completed),
     --   vim.inspect(sysobj),
     --   vim.inspect(JOBS_MAP)
@@ -162,7 +162,7 @@ M.init = function(ctx)
   table.insert(opts, tmpfile)
 
   local cmds = { "ctags", unpack(opts) }
-  logger:debug("|run| cmds:%s", vim.inspect(cmds))
+  logger:debug("|init| cmds:%s", vim.inspect(cmds))
 
   system_obj = spawn.run(cmds, {
     cwd = cwd,
