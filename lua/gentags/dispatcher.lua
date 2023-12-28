@@ -77,28 +77,28 @@ end
 
 M.load = function()
   vim.schedule(function()
-    get_tool().load(get_context())
+    get_tool().load(M.get_context())
   end)
 end
 
 M.init = function()
   vim.schedule(function()
-    get_tool().init(get_context())
+    get_tool().init(M.get_context())
   end)
 end
 
 M.update = function()
   vim.schedule(function()
-    get_tool().update(get_context())
+    get_tool().update(M.get_context())
   end)
 end
 
 M.terminate = function()
-  get_tool().terminate(get_context())
+  get_tool().terminate(M.get_context())
 end
 
 M.status = function()
-  get_tool().status(get_context())
+  get_tool().status(M.get_context())
 end
 
 local gc_running = false
