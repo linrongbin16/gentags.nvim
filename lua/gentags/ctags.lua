@@ -179,16 +179,39 @@ end
 
 --- @param ctx gentags.Context
 M.update = function(ctx)
-  if ctx.mode == "singlefile" or not utils.tags_exists(ctx.workspace) then
+  return M.init(ctx)
+
+  if
+    ctx.mode == "singlefile"
+    or (ctx.mode == "workspace" and not utils.tags_exists(ctx.workspace))
+  then
+    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    logger:debug("|update| go to init")
+
     -- if working in singlefile mode, or in workspace mode but the output tags file not exist
     -- go back to generate tags for whole workspace
     M.init(ctx)
   else
+    assert(ctx.mode == "workspace")
+    assert(utils.tags_exists(ctx.workspace))
+
     -- if working in workspace and the output tags already exist, it will do two steps:
     --   1. generate tags only for current saved files, and append it to the tags file
     --   2. then re-generate the whole workspace tags again and replace the existing tags, this is for more accurate data
 
     local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    logger:debug("|update| go to append mode first")
+
+    if strings.empty(ctx.filename) then
+      return
+    end
+    if strings.empty(ctx.tags_file) then
+      return
+    end
+    if TAGS_LOCKING_MAP[ctx.tags_file] then
+      return
+    end
+
     local system_obj = nil
 
     local function _on_stdout(line)
@@ -235,29 +258,37 @@ M.update = function(ctx)
       --   )
       -- end
       TAGS_LOCKING_MAP[ctx.tags_file] = nil
+
+      -- trigger re-generate tags in write mode for whole workspace again
+      M.init(ctx)
     end
 
     local cfg = configs.get()
     local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or {})
 
-    local cwd = nil
-    if ctx.mode == "workspace" then
-      assert(strings.not_empty(ctx.workspace))
-      cwd = ctx.workspace
-      table.insert(opts, "-R")
-    else
-      assert(ctx.mode == "singlefile")
-      assert(strings.not_empty(ctx.filename))
-      table.insert(opts, "-L")
-      table.insert(opts, ctx.filename)
-    end
+    table.insert(opts, "--append=yes")
+    table.insert(opts, "-L")
+    table.insert(opts, ctx.filename)
 
     -- output tags file
     table.insert(opts, "-f")
-    table.insert(opts, tmpfile)
+    table.insert(opts, ctx.tags_file)
 
     local cmds = { "ctags", unpack(opts) }
     logger:debug("|update| cmds:%s", vim.inspect(cmds))
+
+    local cwd = ctx.workspace
+
+    -- system_obj = spawn.run(cmds, {
+    --   cwd = cwd,
+    --   on_stdout = _on_stdout,
+    --   on_stderr = _on_stderr,
+    -- }, _on_exit)
+    --
+    -- assert(system_obj ~= nil)
+    --
+    -- JOBS_MAP[system_obj.pid] = system_obj
+    -- TAGS_LOCKING_MAP[ctx.tags_file] = true
   end
 end
 
