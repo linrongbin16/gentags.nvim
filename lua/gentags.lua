@@ -26,7 +26,7 @@ M.setup = function(opts)
   )
   vim.fn.mkdir(cfg.cache_dir, "p")
 
-  -- init tags (first generate) when open/create file
+  -- init (first generate) tags when open/create a file
   vim.api.nvim_create_autocmd({
     "BufReadPre",
     "BufNewFile",
@@ -41,7 +41,7 @@ M.setup = function(opts)
     end,
   })
 
-  -- update tags when write/modify file
+  -- update tags when write a file
   vim.api.nvim_create_autocmd({
     "BufWritePost",
     "FileWritePost",
@@ -55,7 +55,7 @@ M.setup = function(opts)
     end,
   })
 
-  -- terminate before leaving vim
+  -- terminate before leaving nvim
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
     callback = function(event)
       logging.get("gentags"):debug("|setup| leave vim:%s", vim.inspect(event))
