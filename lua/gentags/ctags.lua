@@ -7,10 +7,11 @@ local configs = require("gentags.configs")
 
 local M = {}
 
---- @alias gentags.CtagsJobId integer|string
---- @alias gentags.CtagsJobInfo {system_obj:vim.SystemObj}
---- @table<gentags.CtagsJobId, vim.SystemObj>
+--- @table<integer|string, vim.SystemObj>
 local JOBS_MAP = {}
+
+--- @table<string, boolean>
+local TAGS_LOCKING_MAP = {}
 
 local function init_logging()
   if logging.get("gentags.ctags") == nil then
@@ -48,7 +49,12 @@ M.init = function(ctx)
   local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
   logger:debug("|run| ctx:%s", vim.inspect(ctx))
 
+  -- no tags name
   if strings.empty(ctx.tags) then
+    return
+  end
+  -- tags name already exist, e.g. already running ctags for this tags
+  if TAGS_LOCKING_MAP[ctx.tags] then
     return
   end
 
@@ -99,9 +105,25 @@ M.init = function(ctx)
     _close_file(fp1)
     _close_file(fp2)
 
+    if system_obj == nil then
+      logger:err(
+        "|init._on_exit| system_obj %s must not be nil!",
+        vim.inspect(system_obj)
+      )
+    end
     if system_obj ~= nil then
+      if JOBS_MAP[system_obj.pid] == nil then
+        logger:err(
+          "|init._on_exit| job id %s must exist!",
+          vim.inspect(system_obj)
+        )
+      end
       JOBS_MAP[system_obj.pid] = nil
     end
+    if TAGS_LOCKING_MAP[ctx.tags] ~= nil then
+      logger:err("|init._on_exit| tags %s must be locked!", vim.inspect(ctx))
+    end
+    TAGS_LOCKING_MAP[ctx.tags] = nil
   end
 
   local cfg = configs.get()
@@ -134,9 +156,8 @@ M.init = function(ctx)
 
   assert(system_obj ~= nil)
 
-  JOBS_MAP[system_obj.pid] = {
-    system_obj = system_obj,
-  }
+  JOBS_MAP[system_obj.pid] = system_obj
+  TAGS_LOCKING_MAP[ctx.tags] = true
 end
 
 --- @param ctx gentags.Context
@@ -147,7 +168,7 @@ M.update = function(ctx) end
 M.status = function(ctx)
   local running = tables.tbl_not_empty(JOBS_MAP)
   local jobs = 0
-  for pid, job in pairs(JOBS_MAP) do
+  for pid, system_obj in pairs(JOBS_MAP) do
     jobs = jobs + 1
   end
   return {
@@ -157,9 +178,9 @@ M.status = function(ctx)
 end
 
 M.terminate = function()
-  for job_id, job_info in pairs(JOBS_MAP) do
-    if job_info ~= nil and job_info.system_obj ~= nil then
-      job_info.system_obj:kill(9)
+  for pid, system_obj in pairs(JOBS_MAP) do
+    if system_obj ~= nil then
+      system_obj:kill(9)
     end
   end
   JOBS_MAP = {}
