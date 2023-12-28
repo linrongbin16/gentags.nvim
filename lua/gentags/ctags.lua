@@ -91,6 +91,18 @@ M.init = function(ctx)
     local fp1 = io.open(ctx.tags, "w")
     local fp2 = io.open(tmpfile, "r")
     if fp1 == nil or fp2 == nil then
+      if fp1 == nil then
+        logger:err(
+          "|init._on_exit| failed to open tags file:%s",
+          vim.inspect(ctx.tags)
+        )
+      end
+      if fp2 == nil then
+        logger:err(
+          "|init._on_exit| failed to open tmp file:%s",
+          vim.inspect(tmpfile)
+        )
+      end
       _close_file(fp1)
       _close_file(fp2)
     end
