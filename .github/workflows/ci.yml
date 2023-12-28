@@ -26,6 +26,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Install commons.nvim
+        if: ${{ github.ref != 'refs/heads/main' }}
+        shell: bash
+        run: |
+          git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
+          rm -rf ./lua/gentags/commons
+          mkdir -p ./lua/gentags/commons
+          cp -rf ~/.commons.nvim/lua/commons/*.lua ./lua/gentags/commons
+          cp ~/.commons.nvim/version.txt ./lua/gentags/commons/version.txt
+          cd ./lua/gentags/commons
+          find . -type f -name '*.lua' -exec sed -i 's/require("commons/require("gentags.commons/g' {} \;
       - name: Luacheck
         uses: lunarmodules/luacheck@v1
         with:
@@ -36,14 +47,6 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --config-path .stylua.toml ./lua ./test
-      - name: Add json.lua
-        if: ${{ github.ref != 'refs/heads/main' }}
-        shell: bash
-        run: |
-          echo "pwd"
-          echo $PWD
-          git clone --depth=1 https://github.com/actboy168/json.lua.git ~/.json.lua
-          cp ~/.json.lua/json.lua ./lua/gentags/actboy168_json.lua
       - name: Auto Commit
         if: ${{ github.ref != 'refs/heads/main' }}
         uses: stefanzweifel/git-auto-commit-action@v4
@@ -51,6 +54,8 @@ jobs:
           commit_message: "chore(pr): auto-commit"
   unit_test:
     name: Unit Test
+    needs:
+      - luacheck
     strategy:
       matrix:
         nvim_version: [stable, nightly, v0.7.0]
@@ -99,7 +104,6 @@ jobs:
     name: Release
     if: ${{ github.ref == 'refs/heads/main' }}
     needs:
-      - luacheck
       - unit_test
     runs-on: ubuntu-latest
     steps:

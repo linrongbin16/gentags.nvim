@@ -1,6 +1,6 @@
 local cwd = vim.fn.getcwd()
 
-describe("gentags", function()
+describe("gentags.ctags", function()
   local assert_eq = assert.is_equal
   local assert_true = assert.is_true
   local assert_false = assert.is_false
@@ -11,15 +11,9 @@ describe("gentags", function()
 
   local github_actions = os.getenv("GITHUB_ACTIONS") == "true"
 
-  local gentags = require("gentags")
-  describe("[setup]", function()
-    it("test", function()
-      gentags.setup({
-        debug = {
-          enable = true,
-          file_log = true,
-        },
-      })
-    end)
+  local ctags = require("gentags.ctags")
+  require("gentags").setup()
+  describe("[run]", function()
+    it("test", function() end)
   end)
 end)
