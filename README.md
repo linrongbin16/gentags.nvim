@@ -87,6 +87,14 @@ By default all tags are generated in `stdpath('cache') . '/gentags.nvim'` direct
 
 ## Configuration
 
+To configure gentags's behavior, please use:
+
+```lua
+require('gentags').setup(opts)
+```
+
+The `otps` is an optional lua table that overwrites default options.
+
 For complete options and defaults, please see [configs.lua](https://github.com/linrongbin16/gentags.nvim/tree/main/lua/gentags/configs.lua).
 
 ## Alternatives
