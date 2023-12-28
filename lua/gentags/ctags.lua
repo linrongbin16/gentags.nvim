@@ -13,6 +13,9 @@ local JOBS_MAP = {}
 --- @table<string, boolean>
 local TAGS_LOCKING_MAP = {}
 
+--- @table<string, boolean>
+local TAGS_LOADED_MAP = {}
+
 local function init_logging()
   if logging.get("gentags.ctags") == nil then
     local LogLevels = require("gentags.commons.logging").LogLevels
@@ -33,13 +36,23 @@ M.load = function(ctx)
   local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
   logger:debug("|load| ctx:%s", vim.inspect(ctx))
 
-  if strings.empty(ctx.tags) then
-    return
+  if
+    strings.not_empty(ctx.tags_file)
+    and not TAGS_LOADED_MAP[ctx.tags_file]
+    and vim.fn.filereadable(ctx.tags_file) > 0
+  then
+    logger:debug("|load| append tags_file:%s", vim.inspect(ctx.tags_file))
+    vim.opt.tags:append(ctx.tags_file)
+    TAGS_LOADED_MAP[ctx.tags_file] = true
   end
 
-  if vim.fn.filereadable(ctx.tags) > 0 then
-    logger:debug("|load| append tags:%s", vim.inspect(ctx.tags))
-    vim.opt.tags:append(ctx.tags)
+  if
+    strings.not_empty(ctx.tags_pattern)
+    and not TAGS_LOADED_MAP[ctx.tags_pattern]
+  then
+    logger:debug("|load| append tags_pattern:%s", vim.inspect(ctx.tags_pattern))
+    vim.opt.tags:append(ctx.tags_pattern)
+    TAGS_LOADED_MAP[ctx.tags_pattern] = true
   end
 end
 
@@ -50,11 +63,11 @@ M.init = function(ctx)
   logger:debug("|run| ctx:%s", vim.inspect(ctx))
 
   -- no tags name
-  if strings.empty(ctx.tags) then
+  if strings.empty(ctx.tags_file) then
     return
   end
   -- tags name already exist, e.g. already running ctags for this tags
-  if TAGS_LOCKING_MAP[ctx.tags] then
+  if TAGS_LOCKING_MAP[ctx.tags_file] then
     return
   end
 
@@ -88,13 +101,13 @@ M.init = function(ctx)
     -- )
 
     -- swap tmp file and tags file
-    local fp1 = io.open(ctx.tags, "w")
+    local fp1 = io.open(ctx.tags_file, "w")
     local fp2 = io.open(tmpfile, "r")
     if fp1 == nil or fp2 == nil then
       if fp1 == nil then
         logger:err(
           "|init._on_exit| failed to open tags file:%s",
-          vim.inspect(ctx.tags)
+          vim.inspect(ctx.tags_file)
         )
       end
       if fp2 == nil then
@@ -132,10 +145,10 @@ M.init = function(ctx)
       end
       JOBS_MAP[system_obj.pid] = nil
     end
-    if TAGS_LOCKING_MAP[ctx.tags] ~= nil then
+    if TAGS_LOCKING_MAP[ctx.tags_file] ~= nil then
       logger:err("|init._on_exit| tags %s must be locked!", vim.inspect(ctx))
     end
-    TAGS_LOCKING_MAP[ctx.tags] = nil
+    TAGS_LOCKING_MAP[ctx.tags_file] = nil
   end
 
   local cfg = configs.get()
@@ -169,11 +182,13 @@ M.init = function(ctx)
   assert(system_obj ~= nil)
 
   JOBS_MAP[system_obj.pid] = system_obj
-  TAGS_LOCKING_MAP[ctx.tags] = true
+  TAGS_LOCKING_MAP[ctx.tags_file] = true
 end
 
 --- @param ctx gentags.Context
-M.update = function(ctx) end
+M.update = function(ctx)
+  M.init(ctx)
+end
 
 --- @param ctx gentags.Context
 --- @return gentags.StatusInfo
@@ -196,6 +211,7 @@ M.terminate = function()
     end
   end
   JOBS_MAP = {}
+  TAGS_LOCKING_MAP = {}
 end
 
 return M

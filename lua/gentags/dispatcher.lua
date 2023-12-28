@@ -10,7 +10,7 @@ local M = {}
 
 -- A tool module has these APIs: load/init/update/terminate
 --
---- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags:string?,mode:"workspace"|"file"}
+--- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"file"}
 --- @alias gentags.LoadMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.InitMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.UpdateMethod fun(ctx:gentags.Context):nil
@@ -46,14 +46,20 @@ local function get_context()
   local filename = utils.get_filename()
   local filetype = utils.get_filetype()
 
-  local tags = nil
+  local tags_handle = nil
+  local tags_file = nil
+  local tags_pattern = nil
   if strings.not_empty(workspace) then
-    tags = utils.get_tags_name(workspace --[[@as string]])
+    tags_handle = utils.get_tags_handle(workspace --[[@as string]])
+    tags_file = utils.get_tags_file(tags_handle --[[@as string]])
+    tags_pattern = utils.get_tags_pattern(tags_handle --[[@as string]])
   elseif
     strings.not_empty(filename)
     and not tables.list_contains(cfg.exclude_filetypes or {}, filetype)
   then
-    tags = utils.get_tags_name(filename)
+    tags_handle = utils.get_tags_handle(filename)
+    tags_file = utils.get_tags_file(tags_handle)
+    tags_pattern = utils.get_tags_pattern(tags_handle --[[@as string]])
   end
 
   local mode = strings.not_empty(workspace) and "workspace" or "file"
@@ -62,7 +68,9 @@ local function get_context()
     workspace = workspace,
     filename = filename,
     filetype = filetype,
-    tags = tags,
+    tags_file = tags_file,
+    tags_handle = tags_handle,
+    tags_pattern = tags_pattern,
     mode = mode,
   }
 end

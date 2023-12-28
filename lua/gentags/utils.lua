@@ -67,25 +67,29 @@ end
 
 --- @param filepath string?
 --- @return string?
-M.get_tags_name = function(filepath)
+M.get_tags_handle = function(filepath)
   if strings.empty(filepath) then
     return nil
   end
   while
-    strings.not_empty(filepath) and strings.endswith(filepath, "/")
-    or strings.endswith(filepath, "\\")
+    strings.not_empty(filepath)
+      and strings.endswith(filepath --[[@as string]], "/")
+    or strings.endswith(filepath --[[@as string]], "\\")
   do
-    filepath = string.sub(filepath, 1, #filepath - 1)
+    filepath = string.sub(filepath --[[@as string]], 1, #filepath - 1)
   end
   while
-    strings.not_empty(filepath) and strings.startswith(filepath, "/")
-    or strings.startswith(filepath, "\\")
+    strings.not_empty(filepath)
+      and strings.startswith(filepath --[[@as string]], "/")
+    or strings.startswith(filepath --[[@as string]], "\\")
   do
-    filepath = string.sub(filepath, 2)
+    filepath = string.sub(filepath --[[@as string]], 2)
   end
 
-  filepath =
-    paths.normalize(filepath, { double_backslash = true, expand = true })
+  filepath = paths.normalize(
+    filepath --[[@as string]],
+    { double_backslash = true, expand = true }
+  )
   filepath = filepath:gsub("/", "%-"):gsub(" ", "%-"):gsub(":", "%-")
   while strings.startswith(filepath, "-") do
     filepath = string.sub(filepath, 2)
@@ -93,16 +97,33 @@ M.get_tags_name = function(filepath)
   while strings.endswith(filepath, "-") do
     filepath = string.sub(filepath, 1, #filepath - 1)
   end
-  filepath = filepath .. "-tags"
 
   local cache_dir = configs.get().cache_dir
   return paths.join(cache_dir, filepath)
 end
 
+--- @param tags_handle string?
+--- @return string?
+M.get_tags_file = function(tags_handle)
+  if strings.empty(tags_handle) then
+    return nil
+  end
+  return tags_handle .. "-tags"
+end
+
+--- @param tags_handle string?
+--- @return string?
+M.get_tags_pattern = function(tags_handle)
+  if strings.empty(tags_handle) then
+    return nil
+  end
+  return tags_handle .. "*tags"
+end
+
 --- @param filepath string
 --- @return boolean
 M.tags_exists = function(filepath)
-  local tags_filename = M.get_tags_name(filepath)
+  local tags_filename = M.get_tags_file(filepath)
   return vim.fn.filereadable(tags_filename) > 0
 end
 
