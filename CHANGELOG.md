@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.0...v1.1.1) (2023-12-28)
+
+
+### Bug Fixes
+
+* **singlefile:** fix single file mode ctags parameters ([#9](https://github.com/linrongbin16/gentags.nvim/issues/9)) ([d4d77a9](https://github.com/linrongbin16/gentags.nvim/commit/d4d77a93b3387e87c03b709a35e8513ccb4dcba1))
+
 ## [1.1.0](https://github.com/linrongbin16/gentags.nvim/compare/v1.0.0...v1.1.0) (2023-12-28)
 
 
