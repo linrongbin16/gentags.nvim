@@ -106,6 +106,10 @@ For complete options and defaults, please see [configs.lua](https://github.com/l
 
 ## Recommendations
 
+- [vista.vim](https://github.com/liuchengxu/vista.vim): View and search symbols on current file.
+- [cmp-nvim-tags](https://github.com/quangnguyen30192/cmp-nvim-tags): Use tags as [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)'s completion data source.
+- And more.
+
 ## Alternatives
 
 - [gentags.lua](https://github.com/JMarkin/gentags.lua)
