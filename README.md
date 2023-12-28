@@ -31,7 +31,7 @@ Tags generator/management for old school vimers in Neovim.
 
 - [ ] Workspace/single-file based.
 - [ ] Incremental generate/update on file save.
-- [ ] Disk cache management, viewer, and garbage collection.
+- [ ] Disk cache management, viewer and garbage collection.
 - [ ] Async run & terminate immediately on vim leave.
 - [ ] Real-time status for statusline.
 
