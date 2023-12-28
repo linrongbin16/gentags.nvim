@@ -14,12 +14,17 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
+To be honest, it seems that tags have become useless in Neovim today, LSP and treesitter replaced tags and make (Neo)vim a more modern editor.
+
+While there's some gap when a language's LSP server or treesitter implementations is insufficient, which happened to me actually, thus bring tags back to my mind, it's still worth as a supplement to fill the gap.
+
 ## Table of Contents
 
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Recommendations](#recommendations)
 - [Alternatives](#alternatives)
 - [Development](#development)
 - [Contribute](#contribute)
@@ -27,9 +32,9 @@ Tags generator/management for old school vimers in Neovim.
 ## Features
 
 - [x] Support both workspace/single file.
+- [x] Running in background & terminate immediately on nvim leave.
 - [ ] Incremental update on file save.
 - [ ] Disk cache management and garbage collection.
-- [x] Async run & terminate immediately on nvim leave.
 - [ ] Real-time status for Neovim components such as statusline.
 
 ## Install
@@ -98,6 +103,8 @@ require('gentags').setup(opts)
 The `otps` is an optional lua table that overwrites default options.
 
 For complete options and defaults, please see [configs.lua](https://github.com/linrongbin16/gentags.nvim/tree/main/lua/gentags/configs.lua).
+
+## Recommendations
 
 ## Alternatives
 
