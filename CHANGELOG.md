@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.1...v1.1.2) (2023-12-28)
+
+
+### Performance Improvements
+
+* **update:** incremental update tags on single file save ([#11](https://github.com/linrongbin16/gentags.nvim/issues/11)) ([194a08c](https://github.com/linrongbin16/gentags.nvim/commit/194a08cf637069b035c75ec79a60d9cfa6535a84))
+
 ## [1.1.1](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.0...v1.1.1) (2023-12-28)
 
 
