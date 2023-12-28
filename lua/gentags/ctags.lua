@@ -2,6 +2,7 @@ local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
 local tables = require("gentags.commons.tables")
 local strings = require("gentags.commons.strings")
+local paths = require("gentags.commons.paths")
 
 local configs = require("gentags.configs")
 local utils = require("gentags.utils")
@@ -82,6 +83,7 @@ M.init = function(ctx)
     --   vim.inspect(JOBS_MAP)
     -- )
 
+    -- swap tmp file and tags file
     local fp1 = io.open(ctx.tags, "w")
     local fp2 = io.open(tmpfile, "r")
     if fp1 == nil or fp2 == nil then
@@ -105,10 +107,21 @@ M.init = function(ctx)
   end
 
   local cfg = configs.get()
-  local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or { "-R" })
+  local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or {})
+
+  local cwd = nil
+  if ctx.mode == "workspace" then
+    assert(strings.not_empty(ctx.workspace))
+    cwd = ctx.workspace
+    table.insert(opts, "-R")
+  else
+    assert(ctx.mode == "file")
+    assert(strings.not_empty(ctx.filename))
+    table.insert(opts, "-L")
+    table.insert(opts, ctx.filename)
+  end
 
   -- output tags file
-  local output_tags_file = ctx.tags
   table.insert(opts, "-f")
   table.insert(opts, tmpfile)
 
@@ -116,6 +129,7 @@ M.init = function(ctx)
   logger:debug("|run| cmds:%s", vim.inspect(cmds))
 
   system_obj = spawn.run(cmds, {
+    cwd = cwd,
     on_stdout = _on_stdout,
     on_stderr = _on_stderr,
   }, _on_exit)
