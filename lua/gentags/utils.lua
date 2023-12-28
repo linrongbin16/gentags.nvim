@@ -83,6 +83,9 @@ M.get_output_tags_filename = function(filepath)
   while strings.startswith(filepath, "-") do
     filepath = string.sub(filepath, 2)
   end
+  while strings.endswith(filepath, "-") do
+    filepath = string.sub(filepath, 1, #filepath - 1)
+  end
   filepath = filepath .. "-tags"
 
   local cache_dir = configs.get().cache_dir
