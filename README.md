@@ -40,14 +40,12 @@ While there's some gap when a language's LSP server or treesitter implementation
 
 ## Requirements
 
-## Install
-
-Requirements:
-
 - Neovim &ge; 0.7.0.
 - [universal-ctags](https://github.com/universal-ctags/ctags) (default backend).
 
 PRs are welcome to add other backends.
+
+## Install
 
 <details>
 <summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
