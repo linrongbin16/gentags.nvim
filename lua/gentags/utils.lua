@@ -120,9 +120,12 @@ M.get_tags_pattern = function(tags_handle)
   return tags_handle .. "*tags"
 end
 
---- @param filepath string
+--- @param filepath string?
 --- @return boolean
 M.tags_exists = function(filepath)
+  if strings.empty(filepath) then
+    return false
+  end
   local tags_filename = M.get_tags_file(filepath)
   return vim.fn.filereadable(tags_filename) > 0
 end
