@@ -30,15 +30,6 @@ M.load = function(ctx)
     vim.opt.tags:append(ctx.tags_file)
     TAGS_LOADED_MAP[ctx.tags_file] = true
   end
-
-  if
-    strings.not_empty(ctx.tags_pattern)
-    and not TAGS_LOADED_MAP[ctx.tags_pattern]
-  then
-    logger:debug("|load| append tags_pattern:%s", vim.inspect(ctx.tags_pattern))
-    vim.opt.tags:append(ctx.tags_pattern)
-    TAGS_LOADED_MAP[ctx.tags_pattern] = true
-  end
 end
 
 --- @param ctx gentags.Context

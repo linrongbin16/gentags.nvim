@@ -111,13 +111,4 @@ M.get_tags_file = function(tags_handle)
   return tags_handle .. "-tags"
 end
 
---- @param tags_handle string?
---- @return string?
-M.get_tags_pattern = function(tags_handle)
-  if strings.empty(tags_handle) then
-    return nil
-  end
-  return tags_handle .. "*tags"
-end
-
 return M
