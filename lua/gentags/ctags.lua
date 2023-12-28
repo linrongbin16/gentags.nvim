@@ -27,7 +27,8 @@ local function init_logging()
 end
 
 M.load = function()
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  init_logging()
+  local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
 
   local workspace = utils.get_workspace()
   logger:debug("|load| workspace:%s", vim.inspect(workspace))
@@ -49,7 +50,8 @@ M.update = function() end
 
 M.run = function()
   vim.schedule_wrap(function()
-    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    init_logging()
+    local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
 
     local workspace = utils.get_workspace()
     local filename = utils.get_filename()
