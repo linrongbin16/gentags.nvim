@@ -9,7 +9,7 @@ local utils = require("gentags.utils")
 local M = {}
 
 --- @alias gentags.CtagsJobId integer|string
---- @alias gentags.CtagsJobInfo {system_obj:vim.SystemObj,tmptags:string?,append:boolean}
+--- @alias gentags.CtagsJobInfo {system_obj:vim.SystemObj}
 --- @table<gentags.CtagsJobId, vim.SystemObj>
 local JOBS_MAP = {}
 
@@ -58,7 +58,7 @@ M.init = function(ctx)
     return
   end
 
-  local sysobj = nil
+  local system_obj = nil
 
   local function _on_stdout(line)
     logger:debug("|run._on_stdout| line:%s", vim.inspect(line))
@@ -99,8 +99,8 @@ M.init = function(ctx)
     _close_file(fp1)
     _close_file(fp2)
 
-    if sysobj ~= nil then
-      JOBS_MAP[sysobj.pid] = nil
+    if system_obj ~= nil then
+      JOBS_MAP[system_obj.pid] = nil
     end
   end
 
@@ -115,13 +115,15 @@ M.init = function(ctx)
   local cmds = { "ctags", unpack(opts) }
   logger:debug("|run| cmds:%s", vim.inspect(cmds))
 
-  sysobj = spawn.run(cmds, {
+  system_obj = spawn.run(cmds, {
     on_stdout = _on_stdout,
     on_stderr = _on_stderr,
   }, _on_exit)
-  assert(sysobj ~= nil)
-  JOBS_MAP[sysobj.pid] = {
-    system_obj = sysobj,
+
+  assert(system_obj ~= nil)
+
+  JOBS_MAP[system_obj.pid] = {
+    system_obj = system_obj,
   }
 end
 
@@ -143,9 +145,9 @@ M.status = function(ctx)
 end
 
 M.terminate = function()
-  for pid, sysobj in pairs(JOBS_MAP) do
-    if sysobj ~= nil then
-      sysobj:kill(9)
+  for job_id, job_info in pairs(JOBS_MAP) do
+    if job_info ~= nil and job_info.system_obj ~= nil then
+      job_info.system_obj:kill(9)
     end
   end
   JOBS_MAP = {}
