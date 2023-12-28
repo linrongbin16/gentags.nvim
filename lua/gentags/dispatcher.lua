@@ -36,7 +36,7 @@ local function get_tool()
 end
 
 --- @return gentags.Context
-local function get_context()
+M.get_context = function()
   local cfg = configs.get()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
