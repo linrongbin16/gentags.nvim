@@ -8,8 +8,8 @@ local utils = require("gentags.utils")
 
 local M = {}
 
---- @alias gentags.pid integer|string
---- @table<gentags.pid, vim.SystemObj>
+--- @alias gentags.CtagsJobId integer|string
+--- @table<gentags.CtagsJobId, vim.SystemObj>
 local JOBS_MAP = {}
 
 M.load = function()
