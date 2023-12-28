@@ -38,9 +38,9 @@ Requirements:
 
 - Neovim &ge; 0.7.0.
 
-For now the required (or supported) backends are:
+For now the supported backends are:
 
-- [universal-ctags](https://github.com/universal-ctags/ctags).
+- (Default) [universal-ctags](https://github.com/universal-ctags/ctags).
 
 PRs are welcome to add other backends.
 
