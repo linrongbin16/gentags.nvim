@@ -23,7 +23,7 @@ Tags generator/management for old school vimers in Neovim.
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
-- [Credits](#credits)
+- [Alternatives](#alternatives)
 - [Development](#development)
 - [Contribute](#contribute)
 
@@ -49,7 +49,9 @@ Requirements:
 require("lazy").setup({
   {
     "linrongbin16/gentags.nvim",
-    opts = {},
+    config = function()
+      require('gentags').setup()
+    end,
   },
 })
 ```
@@ -73,6 +75,11 @@ require("pckr").add({
 </details>
 
 ## Usage
+
+## Alternatives
+
+- [gentags.lua](https://github.com/JMarkin/gentags.lua)
+- [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
 
 ## Development
 
