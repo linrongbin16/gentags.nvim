@@ -7,7 +7,6 @@ local M = {}
 --- @param opts gentags.Options?
 M.setup = function(opts)
   local cfg = configs.setup(opts)
-  -- print(vim.inspect(cfg))
 
   logging.setup({
     name = "gentags",
