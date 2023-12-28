@@ -14,12 +14,17 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
+To be honest, it seems that tags have become useless in Neovim today, LSP and treesitter replaced tags and make (Neo)vim a more modern editor.
+
+While there's some gap when a language's LSP server or treesitter implementations is insufficient, which happened to me actually, thus bring tags back to my mind, it's still worth as a supplement to fill the gap.
+
 ## Table of Contents
 
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
 - [Configuration](#configuration)
+- [Recommendations](#recommendations)
 - [Alternatives](#alternatives)
 - [Development](#development)
 - [Contribute](#contribute)
@@ -27,9 +32,9 @@ Tags generator/management for old school vimers in Neovim.
 ## Features
 
 - [x] Support both workspace/single file.
-- [ ] Incremental update on file save.
+- [x] Running in background & terminate immediately on nvim leave.
+- [x] Incremental update on file save.
 - [ ] Disk cache management and garbage collection.
-- [x] Async run & terminate immediately on nvim leave.
 - [ ] Real-time status for Neovim components such as statusline.
 
 ## Install
@@ -99,10 +104,17 @@ The `otps` is an optional lua table that overwrites default options.
 
 For complete options and defaults, please see [configs.lua](https://github.com/linrongbin16/gentags.nvim/tree/main/lua/gentags/configs.lua).
 
+## Recommendations
+
+Recommend use tags with below plugins to smooth your editing flow:
+
+- [vista.vim](https://github.com/liuchengxu/vista.vim): View and search symbols on current file.
+- [cmp-nvim-tags](https://github.com/quangnguyen30192/cmp-nvim-tags): Use tags as [nvim-cmp](https://github.com/hrsh7th/nvim-cmp)'s completion data source.
+
 ## Alternatives
 
-- [gentags.lua](https://github.com/JMarkin/gentags.lua)
-- [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags)
+- [gentags.lua](https://github.com/JMarkin/gentags.lua): Auto generates tags by filetype.
+- [vim-gutentags](https://github.com/ludovicchabant/vim-gutentags): A Vim plugin that manages your tag files.
 
 ## Development
 
