@@ -2,6 +2,7 @@ local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
 local tables = require("gentags.commons.tables")
 local strings = require("gentags.commons.strings")
+local utils = require("gentags.utils")
 
 local configs = require("gentags.configs")
 
@@ -44,7 +45,7 @@ end
 --- @param ctx gentags.Context
 M.init = function(ctx)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
-  logger:debug("|run| ctx:%s", vim.inspect(ctx))
+  logger:debug("|init| ctx:%s", vim.inspect(ctx))
 
   -- no tags name
   if strings.empty(ctx.tags_file) then
@@ -63,11 +64,11 @@ M.init = function(ctx)
   local system_obj = nil
 
   local function _on_stdout(line)
-    logger:debug("|run._on_stdout| line:%s", vim.inspect(line))
+    logger:debug("|init._on_stdout| line:%s", vim.inspect(line))
   end
 
   local function _on_stderr(line)
-    logger:debug("|run._on_stderr| line:%s", vim.inspect(line))
+    logger:debug("|init._on_stderr| line:%s", vim.inspect(line))
   end
 
   local function _close_file(fp)
@@ -78,7 +79,7 @@ M.init = function(ctx)
 
   local function _on_exit(completed)
     -- logger:debug(
-    --   "|run._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
+    --   "|init._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
     --   vim.inspect(completed),
     --   vim.inspect(sysobj),
     --   vim.inspect(JOBS_MAP)
@@ -151,7 +152,7 @@ M.init = function(ctx)
     cwd = ctx.workspace
     table.insert(opts, "-R")
   else
-    assert(ctx.mode == "file")
+    assert(ctx.mode == "singlefile")
     assert(strings.not_empty(ctx.filename))
     table.insert(opts, "-L")
     table.insert(opts, ctx.filename)
@@ -162,7 +163,7 @@ M.init = function(ctx)
   table.insert(opts, tmpfile)
 
   local cmds = { "ctags", unpack(opts) }
-  logger:debug("|run| cmds:%s", vim.inspect(cmds))
+  logger:debug("|init| cmds:%s", vim.inspect(cmds))
 
   system_obj = spawn.run(cmds, {
     cwd = cwd,
@@ -178,7 +179,86 @@ end
 
 --- @param ctx gentags.Context
 M.update = function(ctx)
-  M.init(ctx)
+  if ctx.mode == "singlefile" or not utils.tags_exists(ctx.workspace) then
+    -- if working in singlefile mode, or in workspace mode but the output tags file not exist
+    -- go back to generate tags for whole workspace
+    M.init(ctx)
+  else
+    -- if working in workspace and the output tags already exist, it will do two steps:
+    --   1. generate tags only for current saved files, and append it to the tags file
+    --   2. then re-generate the whole workspace tags again and replace the existing tags, this is for more accurate data
+
+    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    local system_obj = nil
+
+    local function _on_stdout(line)
+      logger:debug("|update._on_stdout| line:%s", vim.inspect(line))
+    end
+
+    local function _on_stderr(line)
+      logger:debug("|update._on_stderr| line:%s", vim.inspect(line))
+    end
+
+    local function _close_file(fp)
+      if fp then
+        fp:close()
+      end
+    end
+
+    local function _on_exit(completed)
+      -- logger:debug(
+      --   "|update._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
+      --   vim.inspect(completed),
+      --   vim.inspect(sysobj),
+      --   vim.inspect(JOBS_MAP)
+      -- )
+
+      if system_obj == nil then
+        logger:err(
+          "|update._on_exit| system_obj %s must not be nil!",
+          vim.inspect(system_obj)
+        )
+      end
+      if system_obj ~= nil then
+        if JOBS_MAP[system_obj.pid] == nil then
+          logger:debug(
+            "|update._on_exit| debug-error! job id %s must exist!",
+            vim.inspect(system_obj)
+          )
+        end
+        JOBS_MAP[system_obj.pid] = nil
+      end
+      if TAGS_LOCKING_MAP[ctx.tags_file] == nil then
+        logger:debug(
+          "|update._on_exit| debug-error! tags %s must be locked!",
+          vim.inspect(ctx)
+        )
+      end
+      TAGS_LOCKING_MAP[ctx.tags_file] = nil
+    end
+
+    local cfg = configs.get()
+    local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or {})
+
+    local cwd = nil
+    if ctx.mode == "workspace" then
+      assert(strings.not_empty(ctx.workspace))
+      cwd = ctx.workspace
+      table.insert(opts, "-R")
+    else
+      assert(ctx.mode == "singlefile")
+      assert(strings.not_empty(ctx.filename))
+      table.insert(opts, "-L")
+      table.insert(opts, ctx.filename)
+    end
+
+    -- output tags file
+    table.insert(opts, "-f")
+    table.insert(opts, tmpfile)
+
+    local cmds = { "ctags", unpack(opts) }
+    logger:debug("|update| cmds:%s", vim.inspect(cmds))
+  end
 end
 
 --- @param ctx gentags.Context

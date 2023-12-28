@@ -10,7 +10,7 @@ local M = {}
 
 -- A tool module has these APIs: load/init/update/terminate
 --
---- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"file"}
+--- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"singlefile"}
 --- @alias gentags.LoadMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.InitMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.UpdateMethod fun(ctx:gentags.Context):nil
@@ -62,14 +62,25 @@ local function get_context()
     tags_pattern = utils.get_tags_pattern(tags_handle --[[@as string]])
   end
 
-  local mode = strings.not_empty(workspace) and "workspace" or "file"
+  local mode = strings.not_empty(workspace) and "workspace" or "singlefile"
 
   return {
     workspace = workspace,
     filename = filename,
     filetype = filetype,
+    -- tags file is the output tags file name, for example:
+    -- 'Users-linrongbin-github-linrongbin16-gentags.nvim-tags'
+    -- the file name is created by workspace/singlefile path (replace '/', ':', ' ' to '-')
+    -- with suffix '-tags'
     tags_file = tags_file,
+    -- tags file is the output tags file name, without the suffix '-tags', for example:
+    -- 'Users-linrongbin-github-linrongbin16-gentags.nvim'
+    -- this is like a unique ID of a tags, so call it 'handle'
     tags_handle = tags_handle,
+    -- the pattern to let nvim find all other tags file under the workspace, for example
+    -- 'Users-linrongbin-github-linrongbin16-gentags.nvim*tags'
+    -- so all other tags files can be find
+    -- this could be useless, maybe I will remove it later.
     tags_pattern = tags_pattern,
     mode = mode,
   }
