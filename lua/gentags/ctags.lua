@@ -9,6 +9,7 @@ local utils = require("gentags.utils")
 local M = {}
 
 --- @alias gentags.CtagsJobId integer|string
+--- @alias gentags.CtagsJobInfo {system_obj:vim.SystemObj,tmptags:string?,append:boolean}
 --- @table<gentags.CtagsJobId, vim.SystemObj>
 local JOBS_MAP = {}
 
@@ -48,7 +49,12 @@ M.init = function(ctx)
   local logger = logging.get("gentags.ctags") --[[@as commons.logging.Logger]]
   logger:debug("|run| ctx:%s", vim.inspect(ctx))
 
-  if strings.empty(ctx.workspace) then
+  if strings.empty(ctx.tags) then
+    return
+  end
+
+  local tmpfile = vim.fn.tempname() --[[@as string]]
+  if strings.empty(tmpfile) then
     return
   end
 
@@ -62,6 +68,12 @@ M.init = function(ctx)
     logger:debug("|run._on_stderr| line:%s", vim.inspect(line))
   end
 
+  local function _close_file(fp)
+    if fp then
+      fp:close()
+    end
+  end
+
   local function _on_exit(completed)
     -- logger:debug(
     --   "|run._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
@@ -69,6 +81,24 @@ M.init = function(ctx)
     --   vim.inspect(sysobj),
     --   vim.inspect(JOBS_MAP)
     -- )
+
+    local fp1 = io.open(ctx.tags, "w")
+    local fp2 = io.open(tmpfile, "r")
+    if fp1 == nil or fp2 == nil then
+      _close_file(fp1)
+      _close_file(fp2)
+    end
+
+    ---@diagnostic disable-next-line: need-check-nil
+    local content = fp2:read("*a")
+    if content then
+      ---@diagnostic disable-next-line: need-check-nil
+      fp1:write(content)
+    end
+
+    _close_file(fp1)
+    _close_file(fp2)
+
     if sysobj ~= nil then
       JOBS_MAP[sysobj.pid] = nil
     end
@@ -78,9 +108,9 @@ M.init = function(ctx)
   local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or { "-R" })
 
   -- output tags file
-  local output_tags_file = ctx.tags or utils.get_tags_name(ctx.filename)
+  local output_tags_file = ctx.tags
   table.insert(opts, "-f")
-  table.insert(opts, output_tags_file)
+  table.insert(opts, tmpfile)
 
   local cmds = { "ctags", unpack(opts) }
   logger:debug("|run| cmds:%s", vim.inspect(cmds))
@@ -90,7 +120,9 @@ M.init = function(ctx)
     on_stderr = _on_stderr,
   }, _on_exit)
   assert(sysobj ~= nil)
-  JOBS_MAP[sysobj.pid] = sysobj
+  JOBS_MAP[sysobj.pid] = {
+    system_obj = sysobj,
+  }
 end
 
 --- @param ctx gentags.Context
