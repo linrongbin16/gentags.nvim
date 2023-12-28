@@ -87,7 +87,7 @@ By default all tags are generated in `stdpath('cache') . '/gentags.nvim'` direct
 
 ## Configuration
 
-To configure gentags's behavior, please use:
+To configure default options, please use:
 
 ```lua
 require('gentags').setup(opts)
