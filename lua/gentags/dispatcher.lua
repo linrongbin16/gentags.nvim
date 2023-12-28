@@ -1,6 +1,5 @@
 local logging = require("gentags.commons.logging")
 local strings = require("gentags.commons.strings")
-local paths = require("gentags.commons.paths")
 local tables = require("gentags.commons.tables")
 
 local configs = require("gentags.configs")
@@ -10,7 +9,7 @@ local M = {}
 
 -- A tool module has these APIs: load/init/update/terminate
 --
---- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"singlefile"}
+--- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,tags_pattern:string?,mode:"workspace"|"singlefile",updated_file_tags_file:string?,updated_file_tags_handle:string?}
 --- @alias gentags.LoadMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.InitMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.UpdateMethod fun(ctx:gentags.Context):nil
@@ -64,25 +63,47 @@ local function get_context()
 
   local mode = strings.not_empty(workspace) and "workspace" or "singlefile"
 
+  local updated_file_tags_handle = nil
+  local updated_file_tags_file = nil
+  if
+    strings.not_empty(filename)
+    and not tables.list_contains(cfg.exclude_filetypes or {}, filetype)
+  then
+    updated_file_tags_handle = utils.get_tags_handle(filename)
+    updated_file_tags_file = utils.get_tags_file(updated_file_tags_handle)
+  end
+
   return {
     workspace = workspace,
     filename = filename,
     filetype = filetype,
+
     -- tags file is the output tags file name, for example:
     -- 'Users-linrongbin-github-linrongbin16-gentags.nvim-tags'
     -- the file name is created by workspace/singlefile path (replace '/', ':', ' ' to '-')
     -- with suffix '-tags'
     tags_file = tags_file,
+
     -- tags file is the output tags file name, without the suffix '-tags', for example:
     -- 'Users-linrongbin-github-linrongbin16-gentags.nvim'
     -- this is like a unique ID of a tags, so call it 'handle'
     tags_handle = tags_handle,
+
     -- the pattern to let nvim find all other tags file under the workspace, for example
     -- 'Users-linrongbin-github-linrongbin16-gentags.nvim*tags'
     -- so all other tags files can be find
     -- this could be useless, maybe I will remove it later.
     tags_pattern = tags_pattern,
+
     mode = mode,
+
+    -- when save a file, it's the updated file.
+    -- ctags will generate tags in append mode, instead of write mode, e.g. directly replace the existing tags.
+    -- this is more for performance aspect, because generate tags only for a single file is much more cheap than for all files in the whole workspace.
+    -- the `tags_file`/`tags_handle` is either for the workspace (when there is) or the single file.
+    -- but `updated_file_tags_file`/`updated_file_tags_handle` is always for the current file you have just saved.
+    updated_file_tags_file = updated_file_tags_file,
+    updated_file_tags_handle = updated_file_tags_handle,
   }
 end
 
