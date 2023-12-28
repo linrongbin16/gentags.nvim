@@ -12,6 +12,20 @@ local M = {}
 --- @table<gentags.CtagsJobId, vim.SystemObj>
 local JOBS_MAP = {}
 
+local function init_logging()
+  if logging.get("gentags.ctags") == nil then
+    local LogLevels = require("gentags.commons.logging").LogLevels
+    local cfg = configs.get()
+    logging.setup({
+      name = "gentags.ctags",
+      level = cfg.debug.enable and LogLevels.DEBUG or LogLevels.INFO,
+      console_log = cfg.debug.console_log,
+      file_log = cfg.debug.file_log,
+      file_log_name = "gentags.log",
+    })
+  end
+end
+
 M.load = function()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
