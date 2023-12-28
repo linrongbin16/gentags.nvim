@@ -23,6 +23,7 @@ Tags generator/management for old school vimers in Neovim.
 - [Features](#features)
 - [Install](#install)
 - [Usage](#usage)
+- [Configuration](#configuration)
 - [Alternatives](#alternatives)
 - [Development](#development)
 - [Contribute](#contribute)
@@ -75,6 +76,10 @@ require("pckr").add({
 </details>
 
 ## Usage
+
+## Configuration
+
+For complete options and defaults, please see [configs.lua](https://github.com/linrongbin16/gentags.nvim/tree/main/lua/gentags/configs.lua).
 
 ## Alternatives
 
