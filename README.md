@@ -29,7 +29,7 @@ Tags generator/management for old school vimers in Neovim.
 - [x] Support both workspace/single file.
 - [ ] Incremental update on file save.
 - [ ] Disk cache management and garbage collection.
-- [x] Async run & terminate immediately on vim leave.
+- [x] Async run & terminate immediately on nvim leave.
 - [ ] Real-time status for Neovim components such as statusline.
 
 ## Install
@@ -37,7 +37,12 @@ Tags generator/management for old school vimers in Neovim.
 Requirements:
 
 - Neovim &ge; 0.7.0.
-- (Default backend) [universal-ctags](https://github.com/universal-ctags/ctags).
+
+For now the required (or supported) backends are:
+
+- [universal-ctags](https://github.com/universal-ctags/ctags).
+
+PRs are welcome to add other backends.
 
 <details>
 <summary><b>With <a href="https://github.com/folke/lazy.nvim">lazy.nvim</a></b></summary>
@@ -72,6 +77,13 @@ require("pckr").add({
 </details>
 
 ## Usage
+
+Gentags will automatically generate tags in backend when you open a new file or save writtens, and terminate all background jobs when you leave nvim.
+
+By default all tags are generated in `stdpath('cache') . '/gentags.nvim'` directory.
+
+- For UNIX/Linux, it's: `~/.cache/nvim/gentags.nvim`.
+- For Windows, it's: `$env:USERPROFILE\.cache\nvim\gentags.nvim`.
 
 ## Configuration
 
