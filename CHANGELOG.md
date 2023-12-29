@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.3](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.2...v1.1.3) (2023-12-29)
+
+
+### Bug Fixes
+
+* **cwd:** fix current working directory for single file ([#16](https://github.com/linrongbin16/gentags.nvim/issues/16)) ([fe58416](https://github.com/linrongbin16/gentags.nvim/commit/fe58416a90dbeb9457b0fdd94e4059446c000d5a))
+
+
+### Performance Improvements
+
+* **test:** improve test cases ([#16](https://github.com/linrongbin16/gentags.nvim/issues/16)) ([fe58416](https://github.com/linrongbin16/gentags.nvim/commit/fe58416a90dbeb9457b0fdd94e4059446c000d5a))
+
 ## [1.1.2](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.1...v1.1.2) (2023-12-28)
 
 
