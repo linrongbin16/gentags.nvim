@@ -32,7 +32,7 @@ While there's some gap when a language's LSP server or treesitter implementation
 
 ## Features
 
-- [x] Support both workspace/single file.
+- [x] Automatically generate tags for both workspace/single file.
 - [x] Running in background & terminate immediately on nvim leave.
 - [x] Incremental update on file save.
 - [ ] Disk cache management and garbage collection.
