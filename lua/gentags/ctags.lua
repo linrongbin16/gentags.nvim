@@ -78,7 +78,7 @@ M._dump_file = function(src, dst)
 end
 
 --- @param ctx gentags.Context
---- @param on_exit (fun(ctx):nil)|nil
+--- @param on_exit (fun():nil)|nil
 M._write = function(ctx, on_exit)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|_write| ctx:%s", vim.inspect(ctx))
@@ -151,7 +151,7 @@ M._write = function(ctx, on_exit)
     TAGS_LOCKING_MAP[ctx.tags_file] = nil
 
     if type(on_exit) == "function" then
-      on_exit(ctx)
+      on_exit()
     end
   end
 
@@ -191,7 +191,7 @@ M._write = function(ctx, on_exit)
 end
 
 --- @param ctx gentags.Context
---- @param on_exit (fun(ctx):nil)|nil
+--- @param on_exit (fun():nil)|nil
 M._append = function(ctx, on_exit)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|_append| ctx:%s", vim.inspect(ctx))
@@ -236,7 +236,7 @@ M._append = function(ctx, on_exit)
     TAGS_LOCKING_MAP[ctx.tags_file] = nil
 
     if type(on_exit) == "function" then
-      on_exit(ctx)
+      on_exit()
     end
   end
 
