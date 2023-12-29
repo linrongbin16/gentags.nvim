@@ -41,7 +41,9 @@ describe("gentags.ctags", function()
     end)
     it("_dump_file", function()
       ctags._dump_file("README.md", "test.txt")
-      vim.cmd([[!rm test.txt]])
+      if vim.fn.filereadable("test.txt") > 0 then
+        vim.cmd([[!rm test.txt]])
+      end
     end)
   end)
 end)
