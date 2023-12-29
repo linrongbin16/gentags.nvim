@@ -88,7 +88,7 @@ Gentags will register several background jobs when you editing files:
 - Update tags on file save.
 - Terminate background jobs on nvim leave.
 
-By default all tags are generated in `stdpath('cache') . '/gentags.nvim'` directory.
+By default all tags are generated in `stdpath('cache') . '/gentags.nvim'` directory:
 
 - For UNIX/Linux: `~/.cache/nvim/gentags.nvim`.
 - For Windows: `$env:USERPROFILE\AppData\Local\Temp\nvim\gentags.nvim`.
