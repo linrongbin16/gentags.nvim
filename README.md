@@ -81,12 +81,12 @@ require("pckr").add({
 
 ## Usage
 
-Gentags will automatically run below jobs in backend when you work in the nvim editor:
+Gentags will register several background jobs when you editing files:
 
-- Load a tags for the whole worksapce or the single file on first open a file.
-- Generate tags for the whole worksapce or the single file on first open a file.
-- Update tags after you save writtens on a file.
-- Terminate all background child processes when you leave nvim.
+- Locate the workspace root directory, or fallback to single file mode.
+- Generate and load tags on first file open.
+- Update tags on file save.
+- Terminate background jobs on nvim leave.
 
 By default all tags are generated in `stdpath('cache') . '/gentags.nvim'` directory.
 
