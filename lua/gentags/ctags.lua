@@ -107,12 +107,6 @@ M._write = function(ctx, on_exit)
     logger:debug("|_write._on_stderr| line:%s", vim.inspect(line))
   end
 
-  local function _close_file(fp)
-    if fp then
-      fp:close()
-    end
-  end
-
   local function _on_exit(completed)
     -- logger:debug(
     --   "|_write._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
