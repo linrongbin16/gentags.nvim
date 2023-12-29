@@ -7,26 +7,61 @@ describe("gentags.ctags", function()
 
   before_each(function()
     vim.api.nvim_command("cd " .. cwd)
+    vim.opt.swapfile = false
+    vim.cmd([[edit README.md]])
   end)
 
   local github_actions = os.getenv("GITHUB_ACTIONS") == "true"
 
   local ctags = require("gentags.ctags")
   local dispatcher = require("gentags.dispatcher")
-  require("gentags").setup()
+  require("gentags").setup({
+    debug = {
+      enable = true,
+      file_log = true,
+    },
+  })
   describe("[load]", function()
     it("test", function()
       local ok, err = pcall(ctags.load, dispatcher.get_context())
     end)
   end)
   describe("[_write]", function()
-    it("test", function()
-      local ok, err = pcall(ctags._write, dispatcher.get_context())
+    it("workspace", function()
+      local ok, result = pcall(ctags._write, dispatcher.get_context())
+      print(
+        string.format(
+          "_write-workspace ok:%s, result:%s\n",
+          vim.inspect(ok),
+          vim.inspect(result)
+        )
+      )
+      if ok then
+        assert_eq(type(result), "table")
+        assert_eq(type(result.cmds), "table")
+        assert_eq(type(result.system_obj), "table")
+      end
+    end)
+    it("singlefile", function()
+      vim.cmd([[edit $HOME/test.txt]])
+      local ok, result = pcall(ctags._write, dispatcher.get_context())
+      print(
+        string.format(
+          "_write-singlefile ok:%s, result:%s\n",
+          vim.inspect(ok),
+          vim.inspect(result)
+        )
+      )
+      if ok then
+        assert_eq(type(result), "table")
+        assert_eq(type(result.cmds), "table")
+        assert_eq(type(result.system_obj), "table")
+      end
     end)
   end)
   describe("[_append]", function()
     it("test", function()
-      local ok, err = pcall(ctags._append, dispatcher.get_context())
+      local ok, result_or_err = pcall(ctags._append, dispatcher.get_context())
     end)
   end)
   describe("[init]", function()

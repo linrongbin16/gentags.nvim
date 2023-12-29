@@ -79,22 +79,23 @@ end
 
 --- @param ctx gentags.Context
 --- @param on_exit (fun():nil)|nil
+--- @return table?
 M._write = function(ctx, on_exit)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|_write| ctx:%s", vim.inspect(ctx))
 
   -- no tags name
   if strings.empty(ctx.tags_file) then
-    return
+    return nil
   end
   -- tags name already exist, e.g. already running ctags for this tags
   if TAGS_LOCKING_MAP[ctx.tags_file] then
-    return
+    return nil
   end
 
   local tmpfile = vim.fn.tempname() --[[@as string]]
   if strings.empty(tmpfile) then
-    return
+    return nil
   end
 
   local system_obj = nil
@@ -182,22 +183,25 @@ M._write = function(ctx, on_exit)
 
   JOBS_MAP[system_obj.pid] = system_obj
   TAGS_LOCKING_MAP[ctx.tags_file] = true
+
+  return { cmds = cmds, system_obj = system_obj }
 end
 
 --- @param ctx gentags.Context
 --- @param on_exit (fun():nil)|nil
+--- @return table?
 M._append = function(ctx, on_exit)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|_append| ctx:%s", vim.inspect(ctx))
 
   if strings.empty(ctx.filename) then
-    return
+    return nil
   end
   if strings.empty(ctx.tags_file) then
-    return
+    return nil
   end
   if TAGS_LOCKING_MAP[ctx.tags_file] then
-    return
+    return nil
   end
 
   local system_obj = nil
@@ -259,6 +263,8 @@ M._append = function(ctx, on_exit)
 
   JOBS_MAP[system_obj.pid] = system_obj
   TAGS_LOCKING_MAP[ctx.tags_file] = true
+
+  return { cmds = cmds, system_obj = system_obj }
 end
 
 M.init = function(ctx)

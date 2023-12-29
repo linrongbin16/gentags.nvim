@@ -40,11 +40,24 @@ M.get_context = function()
   local cfg = configs.get()
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
 
-  local workspace = utils.get_workspace()
-  logger:debug("|get_context| workspace:%s", vim.inspect(workspace))
-
   local filename = utils.get_filename()
   local filetype = utils.get_filetype()
+
+  local filedir = nil
+  if
+    strings.not_empty(filename)
+    and not tables.list_contains(cfg.exclude_filetypes or {}, filetype)
+  then
+    filedir = paths.parent(filename)
+  end
+  local workspace = utils.get_workspace(filedir)
+
+  logger:debug(
+    "|get_context| filename:%s, filetype:%s, workspace:%s",
+    vim.inspect(filename),
+    vim.inspect(filetype),
+    vim.inspect(workspace)
+  )
 
   local tags_handle = nil
   local tags_file = nil
