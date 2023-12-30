@@ -98,6 +98,9 @@ Recommend use tags with below plugins to smooth your editing flow:
 
 - [vista.vim](https://github.com/liuchengxu/vista.vim): View and search symbols on current file.
 - [cmp-nvim-tags](https://github.com/quangnguyen30192/cmp-nvim-tags): Code completion data source for [nvim-cmp](https://github.com/hrsh7th/nvim-cmp).
+- [fzf.vim](https://github.com/junegunn/fzf.vim?tab=readme-ov-file#commands): The `Tags` and `BTags` commands in the fzf.vim fuzzy finder.
+- [fzf-lua](https://github.com/ibhagwan/fzf-lua?tab=readme-ov-file#tags): The `tags`, `btags` and other commands in the fzf-lua fuzzy finder.
+- [telescope.nvim](https://github.com/nvim-telescope/telescope.nvim?tab=readme-ov-file#vim-pickers): The `builtin.tags` vim picker in the telescope fuzzy finder.
 
 ## Alternatives
 
