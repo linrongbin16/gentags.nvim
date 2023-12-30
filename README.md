@@ -82,7 +82,7 @@ require("pckr").add({
 
 ## Configuration
 
-To configure default options, please use:
+To overwrite default options, please use:
 
 ```lua
 require('gentags').setup(opts)
