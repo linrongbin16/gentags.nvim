@@ -126,7 +126,7 @@ M._write = function(ctx, on_exit)
     local rename_result, rename_err = uv.fs_rename(tmpfile, ctx.tags_file)
     if rename_result == nil then
       logger:warn(
-        "failed to complete tags to %s, error: %s",
+        "failed to save tags on %s, error: %s",
         vim.inspect(ctx.tags_file),
         vim.inspect(rename_err)
       )
