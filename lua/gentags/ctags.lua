@@ -2,7 +2,7 @@ local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
 local tables = require("gentags.commons.tables")
 local strings = require("gentags.commons.strings")
-local uv = require("gentags.commoms.uv")
+local uv = require("gentags.commons.uv")
 
 local configs = require("gentags.configs")
 
