@@ -116,7 +116,9 @@ M._write = function(ctx, on_exit)
     TAGS_LOCKING_MAP[ctx.tags_file] = nil
 
     if type(on_exit) == "function" then
-      on_exit()
+      vim.schedule(function()
+        on_exit()
+      end)
     end
   end
 
@@ -204,7 +206,9 @@ M._append = function(ctx, on_exit)
     TAGS_LOCKING_MAP[ctx.tags_file] = nil
 
     if type(on_exit) == "function" then
-      on_exit()
+      vim.schedule(function()
+        on_exit()
+      end)
     end
   end
 
