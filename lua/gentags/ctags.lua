@@ -16,6 +16,9 @@ local TAGS_LOCKING_MAP = {}
 --- @table<string, boolean>
 local TAGS_LOADED_MAP = {}
 
+--- @table<string, boolean>
+local TAGS_INITED_MAP = {}
+
 --- @param ctx gentags.Context
 M.load = function(ctx)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
@@ -268,7 +271,13 @@ M._append = function(ctx, on_exit)
 end
 
 M.init = function(ctx)
-  M._write(ctx)
+  if strings.empty(ctx.tags_file) then
+    return
+  end
+  if TAGS_INITED_MAP[ctx.tags_file] then
+    return
+  end
+  M._write(ctx, function() TAGS_INITED_MAP[ctx.tags_file] = true end)
 end
 
 --- @param ctx gentags.Context
