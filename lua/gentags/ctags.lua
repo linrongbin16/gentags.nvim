@@ -320,7 +320,7 @@ M.update = function(ctx)
 
     M._append(ctx, function()
       -- trigger re-generate tags in write mode for whole workspace again
-      vim.schedule(function()
+      vim.defer_fn(function()
         logging.get("gentags"):debug(
           "|update._append.on_exit| trigger re-init the whole tags file again, ctx:%s",
           vim.inspect(ctx)
@@ -328,7 +328,7 @@ M.update = function(ctx)
         M._write(ctx, function()
           TAGS_INITED_MAP[ctx.tags_file] = true
         end)
-      end)
+      end, 1000)
     end)
   end
 end
