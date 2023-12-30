@@ -2,6 +2,7 @@ local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
 local tables = require("gentags.commons.tables")
 local strings = require("gentags.commons.strings")
+local uv = require("gentags.commons.uv")
 
 local configs = require("gentags.configs")
 
@@ -16,65 +17,26 @@ local TAGS_LOCKING_MAP = {}
 --- @table<string, boolean>
 local TAGS_LOADED_MAP = {}
 
+--- @table<string, boolean>
+local TAGS_INITED_MAP = {}
+
 --- @param ctx gentags.Context
 M.load = function(ctx)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|load| ctx:%s", vim.inspect(ctx))
 
-  if
-    strings.not_empty(ctx.tags_file)
-    and not TAGS_LOADED_MAP[ctx.tags_file]
-    and vim.fn.filereadable(ctx.tags_file) > 0
-  then
-    logger:debug("|load| load tags:%s", vim.inspect(ctx.tags_file))
-    vim.opt.tags:append(ctx.tags_file)
-    TAGS_LOADED_MAP[ctx.tags_file] = true
+  if strings.empty(ctx.tags_file) then
+    return
   end
-end
-
---- @param fp any
-M._close_file = function(fp)
-  if fp then
-    fp:close()
+  if TAGS_LOADED_MAP[ctx.tags_file] then
+    return
   end
-end
-
--- write src into dst
---- @param src string
---- @param dst string
-M._dump_file = function(src, dst)
-  assert(strings.not_empty(src))
-  assert(strings.not_empty(dst))
-
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
-
-  local dst_fp = io.open(dst, "w")
-  local src_fp = io.open(src, "r")
-  if dst_fp == nil or src_fp == nil then
-    if dst_fp == nil then
-      logger:err("|_dump_file| failed to open dst file:%s", vim.inspect(dst))
-    end
-    if src_fp == nil then
-      logger:err("|_dump_file| failed to open src file:%s", vim.inspect(src))
-    end
-    M._close_file(dst_fp)
-    M._close_file(src_fp)
+  if vim.fn.filereadable(ctx.tags_file) <= 0 then
+    return
   end
-
-  ---@diagnostic disable-next-line: need-check-nil
-  local content = src_fp:read("*a")
-  if content then
-    ---@diagnostic disable-next-line: need-check-nil
-    dst_fp:write(content)
-  end
-
-  M._close_file(dst_fp)
-  M._close_file(src_fp)
-  logger:debug(
-    "|_dump_file| dump src %s to dst %s",
-    vim.inspect(src),
-    vim.inspect(dst)
-  )
+  logger:debug("|load| load tags:%s", vim.inspect(ctx.tags_file))
+  vim.opt.tags:append(ctx.tags_file)
+  TAGS_LOADED_MAP[ctx.tags_file] = true
 end
 
 --- @param ctx gentags.Context
@@ -116,11 +78,19 @@ M._write = function(ctx, on_exit)
     --   vim.inspect(JOBS_MAP)
     -- )
 
-    M._dump_file(tmpfile, ctx.tags_file)
-    logger:debug(
-      "|_write._on_exit| tags generate completed to:%s",
-      vim.inspect(ctx.tags_file)
-    )
+    local rename_result, rename_err = uv.fs_rename(tmpfile, ctx.tags_file)
+    if rename_result == nil then
+      logger:warn(
+        "failed to save result on %s, error: %s",
+        vim.inspect(ctx.tags_file),
+        vim.inspect(rename_err)
+      )
+    else
+      logger:debug(
+        "|_write._on_exit| tags generate completed to:%s",
+        vim.inspect(ctx.tags_file)
+      )
+    end
 
     if system_obj == nil then
       logger:err(
@@ -146,7 +116,9 @@ M._write = function(ctx, on_exit)
     TAGS_LOCKING_MAP[ctx.tags_file] = nil
 
     if type(on_exit) == "function" then
-      on_exit()
+      vim.schedule(function()
+        on_exit()
+      end)
     end
   end
 
@@ -234,7 +206,9 @@ M._append = function(ctx, on_exit)
     TAGS_LOCKING_MAP[ctx.tags_file] = nil
 
     if type(on_exit) == "function" then
-      on_exit()
+      vim.schedule(function()
+        on_exit()
+      end)
     end
   end
 
@@ -268,7 +242,16 @@ M._append = function(ctx, on_exit)
 end
 
 M.init = function(ctx)
-  M._write(ctx)
+  if strings.empty(ctx.tags_file) then
+    return
+  end
+  if TAGS_INITED_MAP[ctx.tags_file] then
+    return
+  end
+  M._write(ctx, function()
+    TAGS_INITED_MAP[ctx.tags_file] = true
+    M.load(ctx)
+  end)
 end
 
 --- @param ctx gentags.Context
@@ -309,13 +292,16 @@ M.update = function(ctx)
 
     M._append(ctx, function()
       -- trigger re-generate tags in write mode for whole workspace again
-      vim.schedule(function()
+      vim.defer_fn(function()
         logging.get("gentags"):debug(
           "|update._append.on_exit| trigger re-init the whole tags file again, ctx:%s",
           vim.inspect(ctx)
         )
-        M.init(ctx)
-      end)
+        M._write(ctx, function()
+          TAGS_INITED_MAP[ctx.tags_file] = true
+          M.load(ctx)
+        end)
+      end, 1000)
     end)
   end
 end
