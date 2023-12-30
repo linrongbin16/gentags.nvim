@@ -291,6 +291,7 @@ M.init = function(ctx)
   end
   M._write(ctx, function()
     TAGS_INITED_MAP[ctx.tags_file] = true
+      M.load(ctx)
   end)
 end
 
@@ -339,6 +340,7 @@ M.update = function(ctx)
         )
         M._write(ctx, function()
           TAGS_INITED_MAP[ctx.tags_file] = true
+                M.load(ctx)
         end)
       end, 1000)
     end)
