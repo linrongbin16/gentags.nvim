@@ -33,7 +33,6 @@ M.load = function(ctx)
   if vim.fn.filereadable(ctx.tags_file) <= 0 then
     return
   end
-  
   logger:debug("|load| load tags:%s", vim.inspect(ctx.tags_file))
   vim.opt.tags:append(ctx.tags_file)
   TAGS_LOADED_MAP[ctx.tags_file] = true
