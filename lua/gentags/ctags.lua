@@ -325,7 +325,7 @@ M.update = function(ctx)
           "|update._append.on_exit| trigger re-init the whole tags file again, ctx:%s",
           vim.inspect(ctx)
         )
-        M.init(ctx)
+        M._write(ctx, function() TAGS_INITED_MAP[ctx.tags_file] = true end)
       end)
     end)
   end
