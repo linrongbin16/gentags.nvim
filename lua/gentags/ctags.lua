@@ -2,6 +2,7 @@ local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
 local tables = require("gentags.commons.tables")
 local strings = require("gentags.commons.strings")
+local uv = require ('gentags.commoms.uv')
 
 local configs = require("gentags.configs")
 
@@ -122,11 +123,16 @@ M._write = function(ctx, on_exit)
     --   vim.inspect(JOBS_MAP)
     -- )
 
-    M._dump_file(tmpfile, ctx.tags_file)
+    local rename_result, rename_err = uv.fs_rename(tmpfile, ctx.tags_file)
+    if rename_result == nil then
+      logger:warn('failed to complete tags to %s, error: %s', vim.inspect(ctx.tags_file), vim.inspect(rename_err))
+    else
     logger:debug(
       "|_write._on_exit| tags generate completed to:%s",
       vim.inspect(ctx.tags_file)
     )
+    end
+
 
     if system_obj == nil then
       logger:err(
