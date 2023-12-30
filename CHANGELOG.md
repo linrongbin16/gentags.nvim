@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.4](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.3...v1.1.4) (2023-12-30)
+
+
+### Performance Improvements
+
+* **initialize:** only initialize tags once for each workspace ([#20](https://github.com/linrongbin16/gentags.nvim/issues/20)) ([29856d4](https://github.com/linrongbin16/gentags.nvim/commit/29856d411469af890fb9c3d97be3953972239edd))
+
 ## [1.1.3](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.2...v1.1.3) (2023-12-29)
 
 
