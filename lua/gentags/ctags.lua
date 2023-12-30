@@ -34,9 +34,9 @@ M.load = function(ctx)
     return
   end
   
-    logger:debug("|load| load tags:%s", vim.inspect(ctx.tags_file))
-    vim.opt.tags:append(ctx.tags_file)
-    TAGS_LOADED_MAP[ctx.tags_file] = true
+  logger:debug("|load| load tags:%s", vim.inspect(ctx.tags_file))
+  vim.opt.tags:append(ctx.tags_file)
+  TAGS_LOADED_MAP[ctx.tags_file] = true
 end
 
 --- @param fp any
