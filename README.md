@@ -23,7 +23,6 @@ While there exists gap when LSP server or treesitter implementations are insuffi
 - [Features](#features)
 - [Requirements](#requirements)
 - [Install](#install)
-- [Usage](#usage)
 - [Configuration](#configuration)
 - [Recommendations](#recommendations)
 - [Alternatives](#alternatives)
@@ -32,9 +31,11 @@ While there exists gap when LSP server or treesitter implementations are insuffi
 
 ## Features
 
-- [x] Automatically generate tags for both workspace/single file.
-- [x] Running in background & terminate immediately on nvim leave.
-- [x] Incremental update on file save.
+- [x] Automatically running in background.
+- [x] Support both workspace/single file mode.
+- [x] Full update on workspace open, incremental update on file save.
+- [x] Terminate immediately on nvim leave.
+- [x] Search and load tags on workspace/file open.
 - [ ] Disk cache management and garbage collection.
 - [ ] Real-time status for Neovim components such as statusline.
 
@@ -78,20 +79,6 @@ require("pckr").add({
 ```
 
 </details>
-
-## Usage
-
-Gentags will register several background jobs when you editing files:
-
-- Locate the workspace root directory, or fallback to single file mode.
-- Generate and load tags on first file open.
-- Update tags on file save.
-- Terminate background jobs on nvim leave.
-
-By default all tags are generated in `stdpath('cache') . '/gentags.nvim'` directory:
-
-- For UNIX/Linux: `~/.cache/nvim/gentags.nvim`.
-- For Windows: `$env:USERPROFILE\AppData\Local\Temp\nvim\gentags.nvim`.
 
 ## Configuration
 
