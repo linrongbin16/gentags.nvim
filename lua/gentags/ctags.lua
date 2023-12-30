@@ -24,15 +24,19 @@ M.load = function(ctx)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|load| ctx:%s", vim.inspect(ctx))
 
-  if
-    strings.not_empty(ctx.tags_file)
-    and not TAGS_LOADED_MAP[ctx.tags_file]
-    and vim.fn.filereadable(ctx.tags_file) > 0
-  then
+  if strings.empty(ctx.tags_file) then
+    return
+  end
+  if TAGS_LOADED_MAP[ctx.tags_file] then
+    return
+  end
+  if vim.fn.filereadable(ctx.tags_file) <= 0 then
+    return
+  end
+  
     logger:debug("|load| load tags:%s", vim.inspect(ctx.tags_file))
     vim.opt.tags:append(ctx.tags_file)
     TAGS_LOADED_MAP[ctx.tags_file] = true
-  end
 end
 
 --- @param fp any
