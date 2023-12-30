@@ -34,8 +34,9 @@ While there exists gap when LSP server or treesitter implementations are insuffi
 
 - [x] Automatically running in background.
 - [x] Support both workspace/single file mode.
-- [x] Full update on workspace first open, incremental update on file save.
+- [x] Full update on workspace open, incremental update on file save.
 - [x] Terminate immediately on nvim leave.
+- [x] Search and load tags on workspace/file open.
 - [ ] Disk cache management and garbage collection.
 - [ ] Real-time status for Neovim components such as statusline.
 
