@@ -32,7 +32,7 @@ While there exists gap when LSP server or treesitter implementations are insuffi
 
 ## Features
 
-- [x] Automatically generate tags in background jobs.
+- [x] Automatically running in background.
 - [x] Support both workspace/single file mode.
 - [x] Full update on workspace first open, incremental update on file save.
 - [x] Terminate immediately on nvim leave.
