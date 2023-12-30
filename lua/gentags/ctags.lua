@@ -277,7 +277,9 @@ M.init = function(ctx)
   if TAGS_INITED_MAP[ctx.tags_file] then
     return
   end
-  M._write(ctx, function() TAGS_INITED_MAP[ctx.tags_file] = true end)
+  M._write(ctx, function()
+    TAGS_INITED_MAP[ctx.tags_file] = true
+  end)
 end
 
 --- @param ctx gentags.Context
