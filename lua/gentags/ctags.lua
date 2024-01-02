@@ -309,7 +309,6 @@ M.update = function(ctx)
     --   1. generate tags only for current saved files, and append it to the tags file
     --   2. then re-generate the whole workspace tags again and replace the existing tags, this is for more accurate data
 
-    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
     logger:debug(
       "|update| go to append for current file first, ctx:%s",
       vim.inspect(ctx)
