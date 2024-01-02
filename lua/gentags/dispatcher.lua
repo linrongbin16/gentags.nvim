@@ -28,7 +28,7 @@ local function get_tool()
   local cfg = configs.get()
   local tool = cfg.tool
   local toolchain = TOOLS_MAP[string.lower(tool)] --[[@as gentags.Tool]]
-  assert(
+  logging.get("gentags"):ensure(
     toolchain ~= nil,
     string.format("%s is not supported!", vim.inspect(tool))
   )
@@ -86,28 +86,53 @@ end
 
 M.load = function()
   vim.schedule(function()
-    get_tool().load(M.get_context())
+    local ok, ctx_or_err = pcall(M.get_context)
+    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    logger:ensure(ok, "failed to get context:%s", vim.inspect(ctx_or_err))
+    local tool = get_tool()
+    local ok2, err2 = pcall(tool.load, ctx_or_err)
+    logger:ensure(ok2, "failed to load:%s", vim.inspect(err2))
   end)
 end
 
 M.init = function()
   vim.schedule(function()
-    get_tool().init(M.get_context())
+    local ok, ctx_or_err = pcall(M.get_context)
+    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    logger:ensure(ok, "failed to get context:%s", vim.inspect(ctx_or_err))
+    local tool = get_tool()
+    local ok2, err2 = pcall(tool.init, ctx_or_err)
+    logger:ensure(ok2, "failed to init:%s", vim.inspect(err2))
   end)
 end
 
 M.update = function()
   vim.schedule(function()
-    get_tool().update(M.get_context())
+    local ok, ctx_or_err = pcall(M.get_context)
+    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    logger:ensure(ok, "failed to get context:%s", vim.inspect(ctx_or_err))
+    local tool = get_tool()
+    local ok2, err2 = pcall(tool.update, ctx_or_err)
+    logger:ensure(ok2, "failed to update:%s", vim.inspect(err2))
   end)
 end
 
 M.terminate = function()
-  get_tool().terminate(M.get_context())
+  local ok, ctx_or_err = pcall(M.get_context)
+  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  logger:ensure(ok, "failed to get context:%s", vim.inspect(ctx_or_err))
+  local tool = get_tool()
+  local ok2, err2 = pcall(tool.update, ctx_or_err)
+  logger:ensure(ok2, "failed to terminate:%s", vim.inspect(err2))
 end
 
 M.status = function()
-  get_tool().status(M.get_context())
+  local ok, ctx_or_err = pcall(M.get_context)
+  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  logger:ensure(ok, "failed to get context:%s", vim.inspect(ctx_or_err))
+  local tool = get_tool()
+  local ok2, err2 = pcall(tool.status, ctx_or_err)
+  logger:ensure(ok2, "failed to get status:%s", vim.inspect(err2))
 end
 
 local gc_running = false
