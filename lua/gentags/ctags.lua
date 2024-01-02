@@ -127,7 +127,11 @@ M._write = function(ctx, on_exit)
 
   local cwd = nil
   if ctx.mode == "workspace" then
-    assert(strings.not_empty(ctx.workspace))
+    logger:ensure(
+      strings.not_empty(ctx.workspace),
+      "ctx.workspace cannot be empty: %s",
+      vim.inspect(ctx)
+    )
     cwd = ctx.workspace
     table.insert(opts, "-R")
   end
@@ -138,7 +142,11 @@ M._write = function(ctx, on_exit)
 
   if ctx.mode == "singlefile" then
     -- only generate tags for target source file
-    assert(strings.not_empty(ctx.filename))
+    logger:ensure(
+      strings.not_empty(ctx.filename),
+      "ctx.filename cannot be empty: %s",
+      vim.inspect(ctx)
+    )
     table.insert(opts, ctx.filename)
   end
 
@@ -151,7 +159,11 @@ M._write = function(ctx, on_exit)
     on_stderr = _on_stderr,
   }, _on_exit)
 
-  assert(system_obj ~= nil)
+  logger:ensure(
+    system_obj ~= nil,
+    "|_write| failed to spawn child process on commands: %s",
+    vim.inspect(cmds)
+  )
 
   JOBS_MAP[system_obj.pid] = system_obj
   TAGS_LOCKING_MAP[ctx.tags_file] = true
@@ -233,7 +245,11 @@ M._append = function(ctx, on_exit)
     on_stderr = _on_stderr,
   }, _on_exit)
 
-  assert(system_obj ~= nil)
+  logger:ensure(
+    system_obj ~= nil,
+    "|_append| failed to spawn child process on commands: %s",
+    vim.inspect(cmds)
+  )
 
   JOBS_MAP[system_obj.pid] = system_obj
   TAGS_LOCKING_MAP[ctx.tags_file] = true
@@ -272,13 +288,22 @@ M.update = function(ctx)
       M.init(ctx)
     end)
   else
-    assert(ctx.mode == "workspace")
+    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    logger:ensure(
+      ctx.mode == "workspace",
+      "ctx.mode must be 'workspace': %s",
+      vim.inspect(ctx)
+    )
 
     if strings.empty(ctx.workspace) then
       return
     end
 
-    assert(vim.fn.filereadable(ctx.tags_file) > 0)
+    logger:ensure(
+      vim.fn.filereadable(ctx.tags_file) > 0,
+      "ctx.tags_file must already exist: %s",
+      vim.inspect(ctx)
+    )
 
     -- if working in workspace and the output tags already exist, it will do two steps:
     --   1. generate tags only for current saved files, and append it to the tags file
