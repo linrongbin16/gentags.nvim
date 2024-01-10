@@ -10,13 +10,34 @@ local Defaults = {
   ctags = {
     "--tag-relative=never",
 
+    -- exclude logs
+    "--exclude=*.log",
+
     -- exclude vcs
     "--exclude=*.git",
     "--exclude=*.svg",
     "--exclude=*.hg",
-    "--exclude=*.log",
 
-    -- exclude blob/binary files
+    -- exclude nodejs
+    "--exclude=node_modules",
+
+    -- exclude tags/cscope
+    "--exclude=*tags*",
+    "--exclude=*cscope.*",
+
+    -- exclude python
+    "--exclude=*.pyc",
+
+    -- exclude jvm class
+    "--exclude=*.class",
+
+    -- exclude VS project generated
+    "--exclude=*.pdb",
+    "--exclude=*.sln",
+    "--exclude=*.csproj",
+    "--exclude=*.csproj.user",
+
+    -- exclude blobs
     "--exclude=*.exe",
     "--exclude=*.dll",
     "--exclude=*.mp3",
