@@ -7,19 +7,52 @@ local Defaults = {
   tool = "ctags",
 
   -- ctags options
-  ctags = { "--tag-relative=never", "--exclude=*.log" },
+  ctags = {
+    "--tag-relative=never",
+
+    -- exclude vcs
+    "--exclude=*.git",
+    "--exclude=*.svg",
+    "--exclude=*.hg",
+    "--exclude=*.log",
+
+    -- exclude blob/binary files
+    "--exclude=*.exe",
+    "--exclude=*.dll",
+    "--exclude=*.mp3",
+    "--exclude=*.ogg",
+    "--exclude=*.flac",
+    "--exclude=*.swp",
+    "--exclude=*.swo",
+    "--exclude=*.bmp",
+    "--exclude=*.gif",
+    "--exclude=*.ico",
+    "--exclude=*.jpg",
+    "--exclude=*.png",
+    "--exclude=*.rar",
+    "--exclude=*.zip",
+    "--exclude=*.tar",
+    "--exclude=*.tar.gz",
+    "--exclude=*.tar.xz",
+    "--exclude=*.tar.bz2",
+    "--exclude=*.pdf",
+    "--exclude=*.doc",
+    "--exclude=*.docx",
+    "--exclude=*.ppt",
+    "--exclude=*.pptx",
+  },
 
   -- workspace detection
   workspace = { ".git", ".svn" },
 
   -- excluded filetypes
-  exclude_filetypes = { "neo-tree", "NvimTree" },
+  disabled_filetypes = { "neo-tree", "NvimTree" },
 
   -- excluded workspace
-  exclude_workspaces = {},
+  disabled_workspaces = {},
 
-  -- excluded workspace
-  exclude_files = {},
+  -- excluded files
+  disabled_files = {},
 
   -- cache directory
   -- For *NIX: `~/.cache/nvim/gentags.nvim`.
