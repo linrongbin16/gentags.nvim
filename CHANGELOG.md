@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.1.5](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.4...v1.1.5) (2024-01-10)
+
+
+### Bug Fixes
+
+* **crash:** fix terminate crash ([#26](https://github.com/linrongbin16/gentags.nvim/issues/26)) ([c6a0b21](https://github.com/linrongbin16/gentags.nvim/commit/c6a0b2120965565f6b34bd270af778274e50ac58))
+
+
+### Performance Improvements
+
+* **configs:** exclude non-source code filetypes ([b893fcc](https://github.com/linrongbin16/gentags.nvim/commit/b893fcc8fdf4c92df3abfed9ebe3f439fc09c994))
+
 ## [1.1.4](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.3...v1.1.4) (2023-12-30)
 
 
