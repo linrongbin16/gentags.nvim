@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.0.0](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.5...v2.0.0) (2024-01-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* **config:** use map instead of list for ctags opts ([#28](https://github.com/linrongbin16/gentags.nvim/issues/28))
+
+### Bug Fixes
+
+* **config:** fix workspace detect ([#30](https://github.com/linrongbin16/gentags.nvim/issues/30)) ([abf982a](https://github.com/linrongbin16/gentags.nvim/commit/abf982a715688c75d4561e90fcc0608427d35fc2))
+
+
+### Performance Improvements
+
+* **config:** use map instead of list for ctags opts ([#28](https://github.com/linrongbin16/gentags.nvim/issues/28)) ([526aff9](https://github.com/linrongbin16/gentags.nvim/commit/526aff92d3ac5108573a6eca0674208bae44336b))
+
 ## [1.1.5](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.4...v1.1.5) (2024-01-10)
 
 
