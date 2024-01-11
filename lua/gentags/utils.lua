@@ -15,25 +15,27 @@ M.get_workspace = function(cwd)
   cwd = cwd or vim.fn.getcwd()
   while true do
     -- logger:debug("|get_workspace| 0-cwd:%s", vim.inspect(cwd))
-    for _, pattern in ipairs(configs.get().workspace) do
-      local target = paths.join(cwd, pattern)
-      -- logger:debug(
-      --   "|get_workspace| 1-cwd:%s, target:%s",
-      --   vim.inspect(cwd),
-      --   vim.inspect(target)
-      -- )
-      target =
-        paths.normalize(target, { double_backslash = true, expand = true })
-      local stat_result, stat_err = uv.fs_stat(target)
-      -- logger:debug(
-      --   "|get_workspace| 2-cwd:%s, target:%s, stat result:%s, stat err:%s",
-      --   vim.inspect(cwd),
-      --   vim.inspect(target),
-      --   vim.inspect(stat_result),
-      --   vim.inspect(stat_err)
-      -- )
-      if stat_result then
-        return cwd
+    for pattern, value in pairs(configs.get().workspace) do
+      if value then
+        local target = paths.join(cwd, pattern)
+        -- logger:debug(
+        --   "|get_workspace| 1-cwd:%s, target:%s",
+        --   vim.inspect(cwd),
+        --   vim.inspect(target)
+        -- )
+        target =
+          paths.normalize(target, { double_backslash = true, expand = true })
+        local stat_result, stat_err = uv.fs_stat(target)
+        -- logger:debug(
+        --   "|get_workspace| 2-cwd:%s, target:%s, stat result:%s, stat err:%s",
+        --   vim.inspect(cwd),
+        --   vim.inspect(target),
+        --   vim.inspect(stat_result),
+        --   vim.inspect(stat_err)
+        -- )
+        if stat_result then
+          return cwd
+        end
       end
     end
     local parent = paths.parent(cwd)
