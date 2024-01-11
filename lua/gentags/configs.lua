@@ -67,7 +67,7 @@ local Defaults = {
   workspace = { [".git"] = true, [".svn"] = true },
 
   -- excluded filetypes
-  disabled_filetypes = { "neo-tree", "NvimTree" },
+  disabled_filetypes = { ["neo-tree"] = true, ["NvimTree"] = true },
 
   -- excluded workspace
   disabled_workspaces = {},
