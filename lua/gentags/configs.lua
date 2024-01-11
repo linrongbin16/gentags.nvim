@@ -8,66 +8,66 @@ local Defaults = {
 
   -- ctags options
   ctags = {
-    "--tag-relative=never",
+    ["--tag-relative=never"] = true,
 
     -- exclude logs
-    "--exclude=*.log",
+    ["--exclude=*.log"] = true,
 
     -- exclude vcs
-    "--exclude=*.git",
-    "--exclude=*.svg",
-    "--exclude=*.hg",
+    ["--exclude=*.git"] = true,
+    ["--exclude=*.svg"] = true,
+    ["--exclude=*.hg"] = true,
 
     -- exclude nodejs
-    "--exclude=node_modules",
+    ["--exclude=node_modules"] = true,
 
     -- exclude tags/cscope
-    "--exclude=*tags*",
-    "--exclude=*cscope.*",
+    ["--exclude=*tags*"] = true,
+    ["--exclude=*cscope.*"] = true,
 
     -- exclude python
-    "--exclude=*.pyc",
+    ["--exclude=*.pyc"] = true,
 
     -- exclude jvm class
-    "--exclude=*.class",
+    ["--exclude=*.class"] = true,
 
     -- exclude VS project generated
-    "--exclude=*.pdb",
-    "--exclude=*.sln",
-    "--exclude=*.csproj",
-    "--exclude=*.csproj.user",
+    ["--exclude=*.pdb"] = true,
+    ["--exclude=*.sln"] = true,
+    ["--exclude=*.csproj"] = true,
+    ["--exclude=*.csproj.user"] = true,
 
     -- exclude blobs
-    "--exclude=*.exe",
-    "--exclude=*.dll",
-    "--exclude=*.mp3",
-    "--exclude=*.ogg",
-    "--exclude=*.flac",
-    "--exclude=*.swp",
-    "--exclude=*.swo",
-    "--exclude=*.bmp",
-    "--exclude=*.gif",
-    "--exclude=*.ico",
-    "--exclude=*.jpg",
-    "--exclude=*.png",
-    "--exclude=*.rar",
-    "--exclude=*.zip",
-    "--exclude=*.tar",
-    "--exclude=*.tar.gz",
-    "--exclude=*.tar.xz",
-    "--exclude=*.tar.bz2",
-    "--exclude=*.pdf",
-    "--exclude=*.doc",
-    "--exclude=*.docx",
-    "--exclude=*.ppt",
-    "--exclude=*.pptx",
+    ["--exclude=*.exe"] = true,
+    ["--exclude=*.dll"] = true,
+    ["--exclude=*.mp3"] = true,
+    ["--exclude=*.ogg"] = true,
+    ["--exclude=*.flac"] = true,
+    ["--exclude=*.swp"] = true,
+    ["--exclude=*.swo"] = true,
+    ["--exclude=*.bmp"] = true,
+    ["--exclude=*.gif"] = true,
+    ["--exclude=*.ico"] = true,
+    ["--exclude=*.jpg"] = true,
+    ["--exclude=*.png"] = true,
+    ["--exclude=*.rar"] = true,
+    ["--exclude=*.zip"] = true,
+    ["--exclude=*.tar"] = true,
+    ["--exclude=*.tar.gz"] = true,
+    ["--exclude=*.tar.xz"] = true,
+    ["--exclude=*.tar.bz2"] = true,
+    ["--exclude=*.pdf"] = true,
+    ["--exclude=*.doc"] = true,
+    ["--exclude=*.docx"] = true,
+    ["--exclude=*.ppt"] = true,
+    ["--exclude=*.pptx"] = true,
   },
 
   -- workspace detection
-  workspace = { ".git", ".svn" },
+  workspace = { [".git"] = true, [".svn"] = true },
 
   -- excluded filetypes
-  disabled_filetypes = { "neo-tree", "NvimTree" },
+  disabled_filetypes = { ["neo-tree"] = true, ["NvimTree"] = true },
 
   -- excluded workspace
   disabled_workspaces = {},
@@ -127,10 +127,7 @@ end
 --- @param opts gentags.Options?
 --- @return gentags.Options
 M.setup = function(opts)
-  local workspace = vim.deepcopy(Defaults.workspace)
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
-  Configs.workspace =
-    vim.list_extend(vim.deepcopy(Configs.workspace), workspace)
   return Configs
 end
 
