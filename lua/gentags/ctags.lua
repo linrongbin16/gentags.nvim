@@ -123,7 +123,13 @@ M._write = function(ctx, on_exit)
   end
 
   local cfg = configs.get()
-  local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or {})
+  local opts_map = vim.deepcopy(tables.tbl_get(cfg, "ctags") or {})
+  local opts = {}
+  for o, v in pairs(opts_map) do
+    if type(o) == "string" and string.len(o) > 0 and v then
+      table.insert(opts, o)
+    end
+  end
 
   local cwd = nil
   if ctx.mode == "workspace" then
