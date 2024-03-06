@@ -79,8 +79,8 @@ local Defaults = {
 
     -- Recommended Options:
 
-    -- ["neo-tree"] = true,
-    -- ["NvimTree"] = true,
+    -- "neo-tree",
+    -- "NvimTree",
   },
 
   -- excluded filenames
