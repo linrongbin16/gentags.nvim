@@ -22,7 +22,7 @@ local TAGS_INITED_MAP = {}
 
 --- @param ctx gentags.Context
 M.load = function(ctx)
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  local logger = logging.get("gentags")
   logger:debug("|load| ctx:%s", vim.inspect(ctx))
 
   if str.empty(ctx.tags_file) then
@@ -43,7 +43,7 @@ end
 --- @param on_exit (fun():nil)|nil
 --- @return table?
 M._write = function(ctx, on_exit)
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  local logger = logging.get("gentags")
   logger:debug("|_write| ctx:%s", vim.inspect(ctx))
 
   -- no tags name
@@ -181,7 +181,7 @@ end
 --- @param on_exit (fun():nil)|nil
 --- @return table?
 M._append = function(ctx, on_exit)
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  local logger = logging.get("gentags")
   logger:debug("|_append| ctx:%s", vim.inspect(ctx))
 
   if str.empty(ctx.filename) then
@@ -288,13 +288,13 @@ M.update = function(ctx)
     -- if working in singlefile mode, or in workspace mode but the output tags file not exist
     -- go back to generate tags for whole workspace
 
-    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    local logger = logging.get("gentags")
     logger:debug("|update| go back to init, ctx:%s", vim.inspect(ctx))
     vim.schedule(function()
       M.init(ctx)
     end)
   else
-    local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+    local logger = logging.get("gentags")
     logger:ensure(
       ctx.mode == "workspace",
       "ctx.mode must be 'workspace': %s",

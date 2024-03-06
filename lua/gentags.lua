@@ -16,7 +16,7 @@ M.setup = function(opts)
     file_log = cfg.debug.file_log,
     file_log_name = "gentags.log",
   })
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  local logger = logging.get("gentags")
 
   -- cache dir
   logger:ensure(
