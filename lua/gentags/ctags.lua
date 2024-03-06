@@ -123,10 +123,10 @@ M._write = function(ctx, on_exit)
   end
 
   local cfg = configs.get()
-  local opts_list = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
+  local opts_table = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
   local opts = {}
-  for _, o in ipairs(opts_list) do
-    if str.not_empty(o) then
+  for o, v in ipairs(opts_table) do
+    if str.not_empty(o) and v then
       table.insert(opts, o)
     end
   end
@@ -231,19 +231,25 @@ M._append = function(ctx, on_exit)
   end
 
   local cfg = configs.get()
-  local opts_list = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
+  local opts_table = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
+  local opts = {}
+  for o, v in pairs(opts_table) do
+    if str.not_empty(o) and v then
+      table.insert(opts, o)
+    end
+  end
 
   -- append mode
-  table.insert(opts_list, "--append=yes")
+  table.insert(opts, "--append=yes")
 
   -- output tags file
-  table.insert(opts_list, "-f")
-  table.insert(opts_list, ctx.tags_file)
+  table.insert(opts, "-f")
+  table.insert(opts, ctx.tags_file)
 
   -- only generate tags for target source file
-  table.insert(opts_list, ctx.filename)
+  table.insert(opts, ctx.filename)
 
-  local cmds = { "ctags", unpack(opts_list) }
+  local cmds = { "ctags", unpack(opts) }
   logger:debug("|update| cmds:%s", vim.inspect(cmds))
 
   system_obj = spawn.run(cmds, {
