@@ -133,7 +133,7 @@ end
 --- @return gentags.Options
 M.setup = function(opts)
   local user_ctags_opts = tbl.tbl_get(opts, "ctags") or {}
-  local ctags_opts = vim.deepcopy(Defaults.ctags)
+  local ctags_opts = vim.deepcopy(Defaults.ctags or {})
   for _, o in ipairs(user_ctags_opts) do
     if str.not_empty(o) then
       table.insert(ctags_opts, o)
