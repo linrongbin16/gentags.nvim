@@ -99,7 +99,7 @@ M.enabled = function()
     filedir = path.parent(filename)
   end
   local workspace = utils.get_workspace(filedir)
-  if tbl.list_contains(cfg.disabled_workspaces, workspace) then
+  if cfg.disabled_workspaces[workspace] then
     return false
   end
 
