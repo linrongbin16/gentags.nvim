@@ -90,7 +90,18 @@ M.enabled = function()
   if tbl.list_contains(cfg.disabled_filetypes, filetype) then
     return false
   end
-  if tbl.list_contains(cfg.disabled_filenames, filename) then
+
+  local normalized_filename =
+    path.normalize(filename, { expand = true, double_backslash = true })
+  if
+    not tbl.List
+      :copy(cfg.disabled_filenames)
+      :filter(function(f)
+        return path.normalize(f, { expand = true, double_backslash = true })
+          == normalized_filename
+      end)
+      :empty()
+  then
     return false
   end
 
@@ -98,8 +109,24 @@ M.enabled = function()
   if str.not_empty(filename) then
     filedir = path.parent(filename)
   end
+
   local workspace = utils.get_workspace(filedir)
-  if tbl.list_contains(cfg.disabled_workspaces, workspace) then
+
+  local normalized_workspace = str.not_empty(workspace)
+      and path.normalize(
+        workspace --[[@as string]],
+        { expand = true, double_backslash = true }
+      )
+    or nil
+  if
+    not tbl.List
+      :copy(cfg.disabled_workspaces)
+      :filter(function(w)
+        return path.normalize(w, { expand = true, double_backslash = true })
+          == normalized_workspace
+      end)
+      :empty()
+  then
     return false
   end
 
