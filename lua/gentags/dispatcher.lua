@@ -8,7 +8,7 @@ local utils = require("gentags.utils")
 
 local M = {}
 
--- A tool module has these APIs: load/init/update/terminate
+-- A tool module has these APIs: load/init/update/terminate/status
 --
 --- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,mode:"workspace"|"singlefile"}
 --- @alias gentags.LoadMethod fun(ctx:gentags.Context):nil
