@@ -46,7 +46,7 @@ M.get_context = function()
   local filedir = nil
   if
     str.not_empty(filename)
-    and not tbl.list_contains(cfg.exclude_filetypes or {}, filetype)
+    and not tbl.list_contains(cfg.disabled_filetypes or {}, filetype)
   then
     filedir = path.parent(filename)
   end
