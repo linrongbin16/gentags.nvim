@@ -10,52 +10,46 @@ concurrency:
   group: ${{ github.ref }}-ci
   cancel-in-progress: true
 jobs:
-  pr_conventional_commit:
-    name: PR Conventional Commit
+  commit:
+    name: Commit
     if: ${{ github.ref != 'refs/heads/main' }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - uses: ytanikin/PRConventionalCommits@1.1.0
-        with:
-          task_types: '["feat","fix","docs","test","ci","refactor","perf","chore","revert","break"]'
-  luacheck:
-    name: Lua Check
+      - uses: actions/checkout@v4
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
       - name: Install commons.nvim
         if: ${{ github.ref != 'refs/heads/main' }}
-        shell: bash
         run: |
           git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
           rm -rf ./lua/gentags/commons
-          mkdir -p ./lua/gentags/commons
-          cp -rf ~/.commons.nvim/lua/commons/*.lua ./lua/gentags/commons
+          cp -rf ~/.commons.nvim/lua/commons ./lua/gentags/
           cp ~/.commons.nvim/version.txt ./lua/gentags/commons/version.txt
-          cd ./lua/gentags/commons
-          find . -type f -name '*.lua' -exec sed -i 's/require("commons/require("gentags.commons/g' {} \;
-      - name: Luacheck
-        uses: lunarmodules/luacheck@v1
-        with:
-          args: lua --config .luacheckrc
-      - name: Stylua
-        uses: JohnnyMorganz/stylua-action@v3
+          find ./lua/gentags/commons -type f -name '*.lua' -exec sed -i 's/require("commons./require("gentags.commons./g' {} \;
+      - uses: cargo-bins/cargo-binstall@main
+      - name: Selene
+        run: |
+          cargo binstall --no-confirm selene
+          selene --config selene.toml ./lua
+      - uses: JohnnyMorganz/stylua-action@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
           args: --config-path .stylua.toml ./lua ./test
-      - name: Auto Commit
+      - uses: stefanzweifel/git-auto-commit-action@v4
         if: ${{ github.ref != 'refs/heads/main' }}
-        uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: "chore(pr): auto-commit"
   unit_test:
     name: Unit Test
     needs:
-      - luacheck
+      - lint
     strategy:
       matrix:
         nvim_version: [stable, nightly, v0.7.0]
@@ -78,7 +72,6 @@ jobs:
       - name: Run test cases
         shell: bash
         run: |
-          luarocks install luacheck
           luarocks install luacov
           luarocks install cluacov
           luarocks install vusted

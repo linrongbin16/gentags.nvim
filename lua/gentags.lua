@@ -16,7 +16,7 @@ M.setup = function(opts)
     file_log = cfg.debug.file_log,
     file_log_name = "gentags.log",
   })
-  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  local logger = logging.get("gentags")
 
   -- cache dir
   logger:ensure(
@@ -36,8 +36,11 @@ M.setup = function(opts)
       logging
         .get("gentags")
         :debug("|setup| enter buffer:%s", vim.inspect(event))
-      require("gentags.dispatcher").load()
-      require("gentags.dispatcher").init()
+      local dispatcher = require("gentags.dispatcher")
+      if dispatcher.enabled() then
+        dispatcher.load()
+        dispatcher.init()
+      end
     end,
   })
 
@@ -51,7 +54,10 @@ M.setup = function(opts)
       logging
         .get("gentags")
         :debug("|setup| write buffer:%s", vim.inspect(event))
-      require("gentags.dispatcher").update()
+      local dispatcher = require("gentags.dispatcher")
+      if dispatcher.enabled() then
+        dispatcher.update()
+      end
     end,
   })
 

@@ -1,7 +1,7 @@
-local logging = require("gentags.commons.logging")
-local paths = require("gentags.commons.paths")
-local strings = require("gentags.commons.strings")
+local str = require("gentags.commons.str")
+local path = require("gentags.commons.path")
 local uv = require("gentags.commons.uv")
+local logging = require("gentags.commons.logging")
 
 local configs = require("gentags.configs")
 
@@ -17,14 +17,14 @@ M.get_workspace = function(cwd)
     -- logger:debug("|get_workspace| 0-cwd:%s", vim.inspect(cwd))
     for pattern, value in pairs(configs.get().workspace) do
       if value then
-        local target = paths.join(cwd, pattern)
+        local target = path.join(cwd, pattern)
         -- logger:debug(
         --   "|get_workspace| 1-cwd:%s, target:%s",
         --   vim.inspect(cwd),
         --   vim.inspect(target)
         -- )
         target =
-          paths.normalize(target, { double_backslash = true, expand = true })
+          path.normalize(target, { double_backslash = true, expand = true })
         local stat_result, stat_err = uv.fs_stat(target)
         -- logger:debug(
         --   "|get_workspace| 2-cwd:%s, target:%s, stat result:%s, stat err:%s",
@@ -38,13 +38,13 @@ M.get_workspace = function(cwd)
         end
       end
     end
-    local parent = paths.parent(cwd)
+    local parent = path.parent(cwd)
     -- logger:debug(
     --   "|get_workspace| 3-cwd:%s, parent:%s",
     --   vim.inspect(cwd),
     --   vim.inspect(parent)
     -- )
-    if strings.blank(parent) then
+    if str.blank(parent) then
       break
     end
     cwd = parent
@@ -55,7 +55,7 @@ end
 --- @return string
 M.get_filename = function()
   local bufnr = vim.api.nvim_get_current_buf()
-  local filename = paths.normalize(
+  local filename = path.normalize(
     vim.api.nvim_buf_get_name(bufnr),
     { double_backslash = true, expand = true }
   )
@@ -70,44 +70,48 @@ end
 --- @param filepath string?
 --- @return string?
 M.get_tags_handle = function(filepath)
-  if strings.empty(filepath) then
+  if str.empty(filepath) then
     return nil
   end
   while
-    strings.not_empty(filepath)
-      and strings.endswith(filepath --[[@as string]], "/")
-    or strings.endswith(filepath --[[@as string]], "\\")
+    str.not_empty(filepath)
+    and (
+      str.endswith(filepath --[[@as string]], "/")
+      or str.endswith(filepath --[[@as string]], "\\")
+    )
   do
     filepath = string.sub(filepath --[[@as string]], 1, #filepath - 1)
   end
   while
-    strings.not_empty(filepath)
-      and strings.startswith(filepath --[[@as string]], "/")
-    or strings.startswith(filepath --[[@as string]], "\\")
+    str.not_empty(filepath)
+    and (
+      str.startswith(filepath --[[@as string]], "/")
+      or str.startswith(filepath --[[@as string]], "\\")
+    )
   do
     filepath = string.sub(filepath --[[@as string]], 2)
   end
 
-  filepath = paths.normalize(
+  filepath = path.normalize(
     filepath --[[@as string]],
     { double_backslash = true, expand = true }
   )
   filepath = filepath:gsub("/", "%-"):gsub(" ", "%-"):gsub(":", "%-")
-  while strings.startswith(filepath, "-") do
+  while str.startswith(filepath, "-") do
     filepath = string.sub(filepath, 2)
   end
-  while strings.endswith(filepath, "-") do
+  while str.endswith(filepath, "-") do
     filepath = string.sub(filepath, 1, #filepath - 1)
   end
 
   local cache_dir = configs.get().cache_dir
-  return paths.join(cache_dir, filepath)
+  return path.join(cache_dir, filepath)
 end
 
 --- @param tags_handle string?
 --- @return string?
 M.get_tags_file = function(tags_handle)
-  if strings.empty(tags_handle) then
+  if str.empty(tags_handle) then
     return nil
   end
   return tags_handle .. "-tags"

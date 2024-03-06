@@ -1,0 +1,13 @@
+std = "vim"
+
+exclude = [
+  "lua/gentags/commons/*.lua",
+  "lua/gentags/commons/*/*.lua",
+  "lua/gentags/commons/*/*/*.lua",
+]
+
+[lints]
+mixed_table = "allow"
+unused_variable = "allow"
+incorrect_standard_library_use = "allow"
+

@@ -8,3 +8,5 @@ coverage:
         threshold: 90%
 ignore:
   - "lua/gentags/commons/*.lua"
+  - "lua/gentags/commons/*/*.lua"
+  - "lua/gentags/commons/*/*.lua"
