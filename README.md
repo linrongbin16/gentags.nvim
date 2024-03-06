@@ -14,7 +14,7 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
-To be honest, it seems that tags have become useless in Neovim today, LSP and treesitter replaced tags and make (Neo)vim a modern editor. While there exists gap when LSP server or treesitter implementations are insufficient, which brings tags back to us as a supplement to fill the gap.
+To be honest, it seems that tags have become useless in Neovim today, since we have LSP and treesitter now. While there exists gap when LSP server or treesitter implementations are insufficient, thus brings it back to us as a supplement to fill the gap.
 
 ## Table of Contents
 
@@ -29,11 +29,11 @@ To be honest, it seems that tags have become useless in Neovim today, LSP and tr
 
 ## Features
 
-- [x] Automatically running in background.
-- [x] Support both workspace/single file mode.
+- [x] Automatically run in background.
+- [x] Support both workspace/single-file mode.
 - [x] Full update on workspace open, incremental update on file save.
 - [x] Terminate immediately on nvim leave.
-- [x] Search and load tags on workspace/file open.
+- [x] Find the matching tags and load on workspace/file open.
 - [ ] Disk cache management and garbage collection.
 - [ ] Real-time status for Neovim components such as statusline.
 
