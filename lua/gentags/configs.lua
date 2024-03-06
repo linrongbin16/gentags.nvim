@@ -8,59 +8,59 @@ local Defaults = {
 
   -- ctags options
   ctags = {
-    ["--tag-relative=never"] = true,
+    "--tag-relative=never",
 
-    -- -- exclude logs
-    -- ["--exclude=*.log"] = true,
-    --
-    -- -- exclude vcs
-    -- ["--exclude=*.git"] = true,
-    -- ["--exclude=*.svg"] = true,
-    -- ["--exclude=*.hg"] = true,
-    --
-    -- -- exclude nodejs
-    -- ["--exclude=node_modules"] = true,
-    --
-    -- -- exclude tags/cscope
-    -- ["--exclude=*tags*"] = true,
-    -- ["--exclude=*cscope.*"] = true,
-    --
-    -- -- exclude python
-    -- ["--exclude=*.pyc"] = true,
-    --
-    -- -- exclude jvm class
-    -- ["--exclude=*.class"] = true,
-    --
-    -- -- exclude VS project generated
-    -- ["--exclude=*.pdb"] = true,
-    -- ["--exclude=*.sln"] = true,
-    -- ["--exclude=*.csproj"] = true,
-    -- ["--exclude=*.csproj.user"] = true,
-    --
-    -- -- exclude blobs
-    -- ["--exclude=*.exe"] = true,
-    -- ["--exclude=*.dll"] = true,
-    -- ["--exclude=*.mp3"] = true,
-    -- ["--exclude=*.ogg"] = true,
-    -- ["--exclude=*.flac"] = true,
-    -- ["--exclude=*.swp"] = true,
-    -- ["--exclude=*.swo"] = true,
-    -- ["--exclude=*.bmp"] = true,
-    -- ["--exclude=*.gif"] = true,
-    -- ["--exclude=*.ico"] = true,
-    -- ["--exclude=*.jpg"] = true,
-    -- ["--exclude=*.png"] = true,
-    -- ["--exclude=*.rar"] = true,
-    -- ["--exclude=*.zip"] = true,
-    -- ["--exclude=*.tar"] = true,
-    -- ["--exclude=*.tar.gz"] = true,
-    -- ["--exclude=*.tar.xz"] = true,
-    -- ["--exclude=*.tar.bz2"] = true,
-    -- ["--exclude=*.pdf"] = true,
-    -- ["--exclude=*.doc"] = true,
-    -- ["--exclude=*.docx"] = true,
-    -- ["--exclude=*.ppt"] = true,
-    -- ["--exclude=*.pptx"] = true,
+    -- exclude logs
+    "--exclude=*.log",
+
+    -- exclude vcs
+    "--exclude=*.git",
+    "--exclude=*.svg",
+    "--exclude=*.hg",
+
+    -- exclude nodejs
+    "--exclude=node_modules",
+
+    -- exclude tags/cscope
+    "--exclude=*tags*",
+    "--exclude=*cscope.*",
+
+    -- exclude python
+    "--exclude=*.pyc",
+
+    -- exclude jvm class
+    "--exclude=*.class",
+
+    -- exclude VS project generated
+    "--exclude=*.pdb",
+    "--exclude=*.sln",
+    "--exclude=*.csproj",
+    "--exclude=*.csproj.user",
+
+    -- exclude blobs
+    "--exclude=*.exe",
+    "--exclude=*.dll",
+    "--exclude=*.mp3",
+    "--exclude=*.ogg",
+    "--exclude=*.flac",
+    "--exclude=*.swp",
+    "--exclude=*.swo",
+    "--exclude=*.bmp",
+    "--exclude=*.gif",
+    "--exclude=*.ico",
+    "--exclude=*.jpg",
+    "--exclude=*.png",
+    "--exclude=*.rar",
+    "--exclude=*.zip",
+    "--exclude=*.tar",
+    "--exclude=*.tar.gz",
+    "--exclude=*.tar.xz",
+    "--exclude=*.tar.bz2",
+    "--exclude=*.pdf",
+    "--exclude=*.doc",
+    "--exclude=*.docx",
+    "--exclude=*.ppt",
+    "--exclude=*.pptx",
   },
 
   -- workspace detection
