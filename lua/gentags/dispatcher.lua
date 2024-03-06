@@ -66,7 +66,7 @@ M.get_context = function()
     tags_file = utils.get_tags_file(tags_handle --[[@as string]])
   elseif
     str.not_empty(filename)
-    and not tbl.list_contains(cfg.exclude_filetypes or {}, filetype)
+    and not tbl.list_contains(cfg.disabled_filetypes or {}, filetype)
   then
     tags_handle = utils.get_tags_handle(filename)
     tags_file = utils.get_tags_file(tags_handle)
