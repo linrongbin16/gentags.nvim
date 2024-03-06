@@ -10,57 +10,57 @@ local Defaults = {
   ctags = {
     ["--tag-relative=never"] = true,
 
-    -- exclude logs
-    ["--exclude=*.log"] = true,
-
-    -- exclude vcs
-    ["--exclude=*.git"] = true,
-    ["--exclude=*.svg"] = true,
-    ["--exclude=*.hg"] = true,
-
-    -- exclude nodejs
-    ["--exclude=node_modules"] = true,
-
-    -- exclude tags/cscope
-    ["--exclude=*tags*"] = true,
-    ["--exclude=*cscope.*"] = true,
-
-    -- exclude python
-    ["--exclude=*.pyc"] = true,
-
-    -- exclude jvm class
-    ["--exclude=*.class"] = true,
-
-    -- exclude VS project generated
-    ["--exclude=*.pdb"] = true,
-    ["--exclude=*.sln"] = true,
-    ["--exclude=*.csproj"] = true,
-    ["--exclude=*.csproj.user"] = true,
-
-    -- exclude blobs
-    ["--exclude=*.exe"] = true,
-    ["--exclude=*.dll"] = true,
-    ["--exclude=*.mp3"] = true,
-    ["--exclude=*.ogg"] = true,
-    ["--exclude=*.flac"] = true,
-    ["--exclude=*.swp"] = true,
-    ["--exclude=*.swo"] = true,
-    ["--exclude=*.bmp"] = true,
-    ["--exclude=*.gif"] = true,
-    ["--exclude=*.ico"] = true,
-    ["--exclude=*.jpg"] = true,
-    ["--exclude=*.png"] = true,
-    ["--exclude=*.rar"] = true,
-    ["--exclude=*.zip"] = true,
-    ["--exclude=*.tar"] = true,
-    ["--exclude=*.tar.gz"] = true,
-    ["--exclude=*.tar.xz"] = true,
-    ["--exclude=*.tar.bz2"] = true,
-    ["--exclude=*.pdf"] = true,
-    ["--exclude=*.doc"] = true,
-    ["--exclude=*.docx"] = true,
-    ["--exclude=*.ppt"] = true,
-    ["--exclude=*.pptx"] = true,
+    -- -- exclude logs
+    -- ["--exclude=*.log"] = true,
+    --
+    -- -- exclude vcs
+    -- ["--exclude=*.git"] = true,
+    -- ["--exclude=*.svg"] = true,
+    -- ["--exclude=*.hg"] = true,
+    --
+    -- -- exclude nodejs
+    -- ["--exclude=node_modules"] = true,
+    --
+    -- -- exclude tags/cscope
+    -- ["--exclude=*tags*"] = true,
+    -- ["--exclude=*cscope.*"] = true,
+    --
+    -- -- exclude python
+    -- ["--exclude=*.pyc"] = true,
+    --
+    -- -- exclude jvm class
+    -- ["--exclude=*.class"] = true,
+    --
+    -- -- exclude VS project generated
+    -- ["--exclude=*.pdb"] = true,
+    -- ["--exclude=*.sln"] = true,
+    -- ["--exclude=*.csproj"] = true,
+    -- ["--exclude=*.csproj.user"] = true,
+    --
+    -- -- exclude blobs
+    -- ["--exclude=*.exe"] = true,
+    -- ["--exclude=*.dll"] = true,
+    -- ["--exclude=*.mp3"] = true,
+    -- ["--exclude=*.ogg"] = true,
+    -- ["--exclude=*.flac"] = true,
+    -- ["--exclude=*.swp"] = true,
+    -- ["--exclude=*.swo"] = true,
+    -- ["--exclude=*.bmp"] = true,
+    -- ["--exclude=*.gif"] = true,
+    -- ["--exclude=*.ico"] = true,
+    -- ["--exclude=*.jpg"] = true,
+    -- ["--exclude=*.png"] = true,
+    -- ["--exclude=*.rar"] = true,
+    -- ["--exclude=*.zip"] = true,
+    -- ["--exclude=*.tar"] = true,
+    -- ["--exclude=*.tar.gz"] = true,
+    -- ["--exclude=*.tar.xz"] = true,
+    -- ["--exclude=*.tar.bz2"] = true,
+    -- ["--exclude=*.pdf"] = true,
+    -- ["--exclude=*.doc"] = true,
+    -- ["--exclude=*.docx"] = true,
+    -- ["--exclude=*.ppt"] = true,
+    -- ["--exclude=*.pptx"] = true,
   },
 
   -- workspace detection
