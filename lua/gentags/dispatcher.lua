@@ -87,10 +87,10 @@ M.enabled = function()
   local filename = utils.get_filename()
   local filetype = utils.get_filetype()
 
-  if cfg.disabled_filetypes[filetype] then
+  if tbl.list_contains(cfg.disabled_filetypes, filetype) then
     return false
   end
-  if cfg.disabled_filenames[filename] then
+  if tbl.list_contains(cfg.disabled_filenames, filename) then
     return false
   end
 
@@ -99,7 +99,7 @@ M.enabled = function()
     filedir = path.parent(filename)
   end
   local workspace = utils.get_workspace(filedir)
-  if cfg.disabled_workspaces[workspace] then
+  if tbl.list_contains(cfg.disabled_workspaces, workspace) then
     return false
   end
 

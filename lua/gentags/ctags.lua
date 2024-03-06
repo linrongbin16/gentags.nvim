@@ -123,13 +123,7 @@ M._write = function(ctx, on_exit)
   end
 
   local cfg = configs.get()
-  local opts_table = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
-  local opts = {}
-  for o, v in ipairs(opts_table) do
-    if str.not_empty(o) and v then
-      table.insert(opts, o)
-    end
-  end
+  local opts = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
 
   local cwd = nil
   if ctx.mode == "workspace" then
@@ -231,13 +225,7 @@ M._append = function(ctx, on_exit)
   end
 
   local cfg = configs.get()
-  local opts_table = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
-  local opts = {}
-  for o, v in pairs(opts_table) do
-    if str.not_empty(o) and v then
-      table.insert(opts, o)
-    end
-  end
+  local opts = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
 
   -- append mode
   table.insert(opts, "--append=yes")

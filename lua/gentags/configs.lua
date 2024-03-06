@@ -1,3 +1,6 @@
+local tbl = require("gentags.commons.tbl")
+local str = require("gentags.commons.str")
+
 local M = {}
 
 --- @alias gentags.Options table<any, any>
@@ -8,65 +11,65 @@ local Defaults = {
 
   -- ctags options
   ctags = {
-    ["--tag-relative=never"] = true,
+    "--tag-relative=never",
 
     -- Recommended Options:
 
     -- -- exclude logs
-    -- ["--exclude=*.log"] = true,
+    -- "--exclude=*.log",
     --
     -- -- exclude vcs
-    -- ["--exclude=*.git"] = true,
-    -- ["--exclude=*.svg"] = true,
-    -- ["--exclude=*.hg"] = true,
+    -- "--exclude=*.git",
+    -- "--exclude=*.svg",
+    -- "--exclude=*.hg",
     --
     -- -- exclude nodejs
-    -- ["--exclude=node_modules"] = true,
+    -- "--exclude=node_modules",
     --
     -- -- exclude tags/cscope
-    -- ["--exclude=*tags*"] = true,
-    -- ["--exclude=*cscope.*"] = true,
+    -- "--exclude=*tags*",
+    -- "--exclude=*cscope.*",
     --
     -- -- exclude python
-    -- ["--exclude=*.pyc"] = true,
+    -- "--exclude=*.pyc",
     --
     -- -- exclude jvm class
-    -- ["--exclude=*.class"] = true,
+    -- "--exclude=*.class",
     --
     -- -- exclude VS project generated
-    -- ["--exclude=*.pdb"] = true,
-    -- ["--exclude=*.sln"] = true,
-    -- ["--exclude=*.csproj"] = true,
-    -- ["--exclude=*.csproj.user"] = true,
+    -- "--exclude=*.pdb",
+    -- "--exclude=*.sln",
+    -- "--exclude=*.csproj",
+    -- "--exclude=*.csproj.user",
     --
     -- -- exclude blobs
-    -- ["--exclude=*.exe"] = true,
-    -- ["--exclude=*.dll"] = true,
-    -- ["--exclude=*.mp3"] = true,
-    -- ["--exclude=*.ogg"] = true,
-    -- ["--exclude=*.flac"] = true,
-    -- ["--exclude=*.swp"] = true,
-    -- ["--exclude=*.swo"] = true,
-    -- ["--exclude=*.bmp"] = true,
-    -- ["--exclude=*.gif"] = true,
-    -- ["--exclude=*.ico"] = true,
-    -- ["--exclude=*.jpg"] = true,
-    -- ["--exclude=*.png"] = true,
-    -- ["--exclude=*.rar"] = true,
-    -- ["--exclude=*.zip"] = true,
-    -- ["--exclude=*.tar"] = true,
-    -- ["--exclude=*.tar.gz"] = true,
-    -- ["--exclude=*.tar.xz"] = true,
-    -- ["--exclude=*.tar.bz2"] = true,
-    -- ["--exclude=*.pdf"] = true,
-    -- ["--exclude=*.doc"] = true,
-    -- ["--exclude=*.docx"] = true,
-    -- ["--exclude=*.ppt"] = true,
-    -- ["--exclude=*.pptx"] = true,
+    -- "--exclude=*.exe",
+    -- "--exclude=*.dll",
+    -- "--exclude=*.mp3",
+    -- "--exclude=*.ogg",
+    -- "--exclude=*.flac",
+    -- "--exclude=*.swp",
+    -- "--exclude=*.swo",
+    -- "--exclude=*.bmp",
+    -- "--exclude=*.gif",
+    -- "--exclude=*.ico",
+    -- "--exclude=*.jpg",
+    -- "--exclude=*.png",
+    -- "--exclude=*.rar",
+    -- "--exclude=*.zip",
+    -- "--exclude=*.tar",
+    -- "--exclude=*.tar.gz",
+    -- "--exclude=*.tar.xz",
+    -- "--exclude=*.tar.bz2",
+    -- "--exclude=*.pdf",
+    -- "--exclude=*.doc",
+    -- "--exclude=*.docx",
+    -- "--exclude=*.ppt",
+    -- "--exclude=*.pptx",
   },
 
   -- workspace detection
-  workspace = { [".git"] = true, [".svn"] = true, [".hg"] = true },
+  workspace = { ".git", ".svn", ".hg" },
 
   -- excluded workspace
   disabled_workspaces = {},
@@ -76,8 +79,8 @@ local Defaults = {
 
     -- Recommended Options:
 
-    -- ["neo-tree"] = true,
-    -- ["NvimTree"] = true,
+    -- "neo-tree",
+    -- "NvimTree",
   },
 
   -- excluded filenames
@@ -135,7 +138,26 @@ end
 --- @param opts gentags.Options?
 --- @return gentags.Options
 M.setup = function(opts)
+  local user_ctags = tbl.tbl_get(opts, "ctags") or {}
+  local ctags_opts = vim.deepcopy(Defaults.ctags)
+  for _, o in ipairs(user_ctags) do
+    if str.not_empty(o) then
+      table.insert(ctags_opts, o)
+    end
+  end
+
+  local user_workspace = tbl.tbl_get(opts, "workspace") or {}
+  local workspace_opts = vim.deepcopy(Defaults.workspace)
+  for _, o in ipairs(user_workspace) do
+    if str.not_empty(o) then
+      table.insert(workspace_opts, o)
+    end
+  end
+
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+  Configs.ctags = ctags_opts
+  Configs.workspace = workspace_opts
+
   return Configs
 end
 
