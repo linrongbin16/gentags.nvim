@@ -1,5 +1,21 @@
 # Changelog
 
+## [3.0.0](https://github.com/linrongbin16/gentags.nvim/compare/v2.0.0...v3.0.0) (2024-03-06)
+
+
+### ⚠ BREAKING CHANGES
+
+* **configs:** use list configs instead of hash map! ([#34](https://github.com/linrongbin16/gentags.nvim/issues/34))
+
+### Performance Improvements
+
+* **disabled:** allow disable specific filenames/filetypes/workspaces ([#32](https://github.com/linrongbin16/gentags.nvim/issues/32)) ([e9b0096](https://github.com/linrongbin16/gentags.nvim/commit/e9b0096fb6c1c64965cf1385b441b5e6ee1a5b96))
+
+
+### Code Refactoring
+
+* **configs:** use list configs instead of hash map! ([#34](https://github.com/linrongbin16/gentags.nvim/issues/34)) ([d3e2bc1](https://github.com/linrongbin16/gentags.nvim/commit/d3e2bc1ff433b19d7c7d1b61c091cef9ed5a2ee8))
+
 ## [2.0.0](https://github.com/linrongbin16/gentags.nvim/compare/v1.1.5...v2.0.0) (2024-01-11)
 
 
