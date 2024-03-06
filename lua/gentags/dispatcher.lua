@@ -1,7 +1,7 @@
+local tbl = require("gentags.commons.tbl")
+local str = require("gentags.commons.str")
+local path = require("gentags.commons.path")
 local logging = require("gentags.commons.logging")
-local strings = require("gentags.commons.strings")
-local paths = require("gentags.commons.paths")
-local tables = require("gentags.commons.tables")
 
 local configs = require("gentags.configs")
 local utils = require("gentags.utils")
@@ -45,10 +45,10 @@ M.get_context = function()
 
   local filedir = nil
   if
-    strings.not_empty(filename)
-    and not tables.list_contains(cfg.exclude_filetypes or {}, filetype)
+    str.not_empty(filename)
+    and not tbl.list_contains(cfg.exclude_filetypes or {}, filetype)
   then
-    filedir = paths.parent(filename)
+    filedir = path.parent(filename)
   end
   local workspace = utils.get_workspace(filedir)
 
@@ -61,18 +61,18 @@ M.get_context = function()
 
   local tags_handle = nil
   local tags_file = nil
-  if strings.not_empty(workspace) then
+  if str.not_empty(workspace) then
     tags_handle = utils.get_tags_handle(workspace --[[@as string]])
     tags_file = utils.get_tags_file(tags_handle --[[@as string]])
   elseif
-    strings.not_empty(filename)
-    and not tables.list_contains(cfg.exclude_filetypes or {}, filetype)
+    str.not_empty(filename)
+    and not tbl.list_contains(cfg.exclude_filetypes or {}, filetype)
   then
     tags_handle = utils.get_tags_handle(filename)
     tags_file = utils.get_tags_file(tags_handle)
   end
 
-  local mode = strings.not_empty(workspace) and "workspace" or "singlefile"
+  local mode = str.not_empty(workspace) and "workspace" or "singlefile"
 
   return {
     workspace = workspace,

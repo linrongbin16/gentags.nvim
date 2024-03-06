@@ -1,7 +1,7 @@
+local tbl = require("gentags.commons.tbl")
+local str = require("gentags.commons.str")
 local logging = require("gentags.commons.logging")
 local spawn = require("gentags.commons.spawn")
-local tables = require("gentags.commons.tables")
-local strings = require("gentags.commons.strings")
 local uv = require("gentags.commons.uv")
 
 local configs = require("gentags.configs")
@@ -25,7 +25,7 @@ M.load = function(ctx)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|load| ctx:%s", vim.inspect(ctx))
 
-  if strings.empty(ctx.tags_file) then
+  if str.empty(ctx.tags_file) then
     return
   end
   if TAGS_LOADED_MAP[ctx.tags_file] then
@@ -47,7 +47,7 @@ M._write = function(ctx, on_exit)
   logger:debug("|_write| ctx:%s", vim.inspect(ctx))
 
   -- no tags name
-  if strings.empty(ctx.tags_file) then
+  if str.empty(ctx.tags_file) then
     return nil
   end
   -- tags name already exist, e.g. already running ctags for this tags
@@ -56,7 +56,7 @@ M._write = function(ctx, on_exit)
   end
 
   local tmpfile = vim.fn.tempname() --[[@as string]]
-  if strings.empty(tmpfile) then
+  if str.empty(tmpfile) then
     return nil
   end
 
@@ -123,7 +123,7 @@ M._write = function(ctx, on_exit)
   end
 
   local cfg = configs.get()
-  local opts_map = vim.deepcopy(tables.tbl_get(cfg, "ctags") or {})
+  local opts_map = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
   local opts = {}
   for o, v in pairs(opts_map) do
     if type(o) == "string" and string.len(o) > 0 and v then
@@ -134,7 +134,7 @@ M._write = function(ctx, on_exit)
   local cwd = nil
   if ctx.mode == "workspace" then
     logger:ensure(
-      strings.not_empty(ctx.workspace),
+      str.not_empty(ctx.workspace),
       "ctx.workspace cannot be empty: %s",
       vim.inspect(ctx)
     )
@@ -149,7 +149,7 @@ M._write = function(ctx, on_exit)
   if ctx.mode == "singlefile" then
     -- only generate tags for target source file
     logger:ensure(
-      strings.not_empty(ctx.filename),
+      str.not_empty(ctx.filename),
       "ctx.filename cannot be empty: %s",
       vim.inspect(ctx)
     )
@@ -184,10 +184,10 @@ M._append = function(ctx, on_exit)
   local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
   logger:debug("|_append| ctx:%s", vim.inspect(ctx))
 
-  if strings.empty(ctx.filename) then
+  if str.empty(ctx.filename) then
     return nil
   end
-  if strings.empty(ctx.tags_file) then
+  if str.empty(ctx.tags_file) then
     return nil
   end
   if TAGS_LOCKING_MAP[ctx.tags_file] then
@@ -231,7 +231,7 @@ M._append = function(ctx, on_exit)
   end
 
   local cfg = configs.get()
-  local opts = vim.deepcopy(tables.tbl_get(cfg, "ctags") or {})
+  local opts = vim.deepcopy(tbl.tbl_get(cfg, "ctags") or {})
 
   -- append mode
   table.insert(opts, "--append=yes")
@@ -264,7 +264,7 @@ M._append = function(ctx, on_exit)
 end
 
 M.init = function(ctx)
-  if strings.empty(ctx.tags_file) then
+  if str.empty(ctx.tags_file) then
     return
   end
   if TAGS_INITED_MAP[ctx.tags_file] then
@@ -281,7 +281,7 @@ M.update = function(ctx)
   if
     ctx.mode == "singlefile"
     or (
-      strings.not_empty(ctx.tags_file)
+      str.not_empty(ctx.tags_file)
       and vim.fn.filereadable(ctx.tags_file) <= 0
     )
   then
@@ -301,7 +301,7 @@ M.update = function(ctx)
       vim.inspect(ctx)
     )
 
-    if strings.empty(ctx.workspace) then
+    if str.empty(ctx.workspace) then
       return
     end
 
@@ -339,7 +339,7 @@ end
 --- @param ctx gentags.Context
 --- @return gentags.StatusInfo
 M.status = function(ctx)
-  local running = tables.tbl_not_empty(JOBS_MAP)
+  local running = tbl.tbl_not_empty(JOBS_MAP)
   local jobs = 0
   for pid, system_obj in pairs(JOBS_MAP) do
     jobs = jobs + 1
