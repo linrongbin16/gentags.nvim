@@ -87,10 +87,10 @@ M.enabled = function()
   local filename = utils.get_filename()
   local filetype = utils.get_filetype()
 
-  if tbl.list_contains(cfg.disabled_filetypes, filetype) then
+  if cfg.disabled_filetypes[filetype] then
     return false
   end
-  if tbl.list_contains(cfg.disabled_filenames, filename) then
+  if cfg.disabled_filenames[filename] then
     return false
   end
 
