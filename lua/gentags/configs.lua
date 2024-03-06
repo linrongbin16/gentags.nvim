@@ -1,6 +1,3 @@
-local tbl = require("gentags.commons.tbl")
-local str = require("gentags.commons.str")
-
 local M = {}
 
 --- @alias gentags.Options table<any, any>
