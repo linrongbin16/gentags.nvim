@@ -39,7 +39,7 @@ To be honest, it seems that tags have become useless in Neovim today, LSP and tr
 
 ## Requirements
 
-- Neovim &ge; 0.7.0.
+- Neovim &ge; 0.7.
 - [universal-ctags](https://github.com/universal-ctags/ctags) (default backend).
 
 PRs are welcome to add other backends.
