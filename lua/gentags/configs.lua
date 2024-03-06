@@ -1,4 +1,4 @@
-local tbl = require("gentags.commons.tags")
+local tbl = require("gentags.commons.tbl")
 local str = require("gentags.commons.str")
 
 local M = {}
