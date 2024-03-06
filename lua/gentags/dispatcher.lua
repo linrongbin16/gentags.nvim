@@ -11,12 +11,14 @@ local M = {}
 -- A tool module has these APIs: load/init/update/terminate/status
 --
 --- @alias gentags.Context {workspace:string?,filename:string?,filetype:string?,tags_file:string?,tags_handle:string?,mode:"workspace"|"singlefile"}
+--
 --- @alias gentags.LoadMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.InitMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.UpdateMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.TerminateMethod fun(ctx:gentags.Context):nil
 --- @alias gentags.StatusInfo {running:boolean,jobs:integer}
 --- @alias gentags.StatusMethod fun(ctx:gentags.Context):gentags.StatusInfo
+--
 --- @alias gentags.Tool {load:gentags.LoadMethod,init:gentags.InitMethod,update:gentags.UpdateMethod,terminate:gentags.TerminateMethod,status:gentags.StatusMethod}
 --- @type table<string, gentags.Tool>
 local TOOLS_MAP = {
