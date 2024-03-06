@@ -14,7 +14,7 @@
 Tags generator/management for old school vimers in Neovim.
 </i></p>
 
-To be honest, it seems that tags have become useless in Neovim today, LSP and treesitter replaced tags and make (Neo)vim a modern editor. While there exists gap when LSP server or treesitter implementations are insufficient, which brings tags back to us as a supplement to fill the gap.
+To be honest, it seems that tags have become useless in Neovim today, since we have LSP and treesitter now. While there exists gap when LSP server or treesitter implementations are insufficient, thus brings it back to us as a supplement to fill the gap.
 
 ## Table of Contents
 
