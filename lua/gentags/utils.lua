@@ -74,14 +74,20 @@ M.get_tags_handle = function(filepath)
     return nil
   end
   while
-    str.not_empty(filepath) and str.endswith(filepath --[[@as string]], "/")
-    or str.endswith(filepath --[[@as string]], "\\")
+    str.not_empty(filepath)
+    and (
+      str.endswith(filepath --[[@as string]], "/")
+      or str.endswith(filepath --[[@as string]], "\\")
+    )
   do
     filepath = string.sub(filepath --[[@as string]], 1, #filepath - 1)
   end
   while
-    str.not_empty(filepath) and str.startswith(filepath --[[@as string]], "/")
-    or str.startswith(filepath --[[@as string]], "\\")
+    str.not_empty(filepath)
+    and (
+      str.startswith(filepath --[[@as string]], "/")
+      or str.startswith(filepath --[[@as string]], "\\")
+    )
   do
     filepath = string.sub(filepath --[[@as string]], 2)
   end
