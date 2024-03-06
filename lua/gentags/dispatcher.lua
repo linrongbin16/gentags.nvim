@@ -44,10 +44,7 @@ M.get_context = function()
   local filetype = utils.get_filetype()
 
   local filedir = nil
-  if
-    str.not_empty(filename)
-    and not tbl.list_contains(cfg.disabled_filetypes or {}, filetype)
-  then
+  if str.not_empty(filename) then
     filedir = path.parent(filename)
   end
   local workspace = utils.get_workspace(filedir)
@@ -64,10 +61,7 @@ M.get_context = function()
   if str.not_empty(workspace) then
     tags_handle = utils.get_tags_handle(workspace --[[@as string]])
     tags_file = utils.get_tags_file(tags_handle --[[@as string]])
-  elseif
-    str.not_empty(filename)
-    and not tbl.list_contains(cfg.disabled_filetypes or {}, filetype)
-  then
+  elseif str.not_empty(filename) then
     tags_handle = utils.get_tags_handle(filename)
     tags_file = utils.get_tags_file(tags_handle)
   end
