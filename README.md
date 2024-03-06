@@ -29,7 +29,7 @@ To be honest, it seems that tags have become useless in Neovim today, since we h
 
 ## Features
 
-- [x] Automatically running in background.
+- [x] Automatically run in background.
 - [x] Support both workspace/single file mode.
 - [x] Full update on workspace open, incremental update on file save.
 - [x] Terminate immediately on nvim leave.
