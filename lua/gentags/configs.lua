@@ -1,3 +1,6 @@
+local tbl = require("gentags.commons.tags")
+local str = require("gentags.commons.str")
+
 local M = {}
 
 --- @alias gentags.Options table<any, any>
@@ -10,70 +13,72 @@ local Defaults = {
   ctags = {
     "--tag-relative=never",
 
-    -- exclude logs
-    "--exclude=*.log",
-
-    -- exclude vcs
-    "--exclude=*.git",
-    "--exclude=*.svg",
-    "--exclude=*.hg",
-
-    -- exclude nodejs
-    "--exclude=node_modules",
-
-    -- exclude tags/cscope
-    "--exclude=*tags*",
-    "--exclude=*cscope.*",
-
-    -- exclude python
-    "--exclude=*.pyc",
-
-    -- exclude jvm class
-    "--exclude=*.class",
-
-    -- exclude VS project generated
-    "--exclude=*.pdb",
-    "--exclude=*.sln",
-    "--exclude=*.csproj",
-    "--exclude=*.csproj.user",
-
-    -- exclude blobs
-    "--exclude=*.exe",
-    "--exclude=*.dll",
-    "--exclude=*.mp3",
-    "--exclude=*.ogg",
-    "--exclude=*.flac",
-    "--exclude=*.swp",
-    "--exclude=*.swo",
-    "--exclude=*.bmp",
-    "--exclude=*.gif",
-    "--exclude=*.ico",
-    "--exclude=*.jpg",
-    "--exclude=*.png",
-    "--exclude=*.rar",
-    "--exclude=*.zip",
-    "--exclude=*.tar",
-    "--exclude=*.tar.gz",
-    "--exclude=*.tar.xz",
-    "--exclude=*.tar.bz2",
-    "--exclude=*.pdf",
-    "--exclude=*.doc",
-    "--exclude=*.docx",
-    "--exclude=*.ppt",
-    "--exclude=*.pptx",
+    -- Recommended Options:
+    --
+    -- -- exclude logs
+    -- "--exclude=*.log",
+    --
+    -- -- exclude vcs
+    -- "--exclude=*.git",
+    -- "--exclude=*.svg",
+    -- "--exclude=*.hg",
+    --
+    -- -- exclude nodejs
+    -- "--exclude=node_modules",
+    --
+    -- -- exclude tags/cscope
+    -- "--exclude=*tags*",
+    -- "--exclude=*cscope.*",
+    --
+    -- -- exclude python
+    -- "--exclude=*.pyc",
+    --
+    -- -- exclude jvm class
+    -- "--exclude=*.class",
+    --
+    -- -- exclude VS project generated
+    -- "--exclude=*.pdb",
+    -- "--exclude=*.sln",
+    -- "--exclude=*.csproj",
+    -- "--exclude=*.csproj.user",
+    --
+    -- -- exclude blobs
+    -- "--exclude=*.exe",
+    -- "--exclude=*.dll",
+    -- "--exclude=*.mp3",
+    -- "--exclude=*.ogg",
+    -- "--exclude=*.flac",
+    -- "--exclude=*.swp",
+    -- "--exclude=*.swo",
+    -- "--exclude=*.bmp",
+    -- "--exclude=*.gif",
+    -- "--exclude=*.ico",
+    -- "--exclude=*.jpg",
+    -- "--exclude=*.png",
+    -- "--exclude=*.rar",
+    -- "--exclude=*.zip",
+    -- "--exclude=*.tar",
+    -- "--exclude=*.tar.gz",
+    -- "--exclude=*.tar.xz",
+    -- "--exclude=*.tar.bz2",
+    -- "--exclude=*.pdf",
+    -- "--exclude=*.doc",
+    -- "--exclude=*.docx",
+    -- "--exclude=*.ppt",
+    -- "--exclude=*.pptx",
   },
 
   -- workspace detection
   workspace = { ".git", ".svn", ".hg" },
 
   -- excluded filetypes
-  disabled_filetypes = { ["neo-tree"] = true, ["NvimTree"] = true },
+  disabled_filetypes = { "neo-tree", "NvimTree" },
 
   -- excluded workspace
   disabled_workspaces = {},
 
-  -- excluded files
-  disabled_files = {},
+  -- excluded filenames
+  disabled_filenames = {},
 
   -- cache directory
   -- For *NIX: `~/.cache/nvim/gentags.nvim`.
@@ -127,7 +132,16 @@ end
 --- @param opts gentags.Options?
 --- @return gentags.Options
 M.setup = function(opts)
+  local user_ctags_opts = tbl.tbl_get(opts, "ctags") or {}
+  local ctags_opts = vim.deepcopy(Defaults.ctags)
+  for _, o in ipairs(user_ctags_opts) do
+    if str.not_empty(o) then
+      table.insert(ctags_opts, o)
+    end
+  end
+
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+  Configs.ctags = ctags_opts
   return Configs
 end
 
