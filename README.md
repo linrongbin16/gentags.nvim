@@ -33,7 +33,7 @@ To be honest, it seems that tags have become useless in Neovim today, since we h
 - [x] Support both workspace/single-file mode.
 - [x] Full update on workspace open, incremental update on file save.
 - [x] Terminate immediately on nvim leave.
-- [x] Search and load tags on workspace/file open.
+- [x] Find the matching tags and load on workspace/file open.
 - [ ] Disk cache management and garbage collection.
 - [ ] Real-time status for Neovim components such as statusline.
 
