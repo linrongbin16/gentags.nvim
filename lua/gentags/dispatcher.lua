@@ -84,6 +84,33 @@ M.get_context = function()
   }
 end
 
+--- @return boolean
+M.enabled = function()
+  local logger = logging.get("gentags") --[[@as commons.logging.Logger]]
+  local cfg = configs.get()
+
+  local filename = utils.get_filename()
+  local filetype = utils.get_filetype()
+
+  if tbl.list_contains(cfg.disabled_filetypes, filetype) then
+    return false
+  end
+  if tbl.list_contains(cfg.disabled_filenames, filename) then
+    return false
+  end
+
+  local filedir = nil
+  if str.not_empty(filename) then
+    filedir = path.parent(filename)
+  end
+  local workspace = utils.get_workspace(filedir)
+  if tbl.list_contains(cfg.disabled_workspaces, workspace) then
+    return false
+  end
+
+  return true
+end
+
 M.load = function()
   vim.schedule(function()
     local ok, ctx_or_err = pcall(M.get_context)
