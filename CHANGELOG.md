@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/linrongbin16/gentags.nvim/compare/v3.0.0...v3.0.1) (2024-03-06)
+
+
+### Bug Fixes
+
+* **configs:** fix disabled filenames/workspaces filter ([#35](https://github.com/linrongbin16/gentags.nvim/issues/35)) ([bff9e44](https://github.com/linrongbin16/gentags.nvim/commit/bff9e44bf4db39c5707e8e9d9aee3ea038b7f362))
+
 ## [3.0.0](https://github.com/linrongbin16/gentags.nvim/compare/v2.0.0...v3.0.0) (2024-03-06)
 
 
