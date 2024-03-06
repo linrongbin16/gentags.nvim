@@ -138,16 +138,7 @@ end
 --- @param opts gentags.Options?
 --- @return gentags.Options
 M.setup = function(opts)
-  local user_workspace_opts = tbl.tbl_get(opts, "workspace") or {}
-  local workspace_opts = vim.deepcopy(Defaults.workspace or {})
-  for _, w in ipairs(user_workspace_opts) do
-    if str.not_empty(w) then
-      table.insert(workspace_opts, w)
-    end
-  end
-
   Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
-  Configs.workspace = workspace_opts
   return Configs
 end
 
