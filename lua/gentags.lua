@@ -21,8 +21,8 @@ M.setup = function(opts)
   -- cache dir
   logger:ensure(
     vim.fn.filereadable(cfg.cache_dir) <= 0,
-    "%s (cache_dir) already exist but not a directory!",
-    vim.inspect(cfg.cache_dir)
+    string.format("%s (cache_dir) already exist but not a directory!",
+    vim.inspect(cfg.cache_dir))
   )
   vim.fn.mkdir(cfg.cache_dir, "p")
 
@@ -35,7 +35,7 @@ M.setup = function(opts)
     callback = function(event)
       logging
         .get("gentags")
-        :debug("|setup| enter buffer:%s", vim.inspect(event))
+        :debug(string.format("|setup| enter buffer:%s", vim.inspect(event)))
       local dispatcher = require("gentags.dispatcher")
       if dispatcher.enabled() then
         dispatcher.load()
@@ -53,7 +53,7 @@ M.setup = function(opts)
     callback = function(event)
       logging
         .get("gentags")
-        :debug("|setup| write buffer:%s", vim.inspect(event))
+        :debug(string.format("|setup| write buffer:%s", vim.inspect(event)))
       local dispatcher = require("gentags.dispatcher")
       if dispatcher.enabled() then
         dispatcher.update()
@@ -64,7 +64,7 @@ M.setup = function(opts)
   -- terminate before leaving vim
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
     callback = function(event)
-      logging.get("gentags"):debug("|setup| leave vim:%s", vim.inspect(event))
+      logging.get("gentags"):debug(string.format("|setup| leave vim:%s", vim.inspect(event)))
       require("gentags.dispatcher").terminate()
     end,
   })
