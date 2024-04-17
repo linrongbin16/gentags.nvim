@@ -184,7 +184,7 @@ M.terminate = function()
   local tool = get_tool()
 
   local ok2, err2 = pcall(tool.terminate, ctx)
-  logger:ensure(ok2,string.format("failed to terminate:%s", vim.inspect(err2)))
+  logger:ensure(ok2, string.format("failed to terminate:%s", vim.inspect(err2)))
 end
 
 M.status = function()
