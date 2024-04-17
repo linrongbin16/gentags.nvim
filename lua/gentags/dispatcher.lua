@@ -171,7 +171,7 @@ M.terminate = function()
   local ok, ctx = pcall(M.get_context)
   logger:ensure(ok, "failed to get context:%s", vim.inspect(ctx))
   local tool = get_tool()
-  local ok2, err2 = pcall(tool.update, ctx)
+  local ok2, err2 = pcall(tool.terminate, ctx)
   logger:ensure(ok2, "failed to terminate:%s", vim.inspect(err2))
 end
 
