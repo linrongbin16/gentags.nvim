@@ -23,7 +23,7 @@ local TAGS_INITED_MAP = {}
 --- @param ctx gentags.Context
 M.load = function(ctx)
   local logger = logging.get("gentags")
-  logger:debug("|load| ctx:%s", vim.inspect(ctx))
+  logger:debug(string.format("|load| ctx:%s", vim.inspect(ctx)))
 
   if str.empty(ctx.tags_file) then
     return
@@ -34,7 +34,7 @@ M.load = function(ctx)
   if vim.fn.filereadable(ctx.tags_file) <= 0 then
     return
   end
-  logger:debug("|load| load tags:%s", vim.inspect(ctx.tags_file))
+  logger:debug(string.format("|load| load tags:%s", vim.inspect(ctx.tags_file)))
   vim.opt.tags:append(ctx.tags_file)
   TAGS_LOADED_MAP[ctx.tags_file] = true
 end
@@ -44,7 +44,7 @@ end
 --- @return table?
 M._write = function(ctx, on_exit)
   local logger = logging.get("gentags")
-  logger:debug("|_write| ctx:%s", vim.inspect(ctx))
+  logger:debug(string.format("|_write| ctx:%s", vim.inspect(ctx)))
 
   -- no tags name
   if str.empty(ctx.tags_file) then
@@ -63,11 +63,11 @@ M._write = function(ctx, on_exit)
   local system_obj = nil
 
   local function _on_stdout(line)
-    logger:debug("|_write._on_stdout| line:%s", vim.inspect(line))
+    logger:debug(string.format("|_write._on_stdout| line:%s", vim.inspect(line)))
   end
 
   local function _on_stderr(line)
-    logger:debug("|_write._on_stderr| line:%s", vim.inspect(line))
+    logger:debug(string.format("|_write._on_stderr| line:%s", vim.inspect(line)))
   end
 
   local function _on_exit(completed)
@@ -81,21 +81,21 @@ M._write = function(ctx, on_exit)
     local rename_result, rename_err = uv.fs_rename(tmpfile, ctx.tags_file)
     if rename_result == nil then
       logger:warn(
-        "failed to save result on %s, error: %s",
+       string.format( "failed to save result on %s, error: %s",
         vim.inspect(ctx.tags_file),
-        vim.inspect(rename_err)
+        vim.inspect(rename_err))
       )
     else
       logger:debug(
-        "|_write._on_exit| tags generate completed to:%s",
-        vim.inspect(ctx.tags_file)
+        string.format("|_write._on_exit| tags generate completed to:%s",
+        vim.inspect(ctx.tags_file))
       )
     end
 
     if system_obj == nil then
       logger:err(
-        "|_write._on_exit| system_obj %s must not be nil!",
-        vim.inspect(system_obj)
+        string.format("|_write._on_exit| system_obj %s must not be nil!",
+        vim.inspect(system_obj))
       )
     end
     if system_obj ~= nil then
@@ -129,8 +129,8 @@ M._write = function(ctx, on_exit)
   if ctx.mode == "workspace" then
     logger:ensure(
       str.not_empty(ctx.workspace),
-      "ctx.workspace cannot be empty: %s",
-      vim.inspect(ctx)
+      string.format("ctx.workspace cannot be empty: %s",
+      vim.inspect(ctx))
     )
     cwd = ctx.workspace
     table.insert(opts, "-R")
@@ -144,14 +144,14 @@ M._write = function(ctx, on_exit)
     -- only generate tags for target source file
     logger:ensure(
       str.not_empty(ctx.filename),
-      "ctx.filename cannot be empty: %s",
-      vim.inspect(ctx)
+      string.format("ctx.filename cannot be empty: %s",
+      vim.inspect(ctx))
     )
     table.insert(opts, ctx.filename)
   end
 
   local cmds = { "ctags", unpack(opts) }
-  logger:debug("|_write| ctx:%s, cmds:%s", vim.inspect(ctx), vim.inspect(cmds))
+  logger:debug(string.format("|_write| ctx:%s, cmds:%s", vim.inspect(ctx), vim.inspect(cmds)))
 
   system_obj = spawn.run(cmds, {
     cwd = cwd,
@@ -161,8 +161,8 @@ M._write = function(ctx, on_exit)
 
   logger:ensure(
     system_obj ~= nil,
-    "|_write| failed to spawn child process on commands: %s",
-    vim.inspect(cmds)
+ string.format(   "|_write| failed to spawn child process on commands: %s",
+    vim.inspect(cmds))
   )
 
   JOBS_MAP[system_obj.pid] = system_obj
@@ -176,7 +176,7 @@ end
 --- @return table?
 M._append = function(ctx, on_exit)
   local logger = logging.get("gentags")
-  logger:debug("|_append| ctx:%s", vim.inspect(ctx))
+  logger:debug( string.format( "|_append| ctx:%s", vim.inspect(ctx)))
 
   if str.empty(ctx.filename) then
     return nil
@@ -191,11 +191,11 @@ M._append = function(ctx, on_exit)
   local system_obj = nil
 
   local function _on_stdout(line)
-    logger:debug("|update._on_stdout| line:%s", vim.inspect(line))
+    logger:debug( string.format( "|update._on_stdout| line:%s", vim.inspect(line)))
   end
 
   local function _on_stderr(line)
-    logger:debug("|update._on_stderr| line:%s", vim.inspect(line))
+    logger:debug( string.format( "|update._on_stderr| line:%s", vim.inspect(line)))
   end
 
   local function _on_exit(completed)
@@ -208,8 +208,8 @@ M._append = function(ctx, on_exit)
 
     if system_obj == nil then
       logger:err(
-        "|update._on_exit| system_obj %s must not be nil!",
-        vim.inspect(system_obj)
+    string.format(    "|update._on_exit| system_obj %s must not be nil!",
+        vim.inspect(system_obj))
       )
     end
     if system_obj ~= nil then
@@ -238,7 +238,7 @@ M._append = function(ctx, on_exit)
   table.insert(opts, ctx.filename)
 
   local cmds = { "ctags", unpack(opts) }
-  logger:debug("|update| cmds:%s", vim.inspect(cmds))
+  logger:debug( string.format(  "|update| cmds:%s", vim.inspect(cmds)))
 
   system_obj = spawn.run(cmds, {
     on_stdout = _on_stdout,
@@ -247,8 +247,8 @@ M._append = function(ctx, on_exit)
 
   logger:ensure(
     system_obj ~= nil,
-    "|_append| failed to spawn child process on commands: %s",
-    vim.inspect(cmds)
+  string.format(  "|_append| failed to spawn child process on commands: %s",
+    vim.inspect(cmds))
   )
 
   JOBS_MAP[system_obj.pid] = system_obj
@@ -283,7 +283,7 @@ M.update = function(ctx)
     -- go back to generate tags for whole workspace
 
     local logger = logging.get("gentags")
-    logger:debug("|update| go back to init, ctx:%s", vim.inspect(ctx))
+    logger:debug( string.format( "|update| go back to init, ctx:%s", vim.inspect(ctx)))
     vim.schedule(function()
       M.init(ctx)
     end)
@@ -291,8 +291,8 @@ M.update = function(ctx)
     local logger = logging.get("gentags")
     logger:ensure(
       ctx.mode == "workspace",
-      "ctx.mode must be 'workspace': %s",
-      vim.inspect(ctx)
+    string.format(  "ctx.mode must be 'workspace': %s",
+      vim.inspect(ctx))
     )
 
     if str.empty(ctx.workspace) then
@@ -301,8 +301,8 @@ M.update = function(ctx)
 
     logger:ensure(
       vim.fn.filereadable(ctx.tags_file) > 0,
-      "ctx.tags_file must already exist: %s",
-      vim.inspect(ctx)
+    string.format(  "ctx.tags_file must already exist: %s",
+      vim.inspect(ctx))
     )
 
     -- if working in workspace and the output tags already exist, it will do two steps:
@@ -310,16 +310,16 @@ M.update = function(ctx)
     --   2. then re-generate the whole workspace tags again and replace the existing tags, this is for more accurate data
 
     logger:debug(
-      "|update| go to append for current file first, ctx:%s",
-      vim.inspect(ctx)
+    string.format(  "|update| go to append for current file first, ctx:%s",
+      vim.inspect(ctx))
     )
 
     M._append(ctx, function()
       -- trigger re-generate tags in write mode for whole workspace again
       vim.defer_fn(function()
         logging.get("gentags"):debug(
-          "|update._append.on_exit| trigger re-init the whole tags file again, ctx:%s",
-          vim.inspect(ctx)
+       string.format(   "|update._append.on_exit| trigger re-init the whole tags file again, ctx:%s",
+          vim.inspect(ctx))
         )
         M._write(ctx, function()
           TAGS_INITED_MAP[ctx.tags_file] = true
