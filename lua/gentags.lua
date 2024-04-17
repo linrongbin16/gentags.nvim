@@ -21,8 +21,10 @@ M.setup = function(opts)
   -- cache dir
   logger:ensure(
     vim.fn.filereadable(cfg.cache_dir) <= 0,
-    string.format("%s (cache_dir) already exist but not a directory!",
-    vim.inspect(cfg.cache_dir))
+    string.format(
+      "%s (cache_dir) already exist but not a directory!",
+      vim.inspect(cfg.cache_dir)
+    )
   )
   vim.fn.mkdir(cfg.cache_dir, "p")
 
@@ -64,7 +66,9 @@ M.setup = function(opts)
   -- terminate before leaving vim
   vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
     callback = function(event)
-      logging.get("gentags"):debug(string.format("|setup| leave vim:%s", vim.inspect(event)))
+      logging
+        .get("gentags")
+        :debug(string.format("|setup| leave vim:%s", vim.inspect(event)))
       require("gentags.dispatcher").terminate()
     end,
   })
