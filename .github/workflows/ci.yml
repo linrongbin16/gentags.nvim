@@ -46,8 +46,7 @@ jobs:
         if: ${{ github.ref != 'refs/heads/main' }}
         with:
           commit_message: "chore(pr): auto-commit"
-          push_options: '--force'
-          skip_dirty_check: true    
+          skip_dirty_check: true
   unit_test:
     name: Unit Test
     needs:
