@@ -1,5 +1,14 @@
 # Changelog
 
+## [3.0.2](https://github.com/linrongbin16/gentags.nvim/compare/v3.0.1...v3.0.2) (2024-04-18)
+
+
+### Bug Fixes
+
+* **config:** make ctags and workspace opt overwriteable ([#44](https://github.com/linrongbin16/gentags.nvim/issues/44)) ([f731331](https://github.com/linrongbin16/gentags.nvim/commit/f731331af6daf53eed303151509ad8c7bcce449c))
+* **config:** makes path more unified ([#45](https://github.com/linrongbin16/gentags.nvim/issues/45)) ([9e8a893](https://github.com/linrongbin16/gentags.nvim/commit/9e8a893e2e13e18d0b9669637042c7475c74f12c))
+* **dispatcher:** dispatch terminate properly ([#40](https://github.com/linrongbin16/gentags.nvim/issues/40)) ([b6f0c06](https://github.com/linrongbin16/gentags.nvim/commit/b6f0c061df0a95eae1c725f32d7cee92c8b3ebae))
+
 ## [3.0.1](https://github.com/linrongbin16/gentags.nvim/compare/v3.0.0...v3.0.1) (2024-03-06)
 
 
