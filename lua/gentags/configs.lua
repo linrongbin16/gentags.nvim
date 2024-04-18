@@ -138,7 +138,7 @@ end
 --- @param opts gentags.Options?
 --- @return gentags.Options
 M.setup = function(opts)
-    Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
+  Configs = vim.tbl_deep_extend("force", vim.deepcopy(Defaults), opts or {})
   return Configs
 end
 
