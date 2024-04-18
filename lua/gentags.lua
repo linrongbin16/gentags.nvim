@@ -72,6 +72,18 @@ M.setup = function(opts)
       require("gentags.dispatcher").terminate()
     end,
   })
+
+  -- register user command
+  if cfg.command then
+    vim.api.nvim_create_user_command(cfg.command.name, function(args)
+        local dispatcher = require("gentags.dispatcher")
+        if dispatcher.enabled() then
+          dispatcher.update()
+        end
+      end, {
+        desc = cfg.command.desc,
+    })
+  end
 end
 
 return M
