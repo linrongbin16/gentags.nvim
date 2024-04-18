@@ -1,7 +1,7 @@
 local str = require("gentags.commons.str")
 local path = require("gentags.commons.path")
 local uv = require("gentags.commons.uv")
-local logging = require("gentags.commons.logging")
+-- local logging = require("gentags.commons.logging")
 
 local configs = require("gentags.configs")
 
