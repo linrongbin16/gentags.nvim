@@ -1,5 +1,6 @@
 local tbl = require("gentags.commons.tbl")
 local str = require("gentags.commons.str")
+local path = require("gentags.commons.path")
 
 local M = {}
 
@@ -89,7 +90,7 @@ local Defaults = {
   -- cache directory
   -- For *NIX: `~/.cache/nvim/gentags.nvim`.
   -- For Windows: `$env:USERPROFILE\AppData\Local\Temp\nvim\gentags.nvim`.
-  cache_dir = vim.fn.stdpath("cache") .. "/gentags.nvim",
+  cache_dir = path.join(vim.fn.stdpath("cache"), "gentags.nvim"),
 
   -- garbage collection
   gc = {
