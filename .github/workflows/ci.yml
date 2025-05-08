@@ -24,14 +24,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install commons.nvim
-        if: ${{ github.ref != 'refs/heads/main' }}
-        run: |
-          git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
-          rm -rf ./lua/gentags/commons
-          cp -rf ~/.commons.nvim/lua/commons ./lua/gentags/
-          cp ~/.commons.nvim/version.txt ./lua/gentags/commons/version.txt
-          find ./lua/gentags/commons -type f -name '*.lua' -exec sed -i 's/require("commons./require("gentags.commons./g' {} \;
+      # - name: Install commons.nvim
+      #   if: ${{ github.ref != 'refs/heads/main' }}
+      #   run: |
+      #     git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
+      #     rm -rf ./lua/gentags/commons
+      #     cp -rf ~/.commons.nvim/lua/commons ./lua/gentags/
+      #     cp ~/.commons.nvim/version.txt ./lua/gentags/commons/version.txt
+      #     find ./lua/gentags/commons -type f -name '*.lua' -exec sed -i 's/require("commons./require("gentags.commons./g' {} \;
+      #     git config --global user.email "gentags+github-actions[bot]@users.noreply.github.com"
+      #     git config --global user.name "github-actions[bot]"
+      #     git add .
+      #     git commit -m "chore: auto-update commons.nvim"
+      #     git push
       - uses: cargo-bins/cargo-binstall@main
       - name: Selene
         run: |
@@ -41,12 +46,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --config-path .stylua.toml ./lua ./test
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        if: ${{ github.ref != 'refs/heads/main' }}
-        with:
-          commit_message: "chore(pr): auto-commit"
-          push_options: "--force"
+          args: --config-path .stylua.toml --check ./lua ./test
   unit_test:
     name: Unit Test
     needs:
@@ -64,12 +64,10 @@ jobs:
         with:
           neovim: true
           version: ${{ matrix.nvim_version }}
-      - name: Install luajit
-        uses: leafo/gh-actions-lua@v10
+      - uses: leafo/gh-actions-lua@v10
         with:
-          luaVersion: "luajit-2.1.0-beta3"
-      - name: Install luarocks
-        uses: leafo/gh-actions-luarocks@v4
+          luaVersion: "luajit-openresty"
+      - uses: leafo/gh-actions-luarocks@v4
       - name: Run test cases
         shell: bash
         run: |
