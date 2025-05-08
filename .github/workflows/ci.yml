@@ -24,19 +24,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install commons.nvim
-        if: ${{ github.ref != 'refs/heads/main' }}
-        run: |
-          git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
-          rm -rf ./lua/gentags/commons
-          cp -rf ~/.commons.nvim/lua/commons ./lua/gentags/
-          cp ~/.commons.nvim/version.txt ./lua/gentags/commons/version.txt
-          find ./lua/gentags/commons -type f -name '*.lua' -exec sed -i 's/require("commons./require("gentags.commons./g' {} \;
-          git config --global user.email "gentags+github-actions[bot]@users.noreply.github.com"
-          git config --global user.name "github-actions[bot]"
-          git add .
-          git commit -m "chore: auto-update commons.nvim"
-          git push
+      # - name: Install commons.nvim
+      #   if: ${{ github.ref != 'refs/heads/main' }}
+      #   run: |
+      #     git clone --depth=1 https://github.com/linrongbin16/commons.nvim.git ~/.commons.nvim
+      #     rm -rf ./lua/gentags/commons
+      #     cp -rf ~/.commons.nvim/lua/commons ./lua/gentags/
+      #     cp ~/.commons.nvim/version.txt ./lua/gentags/commons/version.txt
+      #     find ./lua/gentags/commons -type f -name '*.lua' -exec sed -i 's/require("commons./require("gentags.commons./g' {} \;
+      #     git config --global user.email "gentags+github-actions[bot]@users.noreply.github.com"
+      #     git config --global user.name "github-actions[bot]"
+      #     git add .
+      #     git commit -m "chore: auto-update commons.nvim"
+      #     git push
       - uses: cargo-bins/cargo-binstall@main
       - name: Selene
         run: |
