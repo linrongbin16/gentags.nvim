@@ -74,6 +74,18 @@ M._write = function(ctx, on_exit)
     )
   end
 
+  local function _rename(source, destination)
+    local copy_result, copy_err = uv.fs_copyfile(source, destination, 0)
+    if copy_result == nil then
+      return nil, copy_err
+    end
+    local unlink_result, unlink_err = uv.fs_unlink(source)
+    if unlink_result == nil then
+      return nil, unlink_err
+    end
+    return copy_result and unlink_result, nil
+  end
+
   local function _on_exit(completed)
     -- logger:debug(
     --   "|_write._on_exit| completed:%s, sysobj:%s, JOBS_MAP:%s",
@@ -82,7 +94,7 @@ M._write = function(ctx, on_exit)
     --   vim.inspect(JOBS_MAP)
     -- )
 
-    local rename_result, rename_err = uv.fs_rename(tmpfile, ctx.tags_file)
+    local rename_result, rename_err = _rename(tmpfile, ctx.tags_file)
     if rename_result == nil then
       logger:warn(
         string.format(
