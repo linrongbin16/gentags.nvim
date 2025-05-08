@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.3](https://github.com/linrongbin16/gentags.nvim/compare/v3.0.2...v3.0.3) (2025-05-08)
+
+
+### Bug Fixes
+
+* manually copy/unlink file instead of renaming ([#47](https://github.com/linrongbin16/gentags.nvim/issues/47)) ([457bd8c](https://github.com/linrongbin16/gentags.nvim/commit/457bd8c5e21ce5c32cded4d9ed774a691a195021))
+
 ## [3.0.2](https://github.com/linrongbin16/gentags.nvim/compare/v3.0.1...v3.0.2) (2024-04-18)
 
 
