@@ -77,11 +77,11 @@ M._write = function(ctx, on_exit)
   local function _rename(source, destination)
     local copy_result, copy_err = uv.fs_copyfile(source, destination, 0)
     if copy_result == nil then
-        return nil, copy_err
+      return nil, copy_err
     end
     local unlink_result, unlink_err = uv.fs_unlink(source)
     if unlink_result == nil then
-        return nil, unlink_err
+      return nil, unlink_err
     end
     return copy_result and unlink_result, nil
   end
