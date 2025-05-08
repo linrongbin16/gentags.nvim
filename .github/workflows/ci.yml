@@ -32,6 +32,9 @@ jobs:
           cp -rf ~/.commons.nvim/lua/commons ./lua/gentags/
           cp ~/.commons.nvim/version.txt ./lua/gentags/commons/version.txt
           find ./lua/gentags/commons -type f -name '*.lua' -exec sed -i 's/require("commons./require("gentags.commons./g' {} \;
+          git add .
+          git commit -m "chore: auto-update commons.nvim"
+          git push
       - uses: cargo-bins/cargo-binstall@main
       - name: Selene
         run: |
@@ -41,12 +44,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           version: latest
-          args: --config-path .stylua.toml ./lua ./test
-      - uses: stefanzweifel/git-auto-commit-action@v4
-        if: ${{ github.ref != 'refs/heads/main' }}
-        with:
-          commit_message: "chore(pr): auto-commit"
-          push_options: "--force"
+          args: --config-path .stylua.toml --check ./lua ./test
   unit_test:
     name: Unit Test
     needs:
